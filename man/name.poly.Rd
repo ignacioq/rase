@@ -1,12 +1,15 @@
 \name{name.poly}
+
 \alias{name.poly}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
 \title{
-%%  ~~function to do ... ~~
+Name & Order Polygons
 }
+
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Names polygons and orders them according to the phylogenetic tree. If they match the tree perfectly, the following message should appear: \code{tip labels and polygon names match and are in the same order}.
 }
+
 \usage{
 name.poly(polyg, tree, poly.names = NA)
 }

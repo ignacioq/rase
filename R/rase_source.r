@@ -873,7 +873,7 @@ shape.to.rase = function(shape_poly) {
 name.poly = function(polyg, tree, poly.names = NA) {
 	
 	if (!is(tree, "phylo")) {
-        stop("Error: ttree is not of class phylo")
+        stop("Error: tree is not of class phylo")
     }
 
 	tips = tree$tip.label
