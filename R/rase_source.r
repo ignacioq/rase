@@ -11,7 +11,8 @@ bm_loglik_tree = function(tree, values, par, dimen) {
   	n = length(tree$tip.label)
   	V = vcv(tree)  	    	
     
-    res = mapply(function(values, A, Sig) dmvnorm(values, mean = rep(A, n), sigma = V*Sig, log = TRUE), values, A, Sig)  	
+    res = mapply(function(values, A, Sig) dmvnorm(values, mean = rep(A, n), 
+    	sigma = V*Sig, log = TRUE), values, A, Sig)  	
   	return(sum(res))
 }
 
@@ -904,6 +905,8 @@ name.poly = function(polyg, tree, poly.names = NA) {
 
 post.mcmc = function(res, burnin = 1000, thin = 10, as.ggmcmc = TRUE) {
 	
+	if (thin == 0) warning('Note that if thin = 0, then no iteration is saved at all.')
+	
 	mc = res[-(1:burnin),]
 	mc = mc[seq(1, dim(mc)[1], thin),]
 
@@ -1010,11 +1013,11 @@ add.polygons = function(df3, axes = 2, ...) {
 # Function that adds the ancestral posterior densities from the Gibbs sampling 
 # to the opened 'rgl' device
 
-add.dens = function(df3, res, nlevels = 20, z.scale = 1, col = c('red', 'blue', 'green'), ...) {
+add.dens = function(df3, res, nlevels = 20, z.scale = 1, col = c(1:nnode), ...) {
     node.ages = df$xyz[df$xyz[, 'z'] != 0, 3] 
     nnode = length(node.ages)
    
-    for (i in 1:length(node.ages))
+    for (i in 1:nnode)
     {
     	densy = sm.density(res[,c(i, i + nnode)], display = 'none')		
 	    cont = contourLines(densy$eval.points[,1], densy$eval.points[,2], densy$estimate, nlevels = 20)
@@ -1028,14 +1031,14 @@ add.dens = function(df3, res, nlevels = 20, z.scale = 1, col = c('red', 'blue', 
 # function that creates a random tree, polygons with 
 # centroids following BM, and plots in 3D
 
-random_pase3d = function(mean_x = 0, mean_y = 0, 
-	sigma_x = 1, sigma_y = 1, x_ext = c(0.1, 0.5), y_ext = c(0.1, 0.5), 
-	n_iter = 1000, logevery = 10, z.scale = 5, pbtree.list = list(n = 10) ) {
+random_rase3d = function(mean_x = 0, mean_y = 0, 
+	sigma2x = 1, sigma2y = 1, x_ext = c(0.1, 0.5), y_ext = c(0.1, 0.5), 
+	niter = 1000, logevery = 10, plot.3d = TRUE, z.scale = 5, pbtree.list = list(n = 10), phylo.3d.list = list(dfr, tree, polygons), add.polygons.list = list(tree, polygons, axes = 2), ...) {
 			
 	tree = do.call(pbtree, pbtree.list)
 	nnode = tree$Nnode
-	x_locs = as.numeric(rmvnorm(1, rep(mean_x,ntaxa), sigma=sigma_x*vcv(tree)))
-	y_locs = as.numeric(rmvnorm(1, rep(mean_y,ntaxa), sigma=sigma_y*vcv(tree)))
+	x_locs = as.numeric(rmvnorm(1, rep(mean_x,ntaxa), sigma=sigma2x*vcv(tree)))
+	y_locs = as.numeric(rmvnorm(1, rep(mean_y,ntaxa), sigma=sigma2y*vcv(tree)))
 
 	e = 0.5
 	polygons = list()
@@ -1057,14 +1060,16 @@ random_pase3d = function(mean_x = 0, mean_y = 0,
 	  	polygons[[i]] = matrix(c(xpts[hpts], ypts[hpts]), nrow=length(hpts))
 	}
 
-	res = brase(tree, polygons, c(runif(2*nnode), sigma_x, sigma_y), niter = n_iter, logevery = logevery)
+	res = rase(tree, polygons, c(runif(2*nnode), sigma2x, sigma2y), niter = niter, logevery = logevery)
 
- 	df3 = data.for.3d(tree, res, polygons, scale.z=zscale)
-  	phylo.3d(df3, tree, polygons)
-  	add.polygons(tree, polygons, axes = 2)
-  	add.dens(tree, res, col = c(1:nnode), scale.z = zscale)
-	if (walls == TRUE) add.walls(df3, tree, col = c(1:nnode), polygons)
-
+	if (plot.3d == TRUE) {
+ 		df3 = data.for.3d(tree, res, polygons, scale.z=zscale)
+  		do.call(phylo.3d, phylo.3d.list)
+  		do.call(add.polygons, add.polygons.list)
+  		add.dens(tree, res, col = c(1:nnode), scale.z = zscale, ...)
+	}
+	
+	return(res)
 }
 
 

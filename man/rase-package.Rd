@@ -36,5 +36,41 @@ Maintainer: Who to complain to <yourfault@somewhere.net>
 ~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
 }
 \examples{
-~~ simple examples of the most important functions ~~
+	# Here the application in the paper of Quintero et al.,
+	# on the Psophia trumpeters 
+	# is shown using rase package.
+	
+	#load data
+	attach(rase_data)
+	
+	# check the data we are going to use
+	# the phylogenetic tree
+	\dontrun{psophia_tree
+	
+	# the Shapefiles for the distributions of the tips of the tree
+	require(maptools)
+	psophia_shp
+	
+	# Transform the shapefile into the format used by rase
+	polygons = shape.to.rase(pshophia_shp)
+
+	# Species names of polygons (in order)
+	pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
+
+	# name the polygons
+ 	polygons = name.poly(polygons, tree, poly.names = pnames)
+
+	# Run rase
+	rase_results = rase(psophia_tree, polygons)
+
+	# Check the results
+	str(rase_results)
+
+	# post-MCMC handling
+	rase_results_for_ggmcmc = post.mcmc(rase_results, burnin=200, thin = 1)
+	
+	#plot the densities using ggmcmc
+	require(ggmcmc)
+	ggs_density(rase_results_for_ggmcmc)
+	}
 }

@@ -1,62 +1,46 @@
 \name{shape.to.rase}
+
 \alias{shape.to.rase}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
 \title{
-%%  ~~function to do ... ~~
+	Transform a Shapefile into a format used by rase
 }
+
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+	Transforms a Shapefile read by the \code{maptools} package using \code{\link[maptools]{readShapePoly}}.
 }
 \usage{
-shape.to.rase(shape_poly)
+	shape.to.rase(shape_poly)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{shape_poly}{
-%%     ~~Describe \code{shape_poly} here~~
-}
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
-\value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
+ 	an object of class \code{\link[maptools]{SpatialPolygonsDataFrame}}. 
+	}
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+\value{
+	Returns a list of polygons. Each item on the list is comoposed of a matrix with the first column representing the \code{x} coordinates (Longitude) and the second the \code{y} coordinates (Latitude). The first row should be the same as the old row (cyclic polygon).
+}
+
+\author{
+	Ignacio Quintero
+}
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+	\code{\link[maptools]{readShapePoly}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+	\dontrun{
+	# the Shapefiles for the distributions of the tips of the tree
+	require(maptools)
+	psophia_shp
+	
+	# Transform the shapefile into the format used by rase
+	polygons = shape.to.rase(pshophia_shp)
+	
+	# check the structure of the polygons
+	str(polygons)
+	}
 
-## The function is currently defined as
-function (shape_poly) 
-{
-    polys = slot(shape_poly, "polygons")
-    polyg = list()
-    for (i in 1:length(polys)) polyg[[i]] = slot(slot(polys[[i]], 
-        "Polygons")[[1]], "coords")
-    return(polyg)
-  }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

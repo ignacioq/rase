@@ -16,16 +16,16 @@ bm_ase(tree, values, niter = 1e3, logevery = 10, sigma2_scale = 0.05, screenlog 
 
 \arguments{
   \item{tree}{
-	phylogenetic tree of class \code{phylo}.
+	phylogenetic tree of class \code{"phylo"}.
 	}
   \item{values}{
 	2-dimensional trait values (e.g., coordinates for phylogeography). Should be a \code{data.frame} with two columns named \code{x} & \code{y}, or a \code{list} with two elements named \code{x} & \code{y}.
 	}
   \item{niter}{
-	number of MCMC iterations (default is 1000).
+	number of MCMC iterations. By default \code{niter= 1000}.
 	}
   \item{logevery}{
-	Iteration cycle to print current iteration (default is 10).
+	Iteration cycle to print current iteration. By default \code{logevery= 10}.
 	}
   \item{sigma2_scale}{
 	Optional. window proposal for sigma2x & sigma2y.
@@ -34,7 +34,7 @@ bm_ase(tree, values, niter = 1e3, logevery = 10, sigma2_scale = 0.05, screenlog 
 	if \code{TRUE} (default), prints current iteration every \code{logevery} to the screen.
 	}
   \item{params0}{
-	Optional. A vector of initial parameter values in the following order: x values, y values, sigma2x and sigma2y. If \code{params0 = NA} (default), an initial Maximum Likelihood optimization using \code{\link[ape]{ace}} provides the starting parameter values.
+	Optional. A vector of initial parameter values in the following order: x ancestors, y ancestors, sigma2x and sigma2y. If \code{params0 = NA} (default), an initial Maximum Likelihood optimization using \code{\link[ape]{ace}} provides the starting parameter values.
 	}
 }
 
@@ -42,6 +42,7 @@ bm_ase(tree, values, niter = 1e3, logevery = 10, sigma2_scale = 0.05, screenlog 
 \value{
 returns a matrix where every column represents one parameter. The first columns (i.e., \code{nX_x}) give the ancestral locations for trait x in the order of nodes in the tree (see the \code{phylo} class for details), followed by the ancestral locations of trait y (i.e., \code{nX_y}), and the rate parameter in x (\code{sigma2x}) and y (\code{sigma2y}).
 }
+
 \references{
 Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction of Species Ranges Through Space and Time
 }
@@ -49,12 +50,14 @@ Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction
 \author{
 Forrest Crawford
 }
+
 \seealso{
-for the Maximum Likelihood version see \code{link{point.like.bm}}; for the incorporation of polygon uncertainty see \code{\link{rase}}.
+for the Maximum Likelihood version see \code{\link{point.like.bm}}; for the incorporation of polygon uncertainty see \code{\link{rase}}. For post-mcmc handling see \code{\link{post.mcmc}}.
 }
+
 \examples{
 
-### Create some data t be analyzed
+### Create some data to be analyzed
 
 # Number of taxa
 ntaxa = 10
@@ -74,6 +77,6 @@ y_locs = as.numeric(rmvnorm(1, rep(mean_y,ntaxa), sigma=sigma_y*vcv(tree)))
 values = list(x_locs,y_locs)
 
 # run bm_ase
-bm_results = bm_ase(tree, values)
+\dontrun{bm_results = bm_ase(tree, values)}
 }
 

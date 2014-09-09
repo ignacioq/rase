@@ -16,13 +16,13 @@ data.for.3d(res, tree, polygons)
 
 \arguments{
   \item{res}{
-the output file from a \code{\link{rase}} run.
-}
+		the output file from a \code{\link{rase}} run.
+	}
   \item{tree}{
-	phylogenetic tree of class \code{phylo} used as input for \code{\link{rase}}.
-}
+		phylogenetic tree of class \code{"phylo"} used as input for \code{\link{rase}}.
+	}
   \item{polygons}{
-	polygons object from \code{\link{shape.to.rase}} used as input for \code{\link{rase}}
+		polygons object from \code{\link{shape.to.rase}} used as input for \code{\link{rase}}
 	}
 }
 

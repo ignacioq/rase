@@ -1,75 +1,59 @@
 \name{phylo.3d}
+
 \alias{phylo.3d}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
 \title{
-%%  ~~function to do ... ~~
+Plots a Phylogenic Tree in 3D
 }
+
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Plots a phylogenetic tree in 3D using rgl. It is mapped in 3D space, where the x/y axes are longitude/latitude, and the z axis is time. It is used as the first plot function to visualize the results of rase with \code{\link{add.dens}} and \code{\link{add.polygons}} (see example).
 }
+
 \usage{
 phylo.3d(df3, z.scale = 1, pts = TRUE, ...)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{df3}{
-%%     ~~Describe \code{df3} here~~
-}
+	an object from \code{\link{data.for.3d}}.
+	}
   \item{z.scale}{
-%%     ~~Describe \code{z.scale} here~~
-}
+the scale of the time axis (vertical axis). Effectively, the time variable is multiplied by this number. It is very useful for visualization purposes. It should correspond with the z.scale argument in \code{\link{add.dens}}.
+	}
   \item{pts}{
-%%     ~~Describe \code{pts} here~~
-}
+if \code{TRUE}, points in the verices are plotted.
+	}
   \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
-}
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
-\value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
+	further arguments to be passed to \code{\link[rgl]{lines3d}}.
+	}
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+\references{
+Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction of Species Ranges Through Space and Time
+}
+
+\author{
+Petr Keil
+}
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{data.for.3d}},\code{\link{add.dens}}, \code{\link{add.polygons}}
 }
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (df3, z.scale = 1, pts = TRUE, ...) 
-{
-    edg = df3$edge
-    if (pts == TRUE) 
-        points3d(df3$x, df3$y, z.scale * df3$z)
-    for (i in 1:nrow(tree$edge)) {
-        x = df3$xyz$x[edg[i, ]]
-        y = df3$xyz$y[edg[i, ]]
-        z = df3$xyz$z[edg[i, ]]
-        lines3d(x, y, z * z.scale, ...)
-    }
-  }
+\examples{
+# load the mcmc results from rase run, polygons and tree
+attach(rase_data)
+
+# transform the data for 3d plotting
+df3 = data.for.3d(mcmc, tree, polygons)
+
+# plot the tree in 3D
+\dontrun{phylo.3d(df3, z.scale = 10, pts = TRUE)}
+
+# add the polygons representing the tip distributions
+\dontrun{add.polygons(df3)}
+
+# add the posterior density at each node of the 3d tree
+\dontrun{add.dens(df3, mcmc, z.scale = 10, col = c(2:8))}
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

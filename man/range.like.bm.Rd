@@ -1,81 +1,100 @@
 \name{range.like.bm}
+
 \alias{range.like.bm}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
 \title{
-%%  ~~function to do ... ~~
+	n-dimensional Maximumn Likelihood of Range Brownian Motion
 }
+
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+	Estimates Most Recent Common Ancestor (MRCA) states and the Brownian rate according to a Brownian Motion model of trait evolution using Maximum Likelihood. The input for each trait is a one-dimensional range for every tip of the phylogenetic tree (e.g., if your trait is weight, instead of a 1 value input for each tip, usually the average, you can input the whole range of weights for that tip). It can be used for several dimensions simultaneously. 
 }
+
 \usage{
 range.like.bm(tree, lower_bounds, upper_bounds, start_values = NA, dimen = NA)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{tree}{
-%%     ~~Describe \code{tree} here~~
-}
+		phylogenetic tree of class \code{"phylo"}.
+	}
   \item{lower_bounds}{
-%%     ~~Describe \code{lower_bounds} here~~
-}
+ 		a list, with each element being one-dimensional lower bounds for a trait.
+	}
   \item{upper_bounds}{
-%%     ~~Describe \code{upper_bounds} here~~
-}
+ 		a list, with each element being one-dimensional upper bounds for a trait.
+	}
   \item{start_values}{
-%%     ~~Describe \code{start_values} here~~
-}
+	Optional. A vector of starting values for the Maximum Likelihood optimization. The funtion only estimates the MRCA and the rates for each trait, and that should be the order of the input starting values. 
+	}
   \item{dimen}{
-%%     ~~Describe \code{dimen} here~~
+	Optional. Number of dimensions (number of traits being analyzed). If \code{dimen = NA}, dimensions are obtained from \code{values}.
+	}
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+	
+Returns a list with the following components:
+	\item{mrcas}{
+		Most recent common ancestor estimates for each trait
+	}
+	\item{rates}{
+		Brownian motion rate parameters for each trait.
+	}
+	\item{nlm.details}{
+		A list with the results from nlm optimization. For details see \code{\link[stats]{nlm}}.
+	}
 }
+
+
+
 \references{
-%% ~put references to the literature/web site here ~
+Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction of Species Ranges Through Space and Time
 }
 \author{
-%%  ~~who you are~~
+Ignacio Quintero
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+Contrast with \code{\link{range.like.bm}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+# Number of taxa to simulate tree
+ntaxa = 10
 
-## The function is currently defined as
-function (tree, lower_bounds, upper_bounds, start_values = NA, 
-    dimen = NA) 
-{
-    if (is.na(dimen)) 
-        dimen = length(lower_bounds)
-    if (is.na(start_values)) {
-        start_values = c((unlist(lapply(lower_bounds, mean)) + 
-            unlist(lapply(upper_bounds, mean)))/2, (unlist(lapply(lower_bounds, 
-            sd)) + unlist(lapply(upper_bounds, sd)))/2)
-    }
-    opt.res = nlm(function(p) -1 * bm_loglik_tree_constrained(tree, 
-        lower_bounds, upper_bounds, p, dimen), p = start_values)
-    return(list(mrcas = opt.res$estimate[1:dimen], rates = opt.res$estimate[(dimen + 
-        1):(dimen * 2)], nlm.details = opt.res))
-  }
+# Known parameters 
+# for three dimension
+mean_x = 0
+mean_y = 0
+mean_z = 0
+
+sigma2x = 1 
+sigma2y = 2
+sigma2z = 3
+
+# Create a random tree
+tree = pbtree(n = ntaxa)
+
+# Create random data according to tree structure
+x_locs = as.numeric(rmvnorm(1, rep(mean_x,ntaxa), sigma=sigma2x*vcv(tree)))
+y_locs = as.numeric(rmvnorm(1, rep(mean_y,ntaxa), sigma=sigma2y*vcv(tree)))
+z_locs = as.numeric(rmvnorm(1, rep(mean_z,ntaxa), sigma=sigma2z*vcv(tree)))
+
+# random shifts to the mean to create ranges
+xshift = rexp(ntaxa)
+yshift = rexp(ntaxa)
+zshift = rexp(ntaxa)
+x_lower = x_locs - xshift
+x_upper = x_locs + xshift
+y_lower = y_locs - yshift
+y_upper = y_locs + yshift
+z_lower = z_locs - zshift
+z_upper = z_locs + zshift
+
+# store rectangles: this is the trait data:
+lower_bounds = list(xl=x_lower, yl=y_lower, zl=z_lower ) 
+upper_bounds = list(xu=x_upper, yu=y_upper, zu=z_upper) 
+
+#run range.like.bm
+\dontrun{range_results = range.like.bm(tree, lower_bounds, upper_bounds)}
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

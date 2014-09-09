@@ -11,76 +11,48 @@ Names polygons and orders them according to the phylogenetic tree. If they match
 }
 
 \usage{
-name.poly(polyg, tree, poly.names = NA)
-}
-%- maybe also 'usage' for other objects documented here.
-\arguments{
-  \item{polyg}{
-%%     ~~Describe \code{polyg} here~~
-}
-  \item{tree}{
-%%     ~~Describe \code{tree} here~~
-}
-  \item{poly.names}{
-%%     ~~Describe \code{poly.names} here~~
-}
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
-\value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
+name.poly(polygons, tree, poly.names = NA)
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+\arguments{
+  \item{polygons}{
+	polygons in the output format from \code{\link{shape.to.rase}}.
+	}
+  \item{tree}{
+	phylogenetic tree of class \code{"phylo"}.
+	}
+  \item{poly.names}{
+	Optional. Vector of names for the polygons. They should be in the same order as the polygons. If \code{poly.names = NA}, the function assumes the polygons are already named and only checks if they match the tip labels of the phylogenetic tree.
+	}
+}
+
+\value{
+Returns the polygons in the output format from \code{\link{shape.to.rase}}.
+}
+
+\author{
+Ignacio Quintero
+}
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{shape.to.rase}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+# attach polygon data
+attach(rase_data)
 
-## The function is currently defined as
-function (polyg, tree, poly.names = NA) 
-{
-    if (!is(tree, "phylo")) {
-        stop("Error: ttree is not of class phylo")
-    }
-    tips = tree$tip.label
-    if (any(is.na(poly.names))) {
-        nam = names(polyg)
-    }
-    else {
-        nam = poly.names
-        names(polyg) = nam
-    }
-    if (any(is.na(match(tips, nam)))) 
-        stop("tip labels and polygon names do not match")
-    if (all(match(tips, nam) == 1:length(polyg))) {
-        cat("tip labels and polygon names match and are in the same order")
-    }
-    else {
-        polyg = polyg[match(tips, nam)]
-    }
-    return(polyg)
-  }
+# polygons already in format used by rase.
+\dontrun{str(polygons)}
+
+# Species names of polygons (in order)
+pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
+
+#read tree
+tree = read.nexus('~/repos/phylogeo/data/psophia_tree.nex')
+
+# check tree's' tip labels
+\dontrun{tree$tip.label}
+
+# name the polygons
+polygons = name.poly(polygons, tree, poly.names = pnames)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

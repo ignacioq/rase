@@ -1,84 +1,64 @@
 \name{post.mcmc}
+
 \alias{post.mcmc}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
 \title{
-%%  ~~function to do ... ~~
+Post-MCMC handling
 }
+
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Takes the result from an mcmc run (e.g., output from \code{\link{rase}}) and applies a burnin and a thinning. Optionally it can be transformed into a \code{\link[ggmcmc]{ggs}} object that the \link{ggmcmc} package can use (for mcmc visualization).
 }
+
 \usage{
 post.mcmc(res, burnin = 1000, thin = 10, as.ggmcmc = TRUE)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{res}{
-%%     ~~Describe \code{res} here~~
-}
+  		The output from any mcmc run in (e.g., output from \code{\link{rase}}). It is effectively a matrix where each column is a different parameter and each row is one iteration of the mcmc sampler.
+  }
   \item{burnin}{
-%%     ~~Describe \code{burnin} here~~
+		Number of iterations to disregard as burnin.
 }
   \item{thin}{
-%%     ~~Describe \code{thin} here~~
+		Sample every ith iteration. If no iterations are to be discarted, it should be \code{thin = 1}. Note that if \code{thin = 0}, then no iteration is saved at all.
 }
   \item{as.ggmcmc}{
-%%     ~~Describe \code{as.ggmcmc} here~~
-}
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
-\value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
+	If \code{TRUE} (default), the object will be transformed into a \code{\link[ggmcmc]{ggs}} object.
+	}
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+\value{
+If \code{as.ggmcmc = TRUE} (the default), the function returns a \code{\link[ggmcmc]{ggs}} object. This can be used as input to the ggs_* functions in the ggmcmc package.
+If \code{as.ggmcmc = FALSE}, the function returns a matrix where each column is a different parameter and each row is one iteration of the mcmc sampler.
+}
+
+\author{
+Ignacio Quintero
+}
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{rase}}, \code{\link{bm_ase}}
 }
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (res, burnin = 1000, thin = 10, as.ggmcmc = TRUE) 
-{
-    mc = res[-(1:burnin), ]
-    mc = mc[seq(1, dim(mc)[1], thin), ]
-    if (as.ggmcmc == TRUE) {
-        fgg = data.frame(Iteration = rep(1:dim(mc)[1], dim(mc)[2]), 
-            Chain = rep(1, dim(mc)[1] * dim(mc)[2]), Parameter = rep(colnames(mc), 
-                each = dim(mc)[1]), value = as.vector(mc))
-        attr(fgg, "nChains") = as.integer(1)
-        attr(fgg, "nParameters") = dim(mc)[2]
-        attr(fgg, "nIterations") = dim(mc)[1]
-        attr(fgg, "nBurnin") = burnin
-        attr(fgg, "nThin") = thin
-        attr(fgg, "description") = "S"
-        attr(fgg, "parallel") = FALSE
-        return(fgg)
-    }
-    else {
-        return(mc)
-    }
-  }
+\examples{
+	#attach the data
+	attach(rase_data)
+
+	# Explore the data
+	\dontrun{
+		str(mcmc_FULL)
+	}
+
+	# run the function
+	gg_dat = post.mcmc(mcmc_FULL, burnin=2000, thin = 10, as.ggmcmc = TRUE)
+
+	#plot with ggmcmc
+	
+	\dontrun{
+		require(ggmcmc)
+		ggs_trace(gg_dat)
+	}
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+

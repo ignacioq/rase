@@ -1,75 +1,78 @@
 \name{point.like.bm}
+
 \alias{point.like.bm}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
 \title{
-%%  ~~function to do ... ~~
+	n-dimensional Maximum Likelihood of Point Brownian Motion
 }
+
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+	Estimates Most Recent Common Ancestor (MRCA) states and the Brownian rate according to a Brownian Motion model of trait evolution using Maximum Likelihood. It can be used for several dimensions simultaneously. For 1-dimensional traits, we recommend the more stable \code{\link[ape]{ace}} function.
 }
+
 \usage{
-point.like.bm(tree, values, start_values = NA, dimen = NA)
+	point.like.bm(tree, values, start_values = NA, dimen = NA)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{tree}{
-%%     ~~Describe \code{tree} here~~
-}
+		phylogenetic tree of class \code{"phylo"}.
+	}
   \item{values}{
-%%     ~~Describe \code{values} here~~
-}
+ 		a list, with each element being one-dimensional values fora  trait.
+ 	}
   \item{start_values}{
-%%     ~~Describe \code{start_values} here~~
-}
+		Optional. A vector of starting values for the Maximum Likelihood optimization. The funtion only estimates the MRCA and the rates for each trait, and that should be the order of the input starting values. 
+	}
   \item{dimen}{
-%%     ~~Describe \code{dimen} here~~
+		Optional. Number of dimensions (number of traits being analyzed). If \code{dimen = NA}, dimensions are obtained from \code{values}.
+	}
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+	
+Returns a list with the following components:
+	\item{mrcas}{
+		Most recent common ancestor estimates for each trait
+	}
+	\item{rates}{
+		Brownian motion rate parameters for each trait.
+	}
+	\item{nlm.details}{
+		A list with the results from nlm optimization. For details see \code{\link[stats]{nlm}}.
+	}
 }
+
 \references{
-%% ~put references to the literature/web site here ~
+	Schluter, Dolph, et al. "Likelihood of ancestor states in adaptive radiation." Evolution (1997): 1699-1711.
 }
 \author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
+Ignacio Quintero
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link[ape]{ace}}, ML taking into account ranges \code{\link{range.like.bm}}.
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+# Number of taxa to simulate tree
+# Number of taxa
+ntaxa = 10
 
-## The function is currently defined as
-function (tree, values, start_values = NA, dimen = NA) 
-{
-    if (is.na(dimen)) 
-        dimen = length(values)
-    if (is.na(start_values)) 
-        start_values = unlist(c(lapply(values, mean), lapply(values, 
-            sd)))
-    opt.res = nlm(function(p) -1 * bm_loglik_tree(tree, values, 
-        p, dimen), p = start_values)
-    return(list(mrcas = opt.res$estimate[1:dimen], rates = opt.res$estimate[(dimen + 
-        1):(dimen * 2)], nlm.details = opt.res))
-  }
+# Known parameters
+mean_x = 0
+mean_y = 0
+sigma_x = 1 
+sigma_y = 1
+
+# Create a random tree
+tree = pbtree(n = ntaxa)
+
+# Create random data according to tree structure
+x_locs = as.numeric(rmvnorm(1, rep(mean_x,ntaxa), sigma=sigma_x*vcv(tree)))
+y_locs = as.numeric(rmvnorm(1, rep(mean_y,ntaxa), sigma=sigma_y*vcv(tree)))
+values = list(x_locs,y_locs)
+
+# run point.like.bm
+\dontrun{bm_results = point.like.bm(tree, values)}
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

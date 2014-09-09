@@ -7,7 +7,7 @@ Plot the Distributions for the Phylogenetic Tips in 3D
 }
 
 \description{
-Plots the polygon surfaces of the tips of the phylogeny. It is mapped in 3D space, where the x/z axes are longitude/latitude, and the y axis is time. Although it works by itself, the polygons are intended to overlay an existing \code{\link{phylo.3d}} plot (see example).
+Plots the polygon surfaces of the tips of the phylogeny. It is mapped in 3D space, where the x/y axes are longitude/latitude, and the z axis is time. Although it works by itself, the polygons are intended to overlay an existing \code{\link{phylo.3d}} plot (see example).
 }
 
 \usage{
