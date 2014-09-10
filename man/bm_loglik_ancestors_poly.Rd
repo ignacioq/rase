@@ -2,7 +2,7 @@
 \alias{bm_loglik_ancestors_poly}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Temporary title
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~

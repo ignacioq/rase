@@ -3,8 +3,7 @@
 \alias{rase}
 \docType{package}
 \title{
-What the package does (short line)
-~~ package title ~~
+Temporary title
 }
 \description{
 More about what it does (maybe more than one line)
@@ -41,8 +40,8 @@ Maintainer: Who to complain to <yourfault@somewhere.net>
 	# is shown using rase package.
 	
 	#load data
-	attach(rase_data)
-	
+	data(rase_data, package="rase")
+  
 	# check the data we are going to use
 	# the phylogenetic tree
 	\dontrun{psophia_tree

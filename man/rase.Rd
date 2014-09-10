@@ -54,7 +54,7 @@ Contrast with the point ancestral state estimation \code{\link{bm_ase}}. For the
 
 \examples{
 	#load data
-	attach(rase_data)
+	data(rase_data, package="rase")
 	
 	# check the data we are going to use
 	# the phylogenetic tree
