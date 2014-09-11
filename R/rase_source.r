@@ -863,7 +863,11 @@ shape.to.rase = function(shape_poly) {
 
 	polys = slot(shape_poly, 'polygons')
 	polyg = list()
-	for (i in 1:length(polys)) polyg[[i]] = slot(slot(polys[[i]],'Polygons')[[1]], 'coords')
+	for (i in 1:length(polys)) {
+    polyg[[i]] = slot(slot(polys[[i]],'Polygons')[[1]], 'coords')
+    # alternative:
+    # polyg[[i]] = polys[[i]]@Polygons[[1]]@coords
+	}
 	
 	return(polyg)	
 }

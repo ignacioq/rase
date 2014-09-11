@@ -49,18 +49,25 @@ Maintainer: Who to complain to <yourfault@somewhere.net>
 	# the Shapefiles for the distributions of the tips of the tree
 	require(maptools)
 	psophia_shp
+  plot(psophia_shp)
+  plot(psophia_tree)
 	
 	# Transform the shapefile into the format used by rase
-	polygons = shape.to.rase(pshophia_shp)
+	polygons = shape.to.rase(psophia_shp)
 
 	# Species names of polygons (in order)
 	pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
 
 	# name the polygons
- 	polygons = name.poly(polygons, tree, poly.names = pnames)
+ 	polygons = name.poly(polygons, psophia_tree, poly.names = pnames)
+
+  # Accept the gpclib licence:
+  gpclibPermit()
 
 	# Run rase
 	rase_results = rase(psophia_tree, polygons)
+  # Run with low number of iterations
+  # rase_results = rase(psophia_tree, polygons, niter=100)
 
 	# Check the results
 	str(rase_results)
