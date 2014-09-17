@@ -3,37 +3,33 @@
 \alias{rase}
 \docType{package}
 \title{
-Temporary title
+Range Ancestral State Estimation
 }
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
+The rase package primarily implements the Range Ancestral State Estimation for phylogeography described in Quintero et al., (XXX). It also includes Maximum Likelihood estimation of rase for n-dimensional data. Visualizing functions in 3D are implemented using the rgl package.
 }
 \details{
 \tabular{ll}{
 Package: \tab rase\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
+Version: \tab 0.1-0\cr
 Date: \tab 2014-09-05\cr
-License: \tab What license is it under?\cr
+License: \tab GLP (>=2)\cr
 }
-~~ An overview of how to use the package, including the most important functions ~~
 }
 \author{
-Who wrote it
+Ignacio Quintero
+Forrest Crawford
+Petr Keil
 
-Maintainer: Who to complain to <yourfault@somewhere.net>
-~~ The author and/or maintainer of the package ~~
+Maintainer: Ignacio Quintero <ignacio.quintero@yale.edu>
 }
 \references{
-~~ Literature or other references for background information ~~
+Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction of Species Ranges Through Space and Time
 }
 ~~ Optionally other standard keywords, one per line, from file KEYWORDS in the R documentation directory ~~
 \keyword{ package }
-\seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
-}
+
 \examples{
 	# Here the application in the paper of Quintero et al.,
 	# on the Psophia trumpeters 
@@ -49,8 +45,8 @@ Maintainer: Who to complain to <yourfault@somewhere.net>
 	# the Shapefiles for the distributions of the tips of the tree
 	require(maptools)
 	psophia_shp
-  plot(psophia_shp)
-  plot(psophia_tree)
+ 	plot(psophia_shp)
+  	plot(psophia_tree)
 	
 	# Transform the shapefile into the format used by rase
 	polygons = shape.to.rase(psophia_shp)
@@ -61,13 +57,13 @@ Maintainer: Who to complain to <yourfault@somewhere.net>
 	# name the polygons
  	polygons = name.poly(polygons, psophia_tree, poly.names = pnames)
 
-  # Accept the gpclib licence:
-  gpclibPermit()
+  	# Accept the gpclib licence:
+  	gpclibPermit()
 
 	# Run rase
 	rase_results = rase(psophia_tree, polygons)
-  # Run with low number of iterations
-  # rase_results = rase(psophia_tree, polygons, niter=100)
+  	# Run with low number of iterations
+  	# rase_results = rase(psophia_tree, polygons, niter=100)
 
 	# Check the results
 	str(rase_results)
