@@ -15,7 +15,7 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{shape_poly}{
- 	an object of class \code{\link[maptools]{SpatialPolygonsDataFrame}}. 
+ 	an object of class \code{\link[sp]{SpatialPolygonsDataFrame}}. 
 	}
 }
 
@@ -33,7 +33,8 @@
 \examples{
 	\dontrun{
 	# the Shapefiles for the distributions of the tips of the tree
-	require(maptools)
+	data(rase_data, package = 'rase')	
+	
 	psophia_shp
 	
 	# Transform the shapefile into the format used by rase

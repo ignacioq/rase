@@ -1,80 +1,26 @@
-\name{tree.slice}
-\alias{tree.slice}
-%- Also NEED an '\alias' for EACH other topic documented here.
+\name{rase_data}
+\docType{data}
+\alias{mcmc}
+\alias{mcmc_FULL}
+\alias{psophia_tree}
+\alias{psophia_shp}
+\alias{psophia_poly}
 \title{
-Temporary title
+	Psophia data used for rase package
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+	Data used for Quintero et al, (2014) extracted from Ribas et al (2012). It contains the phylogenetic tree and current distributions for the genus \emph{Psophia}.
+	}
 \usage{
-tree.slice(tree, slice)
+rase_data
 }
-%- maybe also 'usage' for other objects documented here.
-\arguments{
-  \item{tree}{
-%%     ~~Describe \code{tree} here~~
+\format{
+ \code{psophia_shp} contains the distributions of Psophia species as shapefiles in the format \code{\link[sp]{SpatialPolygonsDataFrame}}. \code{psophia_poly} contains the distributions of Psophia species in the format used by \code{\link{rase}}.\code{psophia_tree} contains Psophia's phylogenetic tree in \code{\link[ape]{phylo}} format. \code{mcmc_FULL} contains the full MCMC run for the psophia data, as used in Quintero et al., (). \code{mcmc} contains the MCMC run after a 2000 burnin period and sampling every 10 iterations.
 }
-  \item{slice}{
-%%     ~~Describe \code{slice} here~~
-}
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
-\value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
+\source{
+Ribas, Camila C., et al. "A palaeobiogeographic model for biotic diversification within Amazonia over the past three million years." Proceedings of the Royal Society B: Biological Sciences (2011): rspb20111120.
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction of Species Ranges Through Space and Time
 }
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+\keyword{datasets}
 
-## The function is currently defined as
-function (tree, slice) 
-{
-    if (!is(tree, "phylo")) {
-        stop("tree should be of class phylo")
-    }
-    if (!is.binary.tree(tree)) {
-        stop("tree should be fully dichotomous")
-    }
-    nnode = tree$Nnode
-    ntips = min(tree$edge[, 1]) - 1
-    b.t = branching.times(tree)
-    rage = cbind(tree$edge, NA, NA)
-    rage[match(1:ntips, rage[, 2]), 4] = 0
-    rage = rage[order(rage[, 1]), ]
-    rage[, 3] = rep(b.t, each = 2)
-    rage = rage[order(rage[, 2]), ]
-    rage[which(rage[, 2] > ntips), 4] = b.t[2:(ntips - 1)]
-    c1 = rage[which(rage[, 3] > slice), ]
-    c2 = c1[which(c1[, 4] < slice), ]
-    if (nrow(c2) == 0) 
-        cat("no branches at that time slice")
-    else return(c2)
-  }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

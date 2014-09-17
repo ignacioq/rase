@@ -44,6 +44,7 @@ Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction
 
 \author{
 Ignacio Quintero
+Forrest Crawford
 }
 
 \seealso{
@@ -51,7 +52,7 @@ Ignacio Quintero
 }
 \examples{
 	#load data
-	attach(rase_data)
+	data(rase_data, package = 'rase')	
 	
 	\dontrun{
 	# check the data we are going to use

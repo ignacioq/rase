@@ -44,10 +44,10 @@ Petr Keil
 
 \examples{
 # load the mcmc results from rase run, polygons and tree
-attach(rase_data)
+data(rase_data, package = 'rase')
 
 # transform the data for 3d plotting
-df3 = data.for.3d(mcmc, tree, polygons)
+df3 = data.for.3d(mcmc, psophia_tree, psophia_poly)
 
 # plot the tree in 3D
 \dontrun{phylo.3d(df3, y.scale = 10, pts = TRUE)}

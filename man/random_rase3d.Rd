@@ -11,7 +11,7 @@
 }
 
 \usage{
-	random_rase3d(mean_x = 0, mean_y = 0, sigma2x = 1, sigma2y = 1, x_ext = c(0.1, 0.5), y_ext = c(0.1, 0.5), niter = 1000, logevery = 10, plot.3d = TRUE, z.scale = 5, pbtree.list = list(n = 10), phylo.3d.list = list(dfr, tree, polygons), add.polygons.list = list(tree, polygons, axes = 2), ...)
+	random_rase3d = function(mean_x = 0, mean_y = 0, sigma2x = 1, sigma2y = 1, x_ext = c(0.1, 0.5), y_ext = c(0.1, 0.5), niter = 1000, logevery = 10, plot.3d = TRUE, zscale = 5, pbtree.list = list(n = 10), phylo.3d.list = list(df3, z.scale = zscale, pts = TRUE), add.polygons.list = list(df3, axes = 2), ...)
 }
 
 \arguments{
@@ -42,7 +42,7 @@
 	\item{plot.3d}{
 	If \code{TRUE} (default), a 3d plot is generated with the results
 	}
-  \item{z.scale}{
+  \item{zscale}{
 	the scale of the time axis (vertical axis). Effectively, the time variable is multiplied by this number. It is very useful for visualization purposes.
 }
   \item{pbtree.list}{

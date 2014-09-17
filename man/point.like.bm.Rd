@@ -52,7 +52,7 @@ Ignacio Quintero
 
 
 \seealso{
-\code{\link[ape]{ace}}, ML taking into account ranges \code{\link{range.like.bm}}.
+\code{\link[ape]{ace}}, ML taking into account ranges \code{\link{ranges.like.bm}}.
 }
 \examples{
 # Number of taxa to simulate tree

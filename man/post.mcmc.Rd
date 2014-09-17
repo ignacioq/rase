@@ -30,8 +30,8 @@ post.mcmc(res, burnin = 1000, thin = 10, as.ggmcmc = TRUE)
 }
 
 \value{
-If \code{as.ggmcmc = TRUE} (the default), the function returns a \code{\link[ggmcmc]{ggs}} object. This can be used as input to the ggs_* functions in the ggmcmc package.
-If \code{as.ggmcmc = FALSE}, the function returns a matrix where each column is a different parameter and each row is one iteration of the mcmc sampler.
+	If \code{as.ggmcmc = TRUE} (the default), the function returns a \code{\link[ggmcmc]{ggs}} object. This can be used as input to the ggs_* functions in the ggmcmc package.
+	If \code{as.ggmcmc = FALSE}, the function returns a matrix where each column is a different parameter and each row is one iteration of the mcmc sampler.
 }
 
 \author{
@@ -39,13 +39,13 @@ Ignacio Quintero
 }
 
 \seealso{
-\code{\link{rase}}, \code{\link{bm_ase}}
+\code{\link{rase}}, \code{\link{bm_ase}}, \code{\link{ggmcmc}}
 }
 
 \examples{
 	#attach the data
-	attach(rase_data)
-
+	data(rase_data, package = 'rase')
+	
 	# Explore the data
 	\dontrun{
 		str(mcmc_FULL)

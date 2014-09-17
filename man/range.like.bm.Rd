@@ -1,6 +1,6 @@
-\name{range.like.bm}
+\name{ranges.like.bm}
 
-\alias{range.like.bm}
+\alias{ranges.like.bm}
 
 \title{
 	n-dimensional Maximumn Likelihood of Range Brownian Motion
@@ -11,7 +11,7 @@
 }
 
 \usage{
-range.like.bm(tree, lower_bounds, upper_bounds, start_values = NA, dimen = NA)
+ranges.like.bm(tree, lower_bounds, upper_bounds, start_values = NA, dimen = NA)
 }
 
 \arguments{
@@ -56,7 +56,7 @@ Ignacio Quintero
 }
 
 \seealso{
-Contrast with \code{\link{range.like.bm}}
+Contrast with \code{\link{point.like.bm}}
 }
 \examples{
 # Number of taxa to simulate tree
@@ -96,5 +96,5 @@ lower_bounds = list(xl=x_lower, yl=y_lower, zl=z_lower )
 upper_bounds = list(xu=x_upper, yu=y_upper, zu=z_upper) 
 
 #run range.like.bm
-\dontrun{range_results = range.like.bm(tree, lower_bounds, upper_bounds)}
+\dontrun{range_results = ranges.like.bm(tree, lower_bounds, upper_bounds)}
 }

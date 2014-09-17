@@ -62,7 +62,7 @@ bm_loglik_tree_constrained = function(tree, lower_bounds, upper_bounds, par, dim
 # Optimize
 # 'lower/upper_bounds' have to be 2 separate lists, with each list element being one-dimensional values
 
-range.like.bm = function(tree, lower_bounds, upper_bounds, start_values = NA, dimen = NA) {
+ranges.like.bm = function(tree, lower_bounds, upper_bounds, start_values = NA, dimen = NA) {
 	
 	if (is.na(dimen)) dimen = length(lower_bounds)
 	if (is.na(start_values)) { start_values = c((unlist(lapply(lower_bounds, mean)) + 
@@ -865,8 +865,7 @@ shape.to.rase = function(shape_poly) {
 	polyg = list()
 	for (i in 1:length(polys)) {
     polyg[[i]] = slot(slot(polys[[i]],'Polygons')[[1]], 'coords')
-    # alternative:
-    # polyg[[i]] = polys[[i]]@Polygons[[1]]@coords
+
 	}
 	
 	return(polyg)	
@@ -875,7 +874,7 @@ shape.to.rase = function(shape_poly) {
 ################
 # Name polygons, order them as the tree tips
 
-name.poly = function(polyg, tree, poly.names = NA) {
+name.poly = function(polygons, tree, poly.names = NA) {
 	
 	if (!is(tree, "phylo")) {
         stop("Error: tree is not of class phylo")
@@ -884,20 +883,20 @@ name.poly = function(polyg, tree, poly.names = NA) {
 	tips = tree$tip.label
 	
 	if (any(is.na(poly.names))) {
-		nam = names(polyg)
+		nam = names(polygons)
 	} else {
 		nam = poly.names
-		names(polyg) = nam
+		names(polygons) = nam
 	}
 	if (any(is.na(match(tips, nam)))) stop('tip labels and polygon names do not match')
 			
-	if (all(match(tips, nam) == 1:length(polyg))) {
+	if (all(match(tips, nam) == 1:length(polygons))) {
 		cat('tip labels and polygon names match and are in the same order') 
 	} else {	
-		polyg = polyg[match(tips, nam)]	
+		polygons = polygons[match(tips, nam)]	
 	}
 		
-	return(polyg)
+	return(polygons)
 }
 
 
@@ -905,8 +904,6 @@ name.poly = function(polyg, tree, poly.names = NA) {
 ################
 # Handling the post Gibbs sampling
 	
-#load('~/repos/phylogeo/data/psophia_pase_2_0.05.Rdata')
-
 post.mcmc = function(res, burnin = 1000, thin = 10, as.ggmcmc = TRUE) {
 	
 	if (thin == 0) warning('Note that if thin = 0, then no iteration is saved at all.')
@@ -933,11 +930,6 @@ post.mcmc = function(res, burnin = 1000, thin = 10, as.ggmcmc = TRUE) {
 		return (mc)		
 	}
 }
-
-#pdf(file = '~/Desktop/pp.pdf', height = 80, width = 10)
-##ggs_running(S)
-#dev.off()
-
 
 
 #########################
@@ -976,7 +968,7 @@ phylo.3d = function(df3, z.scale = 1, pts = TRUE, ...) {
  
     if (pts == TRUE) points3d(df3$x, df3$y, z.scale*df3$z)
         
-	for (i in 1:nrow(tree$edge)) {
+	for (i in 1:nrow(edg)) {
 		x = df3$xyz$x[edg[i,]]
       	y = df3$xyz$y[edg[i,]]
       	z = df3$xyz$z[edg[i,]]
@@ -1037,10 +1029,11 @@ add.dens = function(df3, res, nlevels = 20, z.scale = 1, col = c(1:nnode), ...) 
 
 random_rase3d = function(mean_x = 0, mean_y = 0, 
 	sigma2x = 1, sigma2y = 1, x_ext = c(0.1, 0.5), y_ext = c(0.1, 0.5), 
-	niter = 1000, logevery = 10, plot.3d = TRUE, z.scale = 5, pbtree.list = list(n = 10), phylo.3d.list = list(dfr, tree, polygons), add.polygons.list = list(tree, polygons, axes = 2), ...) {
+	niter = 1000, logevery = 10, plot.3d = TRUE, zscale = 5, pbtree.list = list(n = 10), phylo.3d.list = list(df3, z.scale = zscale, pts = TRUE), add.polygons.list = list(df3, axes = 2), ...) {
 			
 	tree = do.call(pbtree, pbtree.list)
 	nnode = tree$Nnode
+	ntaxa = length(tree$tip.label)
 	x_locs = as.numeric(rmvnorm(1, rep(mean_x,ntaxa), sigma=sigma2x*vcv(tree)))
 	y_locs = as.numeric(rmvnorm(1, rep(mean_y,ntaxa), sigma=sigma2y*vcv(tree)))
 
@@ -1067,10 +1060,10 @@ random_rase3d = function(mean_x = 0, mean_y = 0,
 	res = rase(tree, polygons, c(runif(2*nnode), sigma2x, sigma2y), niter = niter, logevery = logevery)
 
 	if (plot.3d == TRUE) {
- 		df3 = data.for.3d(tree, res, polygons, scale.z=zscale)
+ 		df3 = data.for.3d(res, tree, polygons)
   		do.call(phylo.3d, phylo.3d.list)
   		do.call(add.polygons, add.polygons.list)
-  		add.dens(tree, res, col = c(1:nnode), scale.z = zscale, ...)
+  		add.dens(tree, res, col = c(1:nnode), z.scale = zscale, ...)
 	}
 	
 	return(res)

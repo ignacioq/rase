@@ -1,1 +1,25 @@
-exportPattern("^[[:alpha:]]+")
+export(add.dens,
+		add.polygons,
+		bm_ase,
+		data.for.3d,
+		name.poly,
+		phylo.3d,
+		point.like.bm,
+		post.mcmc,
+		random_rase3d,
+		ranges.like.bm,
+		rase,
+		rase.slice,
+		shape.to.rase,
+		tree.slice
+)
+
+importFrom(ape, ace, vcv, branching.times)
+importFrom(mvtnorm, dmvnorm, pmvnorm, rmvnorm)
+importFrom(phytools, pbtree)
+importFrom(polyCub, polyCub.exact.Gauss)
+importFrom(rgl,points3d, lines3d, polygon3d, axes3d, title3d)
+importFrom(sm,sm.density)
+
+
+

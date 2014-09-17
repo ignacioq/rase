@@ -1,6 +1,5 @@
 \name{rase-package}
 \alias{rase-package}
-\alias{rase}
 \docType{package}
 \title{
 Range Ancestral State Estimation
@@ -18,8 +17,8 @@ License: \tab GLP (>=2)\cr
 }
 }
 \author{
-Ignacio Quintero
-Forrest Crawford
+Ignacio Quintero,
+Forrest Crawford,
 Petr Keil
 
 Maintainer: Ignacio Quintero <ignacio.quintero@yale.edu>
@@ -27,7 +26,7 @@ Maintainer: Ignacio Quintero <ignacio.quintero@yale.edu>
 \references{
 Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction of Species Ranges Through Space and Time
 }
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in the R documentation directory ~~
+
 \keyword{ package }
 
 \examples{
@@ -36,8 +35,8 @@ Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction
 	# is shown using rase package.
 	
 	#load data
-	data(rase_data, package="rase")
-  
+	data(rase_data, package = 'rase')  
+	
 	# check the data we are going to use
 	# the phylogenetic tree
 	\dontrun{psophia_tree

@@ -39,10 +39,10 @@ Ignacio Quintero
 }
 \examples{
 # attach polygon data
-attach(rase_data)
+data(rase_data, package = 'rase')
 
 # polygons already in format used by rase.
-\dontrun{str(polygons)}
+\dontrun{str(psophia_poly)}
 
 # Species names of polygons (in order)
 pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
@@ -54,5 +54,5 @@ tree = read.nexus('~/repos/phylogeo/data/psophia_tree.nex')
 \dontrun{tree$tip.label}
 
 # name the polygons
-polygons = name.poly(polygons, tree, poly.names = pnames)
+polygons = name.poly(psophia_poly, psophia_tree, poly.names = pnames)
 }

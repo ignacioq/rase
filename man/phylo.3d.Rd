@@ -43,17 +43,17 @@ Petr Keil
 
 \examples{
 # load the mcmc results from rase run, polygons and tree
-attach(rase_data)
+data(rase_data, package = 'rase')
 
 # transform the data for 3d plotting
-df3 = data.for.3d(mcmc, tree, polygons)
+df3 = data.for.3d(mcmc, psophia_tree, psophia_poly)
 
 # plot the tree in 3D
-\dontrun{phylo.3d(df3, z.scale = 10, pts = TRUE)}
+\dontrun{phylo.3d(df3, z.scale = 10, pts = TRUE)
 
 # add the polygons representing the tip distributions
-\dontrun{add.polygons(df3)}
+	add.polygons(df3)
 
 # add the posterior density at each node of the 3d tree
-\dontrun{add.dens(df3, mcmc, z.scale = 10, col = c(2:8))}
+	add.dens(df3, mcmc, z.scale = 10, col = c(2:8))}
 }

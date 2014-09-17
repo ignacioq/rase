@@ -45,16 +45,16 @@ Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction
 }
 
 \author{
-Forrest Crawford
+Forrest Crawford, Ignacio Quintero
 }
 
 \seealso{
-Contrast with the point ancestral state estimation \code{\link{bm_ase}}. For the Maximum Likelihood version of ranges see \code{\link{range.like.bm}}. For post-mcmc handling see \code{\link{post.mcmc}}.
+Contrast with the point ancestral state estimation \code{\link{bm_ase}}. For the Maximum Likelihood version of ranges see \code{\link{ranges.like.bm}}. For post-mcmc handling see \code{\link{post.mcmc}}.
 }
 
 \examples{
 	#load data
-	data(rase_data, package="rase")
+	data(rase_data, package = 'rase')	
 	
 	# check the data we are going to use
 	# the phylogenetic tree
