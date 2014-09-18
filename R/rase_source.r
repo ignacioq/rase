@@ -342,8 +342,8 @@ bm_ase = function(tree, values, niter=1e3, logevery=10, sigma2_scale=0.05, scree
             }	
             
             xy = bm_propose_trio(a_value, d1_value, d2_value, s, t[1],t[2], sigma2x, sigma2y)
-            ax[iter,node-ntaxa] = xy[1]
-            ay[iter,node-ntaxa] = xy[2]
+            ax[iter,node-ntaxa] = xy$value[1]
+            ay[iter,node-ntaxa] = xy$value[2]
             
     	}
                 

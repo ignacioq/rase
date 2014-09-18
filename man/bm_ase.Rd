@@ -75,9 +75,9 @@ tree = pbtree(n = ntaxa)
 # Create random data according to tree structure
 x_locs = as.numeric(rmvnorm(1, rep(mean_x,ntaxa), sigma=sigma_x*vcv(tree)))
 y_locs = as.numeric(rmvnorm(1, rep(mean_y,ntaxa), sigma=sigma_y*vcv(tree)))
-values = list(x_locs,y_locs)
-
+values = list(x = x_locs, y = y_locs)
+\dontrun{
 # run bm_ase
-\dontrun{bm_results = bm_ase(tree, values)}
+bm_results = bm_ase(tree, values)}
 }
 
