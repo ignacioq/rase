@@ -10,9 +10,11 @@ Clone the repository and run in the terminal `R CMD INSTALL <path_to_rase>`
 
 Open R and run `library(rase)`
 
-To build binary just run `R CMD build <path_to_rase>`
+### Build and check tarball###
 
-To check the coherence of the package run `R CMD CHECK <path_to_rase_tarball>`
+To build binary just run in the terminal `R CMD build <path_to_rase>`
+
+To check the coherence of the package run in the terminal `R CMD CHECK <path_to_rase_tarball>`
 
 ### Who do I talk to? ###
 
