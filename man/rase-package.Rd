@@ -5,7 +5,7 @@
 Range Ancestral State Estimation
 }
 \description{
-The rase package primarily implements the Range Ancestral State Estimation for phylogeography described in Quintero et al., (XXX). It also includes Maximum Likelihood estimation of rase for n-dimensional data. Visualizing functions in 3D are implemented using the rgl package.
+The rase package primarily implements the Range Ancestral State Estimation for phylogeography described in Quintero et al., (XXX). It also includes Maximum Likelihood estimation of range ancestral states for n-dimensional data. Visualizing functions in 3D are implemented using the rgl package.
 }
 \details{
 \tabular{ll}{
@@ -24,7 +24,7 @@ Petr Keil
 Maintainer: Ignacio Quintero <ignacio.quintero@yale.edu>
 }
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
 }
 
 \keyword{ package }
@@ -37,9 +37,10 @@ Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction
 	#load data
 	data(rase_data, package = 'rase')  
 	
+	\dontrun{
 	# check the data we are going to use
 	# the phylogenetic tree
-	\dontrun{psophia_tree
+	psophia_tree
 	
 	# the Shapefiles for the distributions of the tips of the tree
 	require(maptools)

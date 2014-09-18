@@ -270,58 +270,43 @@ bm_loglik_trio = function(a, v, d1, d2, s, t1, t2, sigma2x, sigma2y) {
 #########################
 # gibbs sampling for ancestors in 2-dimensional point bm
 
-bm_ase = function(tree, values, niter = 1e3, logevery=100,  params0 = NA, prop.sd_sx_sy = NA) {
+bm_ase = function(tree, values, niter=1e3, logevery=10, sigma2_scale=0.05, screenlog=TRUE, params0 = NA) {
 
     if (!is(tree, "phylo")) {
         stop('tree should be of class phylo')
     }
     
     ntaxa = length(tree$tip.label)
-    nnode = tree$Nnode
-    if (length(params0) != 2*nnode+2) stop("starting values not of correct length")
-    
-    
-    if (is.na(prop.sd_sx_sy) | is.na(params0)) {
-        ace_resx = ace(values$x, tree, method = 'ML')
-        ace_resy = ace(values$y, tree, method = 'ML')
-    } 
-
-                                        # there is probably a better way to set the proposal variance here, but this seems to work.
-    if (is.na(prop.sd_sx_sy)) {
-        sigma2xpropsd = ace_resx$sigma2[2]
-        sigma2ypropsd = ace_resy$sigma2[2]
-        cat('proposed window for sigma2x is', sigma2xpropsd,'; for sigma2y is', sigma2ypropsd, '\n')
-    } else {
-        sigma2xpropsd = prop.sd_sx_sy[1]
-        sigma2ypropsd = prop.sd_sx_sy[2]
-    }
-    
+    nnode = tree$Nnode   
+       
     ax = array(NA, dim=c(niter,nnode))
     sigma2x = rep(NA, niter)
     ay = array(NA, dim=c(niter,nnode))
     sigma2y = rep(NA, niter)
-    
-    if (is.na(params0)) {
-        ax[1,] = ace_resx$ace
-        sigma2x[1] = ace_resx$sigma2[1]
-        ay[1,] = ace_resy$ace
-        sigma2y[1] = ace_resy$sigma2[1]
+     
+    if (any(is.na(params0))) {
+        ace_resx = ace(values$x, tree, method = 'ML')
+        ace_resy = ace(values$y, tree, method = 'ML')
+        ax[1, (1:nnode)] = ace_resx$ace[1:nnode]
+        sigma2x[1] = ace_resx$sigma[1]
+        ay[1, (1:nnode)] = ace_resy$ace[1:nnode]
+        sigma2y[1] = ace_resy$sigma[1]
     } else {
+        if (length(params0) != 2*nnode+2) stop("starting values not of correct length")
         ax[1,] = params0[1:nnode]
         sigma2x[1] = params0[2*nnode+1]
         ay[1,] = params0[(nnode+1):(2*nnode)]
         sigma2y[1] = params0[2*nnode+2]
     }
-
     
-    for(iter in 2:niter) {
+    for (iter in 2:niter) {
         
     	if (logevery && iter%%logevery==0) cat("iter =", iter, "\n")
         
-                                        # random permutation of internal nodes
+        # random permutation of internal nodes
     	nodelist = ntaxa + sample(1:nnode, nnode, replace=FALSE)
         
-                                        # populate current node values
+        # populate current node values
     	ax[iter,] = ax[iter-1,]
     	ay[iter,] = ay[iter-1,]
     	sigma2x[iter] = sigma2x[iter-1]
@@ -329,7 +314,7 @@ bm_ase = function(tree, values, niter = 1e3, logevery=100,  params0 = NA, prop.s
         
         for (node in nodelist) {
             
-                                        # daughters
+            # daughters
             daughter_ids = tree$edge[tree$edge[,1]==node,2]
             t = c(tree$edge.length[tree$edge[,2]==daughter_ids[1]],
                 tree$edge.length[tree$edge[,2]==daughter_ids[2]])
@@ -346,7 +331,7 @@ bm_ase = function(tree, values, niter = 1e3, logevery=100,  params0 = NA, prop.s
     	    	d2_value = c(ax[iter,daughter_ids[2]-ntaxa], ay[iter,daughter_ids[2]-ntaxa])
             }
             
-                                        # ancestor
+            # ancestor
             a_id = tree$edge[tree$edge[,2]==node,1]
             if (length(a_id)==0) {
                 a_value = c(NA,NA)
@@ -361,44 +346,53 @@ bm_ase = function(tree, values, niter = 1e3, logevery=100,  params0 = NA, prop.s
             ay[iter,node-ntaxa] = xy[2]
             
     	}
-        
-                                        # sample sigma2x and sigma2y
-    	repeat {
-    		sigma2x_prop = rnorm(1, sigma2x[iter], sd=sigma2xpropsd)
-    		if (sigma2x_prop>0) break
-    	}
-    	logprobfwdx = dnorm(sigma2x_prop, sigma2x[iter], sd=sigma2propsd) - 
-                    pnorm(0,sigma2x[iter],sd=sigma2propsd,lower.tail=FALSE)
-    	logprobbwdx = dnorm(sigma2x[iter], sigma2x_prop, sd=sigma2propsd) - 
-                    pnorm(0,sigma2x_prop,sd=sigma2propsd,lower.tail=FALSE)
+                
+        obj = bm_est_sigma2(tree, list(x=values$x, y=values$y), c(ax[iter,], ay[iter,]))
+      	s2x_cur = obj$sigma2xhat
+      	s2x_sd = sigma2_scale*obj$sigma2xhat_sd
+      	s2y_cur = obj$sigma2yhat
+      	s2y_sd = sigma2_scale*obj$sigma2yhat_sd
 
         repeat {
-            sigma2y_prop = rnorm(1, sigma2y[iter], sd=sigma2ypropsd)
+            sigma2x_prop = rnorm(1, mean=s2x_cur, sd=s2x_sd)
+            if(sigma2x_prop>0) break
+        }
+    	  logprobratiox = dnorm(s2x_cur, sigma2x_prop, sd=s2x_sd, log=TRUE) - dnorm(sigma2x_prop, s2x_cur, sd=s2x_sd, log=TRUE)
+        
+        repeat {
+            sigma2y_prop = rnorm(1, mean=s2y_cur, sd=s2y_sd)
             if(sigma2y_prop>0) break
         }
-        logprobfwdy = dnorm(sigma2y_prop, sigma2y[iter], sd=sigma2propsd) - 
-            pnorm(0,sigma2y[iter],sd=sigma2propsd,lower.tail=FALSE)
-        logprobbwdy = dnorm(sigma2y[iter], sigma2y_prop, sd=sigma2propsd) - 
-            pnorm(0,sigma2y_prop,sd=sigma2propsd,lower.tail=FALSE)
+    	  logprobratioy = dnorm(s2y_cur, sigma2y_prop, sd=s2y_sd, log=TRUE) - dnorm(sigma2y_prop, s2y_cur, sd=s2y_sd, log=TRUE)
         
-                                        # flat prior
+      
+       # flat prior
         loglik_cur = bm_loglik_ancestors(tree, values, c(ax[iter,], ay[iter,], sigma2x[iter], sigma2y[iter]))
         loglik_prop = bm_loglik_ancestors(tree, values, c(ax[iter,], ay[iter,], sigma2x_prop, sigma2y_prop))
 	
-        logratio = loglik_prop - loglik_cur - 
-            logprobfwdx + logprobbwdx - 
-                logprobfwdy + logprobbwdy
+        logratio = loglik_prop - loglik_cur + logprobratiox + logprobratioy
         
-        if (log(runif(1)) < logratio) {
+         if (log(runif(1)) < logratio) {
             sigma2x[iter] = sigma2x_prop
             sigma2y[iter] = sigma2y_prop
         }
   	
+  	    if (screenlog && iter%%logevery==0) {
+                
+                if (iter == logevery) {
+                    cat('Iteration sigma2x sigma2y\n')
+                    cat(iter, sigma2x[iter], sigma2y[iter],'\n')
+                } else {
+                    cat(iter, sigma2x[iter], sigma2y[iter],'\n')
+                }
+
+            } 
     }
     
-    bres = cbind(ax, ay, sigma2x, sigma2y)
-    names(bres) = c(paste('x', 1:ntaxa, sep = ''), paste('y', 1:ntaxa, sep = ''), 'sigma2x', 'sigma2y')
-	return(bres)
+    colnames(ax) = paste('n', names(branching.times(tree)), '_x', sep = '')
+    colnames(ay) = paste('n', names(branching.times(tree)), '_y', sep = '')
+    
+    return(cbind(ax, ay, sigma2x, sigma2y))  
 }
 
 

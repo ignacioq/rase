@@ -1,80 +1,61 @@
 \name{tree.slice}
+
 \alias{tree.slice}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
 \title{
-Temporary title
+	Identify tree branches that intersect with a given time slice.
 }
 \description{
-
+	Identifies the branches in a phylogenetic tree that the slice intersects with. It is used by \code{\link{rase.slice}}.
 }
 \usage{
-tree.slice(tree, slice)
+	tree.slice(tree, slice)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{tree}{
-%%     ~~Describe \code{tree} here~~
-}
+	phylogenetic tree of class \code{"phylo"}.
+	}
   \item{slice}{
-%%     ~~Describe \code{slice} here~~
+	the time at which to slice. It should be in the same units of the phylogenetic tree.
+	}
 }
-}
+
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+	The tree must be fully dichotomous and where all the tips are extant species (time 0).
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
+	returns a matrix where each row is an intersecting branch with the following columns: two integers associating the branch (i.e., ancestor, descendant), the age of the ancestral node, and the age of the descendant node.
+	}
 \references{
-%% ~put references to the literature/web site here ~
+Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
 }
 \author{
-%%  ~~who you are~~
+Ignacio Quintero
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{rase.slice}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+#load data
+	data(rase_data, package = 'rase')	
+	
+	\dontrun{
+	
+	# a phylogenetic tree used in the rase run
+	psophia_tree
+		
+	# define the slice of time;
+	# for now, let's say 1 Million
+	# years ago (Ma)
+	slice = 1
+	
+	# slice the tree
+	slice_results = tree.slice(psophia_tree, slice = slice)
+	
+	#check results
+	str(slice_results)
+	}
 
-## The function is currently defined as
-function (tree, slice) 
-{
-    if (!is(tree, "phylo")) {
-        stop("tree should be of class phylo")
-    }
-    if (!is.binary.tree(tree)) {
-        stop("tree should be fully dichotomous")
-    }
-    nnode = tree$Nnode
-    ntips = min(tree$edge[, 1]) - 1
-    b.t = branching.times(tree)
-    rage = cbind(tree$edge, NA, NA)
-    rage[match(1:ntips, rage[, 2]), 4] = 0
-    rage = rage[order(rage[, 1]), ]
-    rage[, 3] = rep(b.t, each = 2)
-    rage = rage[order(rage[, 2]), ]
-    rage[which(rage[, 2] > ntips), 4] = b.t[2:(ntips - 1)]
-    c1 = rage[which(rage[, 3] > slice), ]
-    c2 = c1[which(c1[, 4] < slice), ]
-    if (nrow(c2) == 0) 
-        cat("no branches at that time slice")
-    else return(c2)
-  }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+

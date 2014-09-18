@@ -39,7 +39,7 @@
 returns a matrix where every column represents one parameter. The first columns (i.e., \code{bX_x}; where X = branch 1, ..., branch i) give the ancestral locations for trait x in the order given by \code{\link{tree.slice}}, followed by the ancestral locations of trait y (i.e., \code{bX_y}).
 }
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
 }
 
 \author{

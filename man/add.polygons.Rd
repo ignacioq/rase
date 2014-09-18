@@ -31,7 +31,7 @@ The polygons don't have to be non-overlapping, however, when they do, they 'flic
 }
 
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
 }
 
 \author{
@@ -39,7 +39,7 @@ Petr Keil
 }
 
 \seealso{
-\code{\link{data.for.3d}},\code{\link{phylo.3d}}, \code{\link{add.dens}}
+\code{\link{data.for.3d}}, \code{\link{phylo.3d}}, \code{\link{add.dens}}
 }
 
 \examples{
@@ -50,11 +50,11 @@ data(rase_data, package = 'rase')
 df3 = data.for.3d(mcmc, psophia_tree, psophia_poly)
 
 # plot the tree in 3D
-\dontrun{phylo.3d(df3, y.scale = 10, pts = TRUE)}
+\dontrun{phylo.3d(df3, y.scale = 10, pts = TRUE)
 
 # add the polygons representing the tip distributions
-\dontrun{add.polygons(df3)}
+add.polygons(df3)
 
 # add the posterior density at each node of the 3d tree
-\dontrun{add.dens(df3, mcmc, y.scale = 10, col = c(2:8))} 
+add.dens(df3, mcmc, y.scale = 10, col = c(2:8))} 
 }
