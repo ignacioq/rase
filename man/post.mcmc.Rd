@@ -7,7 +7,7 @@ Post-MCMC handling
 }
 
 \description{
-Takes the result from an mcmc run (e.g., output from \code{\link{rase}}) and applies a burnin and a thinning. Optionally it can be transformed into a \code{\link[ggmcmc]{ggs}} object that the \link{ggmcmc} package can use (for mcmc visualization).
+Takes the result from an mcmc run (e.g., output from \code{\link{rase}}) and applies a burnin and a thinning. Optionally it can be transformed into a \code{\link[ggmcmc]{ggs}} object that the ggmcmc package can use (for mcmc visualization).
 }
 
 \usage{
@@ -30,7 +30,7 @@ post.mcmc(res, burnin = 1000, thin = 10, as.ggmcmc = TRUE)
 }
 
 \value{
-	If \code{as.ggmcmc = TRUE} (the default), the function returns a \code{\link[ggmcmc]{ggs}} object. This can be used as input to the ggs_* functions in the ggmcmc package.
+	If \code{as.ggmcmc = TRUE} (the default), the function returns a \code{\link[ggmcmc]{ggs}} object. This can be used as input to the \code{ggs_*} functions in the ggmcmc package.
 	If \code{as.ggmcmc = FALSE}, the function returns a matrix where each column is a different parameter and each row is one iteration of the mcmc sampler.
 }
 
@@ -39,7 +39,7 @@ Ignacio Quintero
 }
 
 \seealso{
-\code{\link{rase}}, \code{\link{bm_ase}}, \code{\link{ggmcmc}}
+\code{\link{rase}}, \code{\link{bm_ase}}, \code{\link[ggmcmc]{ggs}}
 }
 
 \examples{
@@ -57,7 +57,7 @@ Ignacio Quintero
 	#plot with ggmcmc
 	
 	\dontrun{
-		require(ggmcmc)
+		library(ggmcmc)
 		ggs_trace(gg_dat)
 	}
 }

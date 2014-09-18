@@ -11,7 +11,8 @@ Performs a bayesian two-dimensional ancestral state estimation with single value
 }
 
 \usage{
-bm_ase(tree, values, niter = 1e3, logevery = 10, sigma2_scale = 0.05, screenlog = TRUE, params0 = NA)
+bm_ase(tree, values, niter = 1e3, logevery = 10, 
+		sigma2_scale = 0.05, screenlog = TRUE, params0 = NA)
 }
 
 \arguments{
@@ -22,10 +23,10 @@ bm_ase(tree, values, niter = 1e3, logevery = 10, sigma2_scale = 0.05, screenlog 
 	2-dimensional trait values (e.g., coordinates for phylogeography). Should be a \code{data.frame} with two columns named \code{x} & \code{y}, or a \code{list} with two elements named \code{x} & \code{y}.
 	}
   \item{niter}{
-	number of MCMC iterations. By default \code{niter= 1000}.
+	number of MCMC iterations. By default \code{niter = 1000}.
 	}
   \item{logevery}{
-	Iteration cycle to print current iteration. By default \code{logevery= 10}.
+	Iteration cycle to print current iteration. By default \code{logevery = 10}.
 	}
   \item{sigma2_scale}{
 	Optional. window proposal for sigma2x & sigma2y.
@@ -44,15 +45,15 @@ returns a matrix where every column represents one parameter. The first columns 
 }
 
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
 }
 
 \author{
-Forrest Crawford
+Forrest Crawford, Ignacio Quintero
 }
 
 \seealso{
-for the Maximum Likelihood version see \code{\link{point.like.bm}}; for the incorporation of polygon uncertainty see \code{\link{rase}}. For post-mcmc handling see \code{\link{post.mcmc}}.
+For the maximum likelihood version see \code{\link{point.like.bm}}; for the incorporation of polygon uncertainty see \code{\link{rase}}. For post-mcmc handling see \code{\link{post.mcmc}}.
 }
 
 \examples{

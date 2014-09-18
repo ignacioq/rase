@@ -7,7 +7,8 @@ Name & Order Polygons
 }
 
 \description{
-Names polygons and orders them according to the phylogenetic tree. If they match the tree perfectly, the following message should appear: \code{tip labels and polygon names match and are in the same order}.
+Names polygons and orders them according to the phylogenetic tree. If they match the tree perfectly, the following message should appear: "\code{tip labels and polygon names match and 
+	are in the same order}".
 }
 
 \usage{
@@ -42,17 +43,17 @@ Ignacio Quintero
 data(rase_data, package = 'rase')
 
 # polygons already in format used by rase.
-\dontrun{str(psophia_poly)}
+\dontrun{str(psophia_poly)
+
+# check the phylogenetic tree
+psophia_tree
 
 # Species names of polygons (in order)
 pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
 
-#read tree
-tree = read.nexus('~/repos/phylogeo/data/psophia_tree.nex')
-
 # check tree's' tip labels
-\dontrun{tree$tip.label}
+psophia_tree$tip.label
 
 # name the polygons
-polygons = name.poly(psophia_poly, psophia_tree, poly.names = pnames)
+polygons = name.poly(psophia_poly, psophia_tree, poly.names = pnames)}
 }

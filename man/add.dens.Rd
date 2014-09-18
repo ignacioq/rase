@@ -7,7 +7,7 @@ Plot the Posterior Density for each Ancestor in 3D Space
 }
 
 \description{
-Plots a user-specified \% credible interval from the posterior density for each ancestor according to rase results. It is mapped in 3D space, where the x/y axes are longitude/latitude, and the z axis is time. Although it works by itself, the posterior densities are intended to overlay an existing \code{\link{phylo.3d}} plot (see example).
+Plots a user-specified credible interval from the posterior density for each ancestor according to rase results. It is mapped in 3D space, where the x/y axes are longitude/latitude, and the z axis is time. Although it works by itself, the posterior densities are intended to overlay an existing \code{\link{phylo.3d}} plot (see example).
 }
 
 \usage{
@@ -45,15 +45,18 @@ Ignacio Quintero
 }
 
 \seealso{
-\code{\link{data.for.3d}},\code{\link{phylo.3d}}, \code{\link{add.polygons}}
+\code{\link{data.for.3d}}, \code{\link{phylo.3d}}, \code{\link{add.polygons}}
 }
 
 \examples{
 # load the mcmc results from rase run, polygons and tree
 data(rase_data, package = 'rase')
 
+pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
+polygons = name.poly(psophia_poly, psophia_tree, poly.names = pnames)
+
 # transform the data for 3d plotting
-df3 = data.for.3d(mcmc, psophia_tree, psophia_poly)
+df3 = data.for.3d(mcmc, psophia_tree, polygons)
 
 # plot the tree in 3D
 \dontrun{phylo.3d(df3, z.scale = 10, pts = TRUE)

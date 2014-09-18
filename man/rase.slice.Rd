@@ -9,7 +9,8 @@
 	Estimates the geographical location of ancestors (at branches or, much less likely, at nodes) at any given point in time integrating over a \code{\link{rase}} run.  It first uses \code{\link{tree.slice}} to identify the branches that the slice intersects with and then uses MCMC sampling to approximate the posterior distribution of the ancestor locations.
 }
 \usage{
-	rase.slice(tree, slice, res, polygons, params0 = NA, niter = 1000, logevery = 10)
+	rase.slice(tree, slice, res, polygons, 
+	params0 = NA, niter = 1000, logevery = 10)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -28,10 +29,10 @@
 	Optional. A vector of initial parameter values in the following order: x ancestors for each branch in the order given by \code{\link{tree.slice}}, followed by y ancestors in the same order.
 	}
   \item{niter}{
-	number of MCMC iterations. By default \code{niter= 1000}.
+	number of MCMC iterations. By default \code{niter = 1000}.
 	}
   \item{logevery}{
-	Iteration cycle to print current iteration. By default \code{logevery= 10}.
+	Iteration cycle to print current iteration. By default \code{logevery = 10}.
 	}
 }
 

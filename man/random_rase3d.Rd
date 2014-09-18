@@ -11,7 +11,12 @@
 }
 
 \usage{
-	random_rase3d = function(mean_x = 0, mean_y = 0, sigma2x = 1, sigma2y = 1, x_ext = c(0.1, 0.5), y_ext = c(0.1, 0.5), niter = 1000, logevery = 10, plot.3d = TRUE, zscale = 5, pbtree.list = list(n = 10), phylo.3d.list = list(df3, z.scale = zscale, pts = TRUE), add.polygons.list = list(df3, axes = 2), ...)
+	random_rase3d(mean_x = 0, mean_y = 0, sigma2x = 1, sigma2y = 1,
+				 x_ext = c(0.1, 0.5), y_ext = c(0.1, 0.5), niter = 1e3, 
+				 logevery = 10, plot.3d = TRUE, zscale = 5, 
+				 pbtree.list = list(n = 10), 
+				 phylo.3d.list = list(df3, z.scale = zscale, pts = TRUE), 
+				 add.polygons.list = list(df3, axes = 2), ...)
 }
 
 \arguments{
@@ -34,10 +39,10 @@
 	this controls the mean diameter of the polygons to be generated on the \code{y} axis.
 }
   \item{niter}{
-	iteration cycle to print current iteration. By default \code{niter= 1000}.
+	iteration cycle to print current iteration. By default \code{niter = 1000}.
 }
   \item{logevery}{
-	iteration cycle to print current iteration. By default \code{logevery= 10}.
+	iteration cycle to print current iteration. By default \code{logevery = 10}.
 }
 	\item{plot.3d}{
 	If \code{TRUE} (default), a 3d plot is generated with the results
@@ -46,13 +51,13 @@
 	the scale of the time axis (vertical axis). Effectively, the time variable is multiplied by this number. It is very useful for visualization purposes.
 }
   \item{pbtree.list}{
-	should be list containing arguments to be passed to \code{\link[phytools]{pbtree}}.
+	a list containing arguments to be passed to \code{\link[phytools]{pbtree}}.
 }
   \item{phylo.3d.list}{
-	should be list containing arguments to be passed to \code{\link{phylo.3d}}.
+	a list containing arguments to be passed to \code{\link{phylo.3d}}.
 } 
  \item{add.polygons.list}{
-	should be list containing arguments to be passed to \code{\link{add.polygons}}.
+	a list containing arguments to be passed to \code{\link{add.polygons}}.
 }
 \item{\dots}{
 	further arguments to be passed to \code{\link{add.dens}}.
@@ -64,7 +69,7 @@ returns the output of \code{\link{rase}}.
 }
 
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
 }
 
 \author{

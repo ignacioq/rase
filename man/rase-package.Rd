@@ -5,7 +5,7 @@
 Range Ancestral State Estimation
 }
 \description{
-The rase package primarily implements the Range Ancestral State Estimation for phylogeography described in Quintero et al., (XXX). It also includes Maximum Likelihood estimation of range ancestral states for n-dimensional data. Visualizing functions in 3D are implemented using the rgl package.
+The rase package primarily implements the Range Ancestral State Estimation for phylogeography described in Quintero et al. using the \code{\link{rase}} function. It also includes Maximum Likelihood estimation of range ancestral states for n-dimensional data. Visualizing functions in 3D are implemented using the rgl package.
 }
 \details{
 \tabular{ll}{
@@ -30,49 +30,53 @@ Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Sp
 \keyword{ package }
 
 \examples{
-	# Here the application in the paper of Quintero et al.,
-	# on the Psophia trumpeters 
-	# is shown using rase package.
+# Here the application in the paper of Quintero et al.,
+# on the Psophia trumpeters 
+# is shown using rase package.
 	
-	#load data
-	data(rase_data, package = 'rase')  
+#load data
+data(rase_data, package = 'rase')  
 	
-	\dontrun{
-	# check the data we are going to use
-	# the phylogenetic tree
-	psophia_tree
+\dontrun{
+# check the data we are going to use
+# the phylogenetic tree
+psophia_tree
 	
-	# the Shapefiles for the distributions of the tips of the tree
-	require(maptools)
-	psophia_shp
- 	plot(psophia_shp)
-  	plot(psophia_tree)
+# the Shapefiles for the distributions of the tips of the tree
+require(sp)
+psophia_shp
+
+# check the distribution polygons
+plot(psophia_shp)
+
+# check
+plot(psophia_tree)
 	
-	# Transform the shapefile into the format used by rase
-	polygons = shape.to.rase(psophia_shp)
+# Transform the shapefile into the format used by rase
+polygons = shape.to.rase(psophia_shp)
 
-	# Species names of polygons (in order)
-	pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
+# Species names of polygons (in order)
+pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
 
-	# name the polygons
- 	polygons = name.poly(polygons, psophia_tree, poly.names = pnames)
+# name the polygons
+polygons = name.poly(polygons, psophia_tree, poly.names = pnames)
 
-  	# Accept the gpclib licence:
-  	gpclibPermit()
+# Accept the gpclib licence:
+gpclibPermit()
 
-	# Run rase
-	rase_results = rase(psophia_tree, polygons)
-  	# Run with low number of iterations
-  	# rase_results = rase(psophia_tree, polygons, niter=100)
+# Run rase
+rase_results = rase(psophia_tree, polygons, niter = 100)
+# Run with higher number of iterations
+# rase_results = rase(psophia_tree, polygons)
 
-	# Check the results
-	str(rase_results)
+# Check the results
+str(rase_results)
 
-	# post-MCMC handling
-	rase_results_for_ggmcmc = post.mcmc(rase_results, burnin=200, thin = 1)
+# post-MCMC handling
+rase_results_for_ggmcmc = post.mcmc(rase_results, burnin=0, thin = 1)
 	
-	#plot the densities using ggmcmc
-	require(ggmcmc)
-	ggs_density(rase_results_for_ggmcmc)
-	}
+#plot the densities using ggmcmc
+require(ggmcmc)
+ggs_density(rase_results_for_ggmcmc)
+}
 }

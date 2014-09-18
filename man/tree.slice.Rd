@@ -22,7 +22,7 @@
 }
 
 \details{
-	The tree must be fully dichotomous and where all the tips are extant species (time 0).
+	The tree must be fully dichotomous and all the tips should be extant lineages (time = 0).
 }
 \value{
 	returns a matrix where each row is an intersecting branch with the following columns: two integers associating the branch (i.e., ancestor, descendant), the age of the ancestral node, and the age of the descendant node.

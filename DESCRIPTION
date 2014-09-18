@@ -2,9 +2,11 @@ Package: rase
 Title: Range Ancestral State Estimation
 Version: 0.1-0
 Date: 2014-09-05
-Authors@R: c(person("Ignacio", "Quintero", role = c("aut", "cre"), email = "ignacio.quintero@yale.edu"), person("Forrest", "Crawford", role = "aut", email = "forrest.crawford@yale.edu"), person("Petr", "Keil", role = "aut", email = "petrkeil@seznam.cz"))
-Depends: R (>= 2.14.0), ape (>= 3.1-4), phytools (>= 0.4-00), mvtnorm (>= 1.0-0), polyCub (>= 0.5-0), rgl (>= 0.93.1098), sm (>= 2.2-5.4)
-Suggests: maptools, ggmcmc
-Description: The rase package primarily implements the Range Ancestral State Estimation for phylogeography described in Quintero et al., (XXX). It also includes Maximum Likelihood estimation of range ancestral states for n-dimensional data. Visualizing functions in 3D are implemented using the rgl package.
+Authors@R: c(person("Ignacio", "Quintero", role = c("aut", "cre"), email = "ignacio.quintero@yale.edu"), 
+			person("Forrest", "Crawford", role = "aut", email = "forrest.crawford@yale.edu"), 
+			person("Petr", "Keil", role = "aut", email = "petrkeil@seznam.cz"))
+Depends: R (>= 2.14.0), ape (>= 3.1-4), phytools (>= 0.4-31), mvtnorm (>= 1.0-0), polyCub (>= 0.5-0), rgl (>= 0.93.1098), sm (>= 2.2-5.4)
+Suggests: sp, ggmcmc
+Description: The rase package primarily implements the Range Ancestral State Estimation for phylogeography described in Quintero et al., (XXX). It also includes Maximum Likelihood estimation of rase for n-dimensional data. Visualizing functions in 3D are implemented using the rgl package.
 License: GPL (>=2)
 OS_type: unix

@@ -15,12 +15,17 @@
 rase_data
 }
 \format{
- \code{psophia_shp} contains the distributions of Psophia species as shapefiles in the format \code{\link[sp]{SpatialPolygonsDataFrame}}. \code{psophia_poly} contains the distributions of Psophia species in the format used by \code{\link{rase}}.\code{psophia_tree} contains Psophia's phylogenetic tree in \code{\link[ape]{phylo}} format. \code{mcmc_FULL} contains the full MCMC run for the psophia data, as used in Quintero et al., (). \code{mcmc} contains the MCMC run after a 2000 burnin period and sampling every 10 iterations.
+ \item{\code{psophia_shp}} contains the distributions of Psophia species as shapefiles in the format 
+ \code{\link[sp]{SpatialPolygonsDataFrame}}. 
+ \item{\code{psophia_poly}} contains the distributions of Psophia species in the format used by \code{\link{rase}}.
+ \item{\code{psophia_tree}} contains Psophia's phylogenetic tree in \code{\link[ape]{phylo}} format. 
+ \item{\code{mcmc_FULL}} contains the full MCMC run for the psophia data, as used in Quintero et al., (). 
+ \item{\code{mcmc}} contains the MCMC run after a 2000 burnin period and sampling every 10 iterations.
 }
 \source{
 Ribas, Camila C., et al. "A palaeobiogeographic model for biotic diversification within Amazonia over the past three million years." Proceedings of the Royal Society B: Biological Sciences (2011): rspb20111120.
 
-Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
 }
 \keyword{datasets}
 

@@ -27,10 +27,10 @@ data.for.3d(res, tree, polygons)
 }
 
 \value{
-Returns an object required by the plotting functions \code{\link{phylo.3d}} \code{\link{add.dens}} and \code{\link{add.polygons}}. It is efectively a list with the following elements: \code{xyz} containing the 3D coordinates, \code{edge} containing the \code{tree$edge} and \code{pol} containing the polygons.
+Returns an object required by the plotting functions \code{\link{phylo.3d}}, \code{\link{add.dens}} and \code{\link{add.polygons}}. It is efectively a list with the following elements: \code{$xyz} containing the 3D coordinates, \code{$edge} containing the \code{tree$edge} and \code{$pol} containing the polygons.
 }
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
 }
 
 \author{
@@ -38,24 +38,25 @@ Petr Keil
 }
 
 \seealso{
-\code{\link{phylo.3d}}, \code{\link{add.dens}}, \code{\link{add.polygons}},\code{\link{rase}}
+\code{\link{phylo.3d}}, \code{\link{add.dens}}, \code{\link{add.polygons}}, \code{\link{rase}}
 }
 
 \examples{
 # load the mcmc results from rase run, polygons and tree
 data(rase_data, package = 'rase')
 
+pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
+polygons = name.poly(psophia_poly, psophia_tree, poly.names = pnames)
+
 # transform the data for 3d plotting
-df3 = data.for.3d(mcmc, psophia_tree, psophia_poly)
+df3 = data.for.3d(mcmc, psophia_tree, polygons)
 
 # plot the tree in 3D
-\dontrun{
-	
-	phylo.3d(df3, y.scale = 10, pts = TRUE)
+\dontrun{phylo.3d(df3, z.scale = 10, pts = TRUE)
 
 # add the polygons representing the tip distributions
 add.polygons(df3)
 
 # add the posterior density at each node of the 3d tree
-add.dens(df3, mcmc, y.scale = 10, col = c(2:8))} 
+add.dens(df3, mcmc, z.scale = 10, col = c(2:8))}
 }

@@ -7,7 +7,7 @@
 }
 
 \description{
-	Transforms a Shapefile read by the \code{maptools} package using \code{\link[maptools]{readShapePoly}}.
+	Transforms a Shapefile in format \code{\link[sp]{SpatialPolygonsDataFrame}} to the format used by rase.
 }
 \usage{
 	shape.to.rase(shape_poly)

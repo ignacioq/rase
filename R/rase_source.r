@@ -960,14 +960,14 @@ phylo.3d = function(df3, z.scale = 1, pts = TRUE, ...) {
     
     edg = df3$edge
  
-    if (pts == TRUE) points3d(df3$x, df3$y, z.scale*df3$z)
+    if (pts == TRUE) points3d(df3$xyz$x, df3$xyz$y, z.scale*df3$xyz$z)
         
 	for (i in 1:nrow(edg)) {
 		x = df3$xyz$x[edg[i,]]
       	y = df3$xyz$y[edg[i,]]
       	z = df3$xyz$z[edg[i,]]
   
-      	lines3d(x, y, z*z.scale, ...)
+      	lines3d(x, y, z*z.scale)# ...)
     }
 }
 
