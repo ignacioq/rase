@@ -1,30 +1,17 @@
 # README #
-Repository for the rase package. Still under development
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Repository for the rase package for R. It is unreleased and under development. 
 
-### What is this repository for? ###
+Current version is rase 0.1-0
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+### To set up###
 
-### How do I get set up? ###
+Clone the repository and run in the terminal `R CMD INSTALL <path_were_rase_is>`
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
+Open R and run `library(rase)`
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+Ignacio Quintero <ignacio.quintero@yale.edu>
+Forrest Crawford <forrest.crawford@yale.edu>
+Petr Keil <pkeil@seznam.cz>
