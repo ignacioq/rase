@@ -8,8 +8,10 @@ Current version is rase 0.1-0
 
 #### Easier way####
 
-`library(devtools)
-install_bitbucket("rase","ignacioq")`
+In R, having installed the devtools package, type:
+`library(devtools)`
+
+`install_bitbucket("rase","ignacioq")`
 
 #### Other ####
 Clone the repository and run in the terminal `R CMD INSTALL <path_to_rase>`
