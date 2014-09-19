@@ -81,7 +81,7 @@ pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepi
 polygons = name.poly(psophia_poly, psophia_tree, poly.names = pnames)
 	
 # run rase slice
-slice_results = rase.slice(psophia_tree, slice = slice, res = mcmc, psophia_poly)
+slice_results = rase.slice(psophia_tree, slice = slice, res = mcmc, polygons)
 	
 #check results
 str(slice_results)

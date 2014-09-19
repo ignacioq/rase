@@ -82,6 +82,10 @@ Ignacio Quintero
 
 \examples{
 \dontrun{
+
+# accept gpclib license	
+gpclibPermit()
+	
 # run random_rase3d
 results_random = random_rase3d()
 	

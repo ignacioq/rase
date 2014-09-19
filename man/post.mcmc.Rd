@@ -50,7 +50,7 @@ data(rase_data, package = 'rase')
 # Explore the data
 str(mcmc_FULL)
 
-# run the function
+# discard the first 2000 iterations as burnin and keep every 10th iteration.
 gg_dat = post.mcmc(mcmc_FULL, burnin=2000, thin = 10, as.ggmcmc = TRUE)
 
 #plot with ggmcmc
