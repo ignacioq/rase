@@ -1010,7 +1010,7 @@ add.dens = function(df3, res, nlevels = 20, z.scale = 1, col = c(1:nnode), ...) 
     for (i in 1:nnode)
     {
     	densy = sm.density(res[,c(i, i + nnode)], display = 'none')		
-	    cont = contourLines(densy$eval.points[,1], densy$eval.points[,2], densy$estimate, nlevels = 20)
+	    cont = contourLines(densy$eval.points[,1], densy$eval.points[,2], densy$estimate, nlevels = nlevels)
 		polygon3d(x = cont[[1]]$x, y = cont[[1]]$y, 
 		z = 0.02+(z.scale*rep(node.ages[i], times = length(cont[[1]]$x))), col = col[i], ...)
     }
@@ -1053,13 +1053,13 @@ random_rase3d = function(mean_x = 0, mean_y = 0,
 	
 	polygons = name.poly(polygons, tree, poly.names = tree$tip.label)
 	
-	res = rase(tree, polygons, c(runif(2*nnode), sigma2x, sigma2y), niter = niter, logevery = logevery)
+	res = rase(tree, polygons, niter = niter, logevery = logevery)
 
 	if (plot.3d == TRUE) {
  		df3 = data.for.3d(res, tree, polygons)
   		do.call(phylo.3d, phylo.3d.list)
   		do.call(add.polygons, add.polygons.list)
-  		add.dens(df3, res, nlevels = 10, z.scale = 1, col = c(1:nnode), ...)
+  		add.dens(df3, res, nlevels = 10, z.scale = zscale, col = c(1:nnode), ...)
 	}
 	
 	return(res)
