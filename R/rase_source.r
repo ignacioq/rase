@@ -1004,7 +1004,7 @@ add.polygons = function(df3, axes = 2, ...) {
 # to the opened 'rgl' device
 
 add.dens = function(df3, res, nlevels = 20, z.scale = 1, col = c(1:nnode), ...) {
-    node.ages = df$xyz[df$xyz[, 'z'] != 0, 3] 
+    node.ages = df3$xyz[df3$xyz[, 'z'] != 0, 3] 
     nnode = length(node.ages)
    
     for (i in 1:nnode)
