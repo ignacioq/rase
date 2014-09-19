@@ -31,17 +31,17 @@
 	\code{\link[maptools]{readShapePoly}}
 }
 \examples{
-	\dontrun{
-	# the Shapefiles for the distributions of the tips of the tree
-	data(rase_data, package = 'rase')	
+\dontrun{
+# the Shapefiles for the distributions of the tips of the tree
+data(rase_data, package = 'rase')	
+
+psophia_shp
 	
-	psophia_shp
+# Transform the shapefile into the format used by rase
+polygons = shape.to.rase(psophia_shp)
 	
-	# Transform the shapefile into the format used by rase
-	polygons = shape.to.rase(pshophia_shp)
-	
-	# check the structure of the polygons
-	str(polygons)
-	}
+# check the structure of the polygons
+str(polygons)
+}
 
 }

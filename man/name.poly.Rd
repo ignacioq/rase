@@ -3,7 +3,7 @@
 \alias{name.poly}
 
 \title{
-Name & Order Polygons
+Name & Order Polygons according to the Phylogeny
 }
 
 \description{
@@ -42,8 +42,9 @@ Ignacio Quintero
 # attach polygon data
 data(rase_data, package = 'rase')
 
+\dontrun{
 # polygons already in format used by rase.
-\dontrun{str(psophia_poly)
+str(psophia_poly)
 
 # check the phylogenetic tree
 psophia_tree

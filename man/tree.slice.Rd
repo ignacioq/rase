@@ -38,24 +38,24 @@ Ignacio Quintero
 }
 \examples{
 #load data
-	data(rase_data, package = 'rase')	
+data(rase_data, package = 'rase')	
 	
-	\dontrun{
+\dontrun{
 	
-	# a phylogenetic tree used in the rase run
-	psophia_tree
+# a phylogenetic tree used in the rase run
+psophia_tree
 		
-	# define the slice of time;
-	# for now, let's say 1 Million
-	# years ago (Ma)
-	slice = 1
+# define the slice of time;
+# for now, let's say 1 Million
+# years ago (Ma)
+slice = 1
 	
-	# slice the tree
-	slice_results = tree.slice(psophia_tree, slice = slice)
+# slice the tree
+slice_results = tree.slice(psophia_tree, slice = slice)
 	
-	#check results
-	str(slice_results)
-	}
+#check results
+slice_results
+}
 
 }
 

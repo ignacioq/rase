@@ -95,6 +95,7 @@ z_upper = z_locs + zshift
 lower_bounds = list(xl=x_lower, yl=y_lower, zl=z_lower ) 
 upper_bounds = list(xu=x_upper, yu=y_upper, zu=z_upper) 
 
+\dontrun{
 #run range.like.bm
-\dontrun{range_results = ranges.like.bm(tree, lower_bounds, upper_bounds)}
+range_results = ranges.like.bm(tree, lower_bounds, upper_bounds)}
 }

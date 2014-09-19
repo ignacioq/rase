@@ -51,8 +51,10 @@ polygons = name.poly(psophia_poly, psophia_tree, poly.names = pnames)
 # transform the data for 3d plotting
 df3 = data.for.3d(mcmc, psophia_tree, polygons)
 
+\dontrun{
+
 # plot the tree in 3D
-\dontrun{phylo.3d(df3, z.scale = 10, pts = TRUE)
+phylo.3d(df3, z.scale = 10, pts = TRUE)
 
 # add the polygons representing the tip distributions
 add.polygons(df3)

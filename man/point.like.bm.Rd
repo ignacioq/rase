@@ -73,6 +73,7 @@ x_locs = as.numeric(rmvnorm(1, rep(mean_x,ntaxa), sigma=sigma_x*vcv(tree)))
 y_locs = as.numeric(rmvnorm(1, rep(mean_y,ntaxa), sigma=sigma_y*vcv(tree)))
 values = list(x_locs,y_locs)
 
+\dontrun{
 # run point.like.bm
-\dontrun{bm_results = point.like.bm(tree, values)}
+bm_results = point.like.bm(tree, values)}
 }

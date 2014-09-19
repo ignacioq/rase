@@ -43,22 +43,18 @@ Ignacio Quintero
 }
 
 \examples{
-	#attach the data
-	data(rase_data, package = 'rase')
+#attach the data
+data(rase_data, package = 'rase')
 	
-	# Explore the data
-	\dontrun{
-		str(mcmc_FULL)
-	}
+\dontrun{
+# Explore the data
+str(mcmc_FULL)
 
-	# run the function
-	gg_dat = post.mcmc(mcmc_FULL, burnin=2000, thin = 10, as.ggmcmc = TRUE)
+# run the function
+gg_dat = post.mcmc(mcmc_FULL, burnin=2000, thin = 10, as.ggmcmc = TRUE)
 
-	#plot with ggmcmc
-	
-	\dontrun{
-		library(ggmcmc)
-		ggs_trace(gg_dat)
-	}
+#plot with ggmcmc
+library(ggmcmc)
+ggs_traceplot(gg_dat)}
 }
 

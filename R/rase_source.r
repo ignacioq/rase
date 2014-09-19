@@ -941,7 +941,7 @@ data.for.3d = function(res, tree, polygons) {
       
     xy.tips = t(mapply(polygon_centroid, polygons)) 
     xy.nodes = matrix(colMeans(res)[1:(2*tree$Nnode)], nrow = tree$Nnode, ncol = 2)
-    xy.all = data.frame(rbind(xy.tips, xy.nodes))
+    xy.all = data.frame(rbind(xy.tips, as.data.frame(xy.nodes)))
 
     z = c(rep(0, times=length(tree$tip.label)), branching.times(tree))
 
@@ -967,7 +967,7 @@ phylo.3d = function(df3, z.scale = 1, pts = TRUE, ...) {
       	y = df3$xyz$y[edg[i,]]
       	z = df3$xyz$z[edg[i,]]
   
-      	lines3d(x, y, z*z.scale)# ...)
+      	lines3d(x, y, z*z.scale, ...)
     }
 }
 
@@ -1050,14 +1050,16 @@ random_rase3d = function(mean_x = 0, mean_y = 0,
 	  	hpts = c(hpts, hpts[1])
 	  	polygons[[i]] = matrix(c(xpts[hpts], ypts[hpts]), nrow=length(hpts))
 	}
-
+	
+	polygons = name.poly(polygons, tree, poly.names = tree$tip.label)
+	
 	res = rase(tree, polygons, c(runif(2*nnode), sigma2x, sigma2y), niter = niter, logevery = logevery)
 
 	if (plot.3d == TRUE) {
  		df3 = data.for.3d(res, tree, polygons)
   		do.call(phylo.3d, phylo.3d.list)
   		do.call(add.polygons, add.polygons.list)
-  		add.dens(tree, res, col = c(1:nnode), z.scale = zscale, ...)
+  		add.dens(df3, res, nlevels = 10, z.scale = 1, col = c(1:nnode), ...)
 	}
 	
 	return(res)

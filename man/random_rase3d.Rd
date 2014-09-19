@@ -12,11 +12,11 @@
 
 \usage{
 	random_rase3d(mean_x = 0, mean_y = 0, sigma2x = 1, sigma2y = 1,
-				 x_ext = c(0.1, 0.5), y_ext = c(0.1, 0.5), niter = 1e3, 
-				 logevery = 10, plot.3d = TRUE, zscale = 5, 
-				 pbtree.list = list(n = 10), 
-				 phylo.3d.list = list(df3, z.scale = zscale, pts = TRUE), 
-				 add.polygons.list = list(df3, axes = 2), ...)
+		x_ext = c(0.1, 0.5), y_ext = c(0.1, 0.5), niter = 1e3, 
+		logevery = 10, plot.3d = TRUE, zscale = 5, 
+		pbtree.list = list(n = 10), 
+		phylo.3d.list = list(df3, z.scale = zscale, pts = TRUE), 
+		add.polygons.list = list(df3, axes = 2), ...)
 }
 
 \arguments{
@@ -81,11 +81,11 @@ Ignacio Quintero
 }
 
 \examples{
-	\dontrun{
-		# run random_rase3d
-		results_random = random_rase3d()
+\dontrun{
+# run random_rase3d
+results_random = random_rase3d()
 	
-		# explore the results
-		str(results_random)
-	}
+# explore the results
+str(results_random)
+}
 }
