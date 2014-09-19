@@ -14,7 +14,7 @@ In R, having installed the devtools package, type:
 
 `install_bitbucket("rase","ignacioq")`
 
-Open R and run `library(rase)`
+Run `library(rase)`
 
 #### Other ####
 Clone the repository and run in the terminal `R CMD INSTALL <path_to_rase_repository>`
