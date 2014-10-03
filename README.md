@@ -12,7 +12,11 @@ In R, having installed the devtools package, type:
 
 `library(devtools)`
 
-`install_bitbucket("rase","ignacioq")`
+for `devtools <1.6`
+`install_bitbucket("rase","ignacioq")` 
+
+for `devtools >1.6`
+`install_bitbucket("ignacioq/rase")` 
 
 Run `library(rase)`
 
@@ -32,4 +36,3 @@ To check the coherence of the package run in the terminal `R CMD CHECK <path_to_
 Ignacio Quintero <ignacio.quintero@yale.edu>,
 Forrest Crawford <forrest.crawford@yale.edu>,
 Petr Keil <pkeil@seznam.cz>
-
