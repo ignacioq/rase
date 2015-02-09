@@ -170,7 +170,7 @@ bm_loglik_ancestors_poly = function(tree, polygons, params) {
         if(r[2]<= ntaxa) {
             v = polyCub.exact.Gauss(polygons[[r[2]]], c(ax1,ay1), Sigma=r[3]*diag(c(sigma2x,sigma2y)))
             logv = ifelse(is.nan(v), -1e30, log(v)) 
-            loglik = logv - log(polygon_area(polygons[[r[2]]]))
+            loglik = logv - log(area.poly(polygons[[r[2]]]))
             if(is.nan(loglik)) loglik = -1e30
                                         #cat("a =",c(ax1,ay1), "\n")
                                         #cat("r[3] =",r[3], "\n")
@@ -196,12 +196,12 @@ bm_loglik_ancestors_poly = function(tree, polygons, params) {
 
 bm_propose_trio = function(a, d1, d2, s,t1, t2, sigma2x, sigma2y) {
 
-	if (!is.null(dim(d1))) { 
-    	d1 = polygon_centroid(d1)
+	if (is(d1, 'gpc.poly')) { 
+    	d1 = poly_center(d1)
   	}
 
-  	if (!is.null(dim(d2))) { 
-    	d2 = polygon_centroid(d2)
+  	if (is(d2, 'gpc.poly')) { 
+    	d2 = poly_center(d2)
   	}
 
 	ax = a[1]; ay = a[2]
@@ -239,7 +239,7 @@ bm_propose_trio = function(a, d1, d2, s,t1, t2, sigma2x, sigma2y) {
 # compute the log-likelihood of a trio
 # d1 and/or d2 can be shapes OR points
 
-bm_loglik_trio = function(a, v, d1, d2, s, t1, t2, sigma2x, sigma2y) {
+bm_loglik_trio = function(a, v, d1, d2, s, t1, t2, sigma2x, sigma2y, areas, daughter_ids) {
 
     if (is.na(a[1])) {
     	la = 0
@@ -247,19 +247,19 @@ bm_loglik_trio = function(a, v, d1, d2, s, t1, t2, sigma2x, sigma2y) {
     	la = sum(dnorm(v, a, sd=sqrt(s*c(sigma2x, sigma2y)), log=TRUE))
     }
     
-    if (is.null(dim(d1))) { # d1 is an internal node
+    if (!is(d1, 'gpc.poly')) { # d1 is an internal node
     	l1 = sum(dnorm(d1, v, sd = sqrt(t1*c(sigma2x, sigma2y)), log=TRUE))
     } else { # d1 is a tip
     	l1 = log(as.numeric(polyCub.exact.Gauss(d1, v, Sigma=t1*diag(c(sigma2x, sigma2y))))) - 
-            log(polygon_area(d1))
+            log(areas[daughter_ids[1]])
     	if (is.nan(l1)) l1 = -1e30
     }
     
-    if (is.null(dim(d2))) { # d2 is an internal node
+    if (!is(d2, 'gpc.poly')) { # d2 is an internal node
     	l2 = sum(dnorm(d2,v,sd=sqrt(t2*c(sigma2x,sigma2y)), log=TRUE))
     } else { # d2 is a tip
     	l2 = log(as.numeric(polyCub.exact.Gauss(d2, v, Sigma=t2*diag(c(sigma2x,sigma2y))))) - 
-            log(polygon_area(d2))
+            log(areas[daughter_ids[2]])
     	if(is.nan(l2)) l2 = -1e30
     }
     
@@ -413,11 +413,14 @@ rase = function(tree, polygons, niter=1e3, logevery=10, sigma2_scale=0.05, scree
         stop('tip labels and polygon names do not match')
     }
     
+    ####Calculate all areas before hand!
+    
     ntaxa = length(tree$tip.label)
     nnode = tree$Nnode
     
                                         # initialize 
-    xy.tips = t(mapply(polygon_centroid, polygons))
+    areas = mapply(area.poly, polygons)    
+    xy.tips = t(mapply(poly_center, polygons))
        
     ax = array(NA, dim=c(niter,nnode))
     sigma2x = rep(NA, niter)
@@ -440,10 +443,10 @@ rase = function(tree, polygons, niter=1e3, logevery=10, sigma2_scale=0.05, scree
     }
     
     for (iter in 2:niter) {
-                                         # random permutation of internal nodes
+       	# random permutation of internal nodes
     	nodelist = ntaxa+sample(1:nnode, nnode, replace=FALSE)
 
-                                        # populate current node values
+        # populate current node values
     	ax[iter,] = ax[iter-1,]
     	ay[iter,] = ay[iter-1,]
     	sigma2x[iter] = sigma2x[iter-1]
@@ -486,10 +489,10 @@ rase = function(tree, polygons, niter=1e3, logevery=10, sigma2_scale=0.05, scree
             
     	    if (approx) {
                 loglik_prop = bm_loglik_trio(a_value, xy_prop$value, d1_value, d2_value, 
-                    s, t[1], t[2], sigma2x[iter], sigma2y[iter])
+                    s, t[1], t[2], sigma2x[iter], sigma2y[iter], areas, daughter_ids)
                 
                 loglik_cur = bm_loglik_trio(a_value, c(ax[iter,node-ntaxa], ay[iter,node-ntaxa]), 
-                    d1_value, d2_value, s, t[1], t[2], sigma2x[iter], sigma2y[iter])
+                    d1_value, d2_value, s, t[1], t[2], sigma2x[iter], sigma2y[iter], areas, daughter_ids)
                 
                 logratio = loglik_prop - loglik_cur + xy_prop$logbwdprob - xy_prop$logfwdprob
                 
@@ -499,7 +502,7 @@ rase = function(tree, polygons, niter=1e3, logevery=10, sigma2_scale=0.05, scree
     	      	}
     	    } else {
                 ax[iter,node-ntaxa] = xy_prop$value[1]
-          	ay[iter,node-ntaxa] = xy_prop$value[2]
+          		ay[iter,node-ntaxa] = xy_prop$value[2]
             }
     	}
         
@@ -585,27 +588,31 @@ polygon_area = function(poly) {
 #########################
 # polygon center
 
-polygon_centroid = function(poly) {
+poly_center = function(poly) {
+	xy=get.pts(poly)
+	centr = c()
+	for (j in 1:length(xy)) {
+		x = xy[[j]]$x
+		y = xy[[j]]$y
+		
+	  	n = length(x)
+	  	if (length(y) != n) stop("length of x and y must be equal")
 
-	x = poly[,1]
-	y = poly[,2]
-  	n = length(x)
-  	if (length(y) != n) stop("length of x and y must be equal")
-
-  	Cx = 0; Cy = 0; A = 0
-  	for(i in 1:(n-1)) {
-    	Cx = Cx + (x[i] + x[i+1])*(x[i]*y[i+1] - x[i+1]*y[i]) 
-    	Cy = Cy + (y[i] + y[i+1])*(x[i]*y[i+1] - x[i+1]*y[i]) 
-    	A = A + x[i]*y[i+1] - x[i+1]*y[i]
-  	}
-  	A = A/2
-  	Cx = Cx/(6*A)
-  	Cy = Cy/(6*A)
-
-  	return(c(Cx,Cy))
+	  	Cx = 0; Cy = 0; A = 0
+	  	for(i in 1:(n-1)) {
+	    	Cx = Cx + (x[i] + x[i+1])*(x[i]*y[i+1] - x[i+1]*y[i]) 
+	    	Cy = Cy + (y[i] + y[i+1])*(x[i]*y[i+1] - x[i+1]*y[i]) 
+	    	A = A + x[i]*y[i+1] - x[i+1]*y[i]
+	  	}
+	  	A = A/2
+	  	Cx = Cx/(6*A)
+	  	Cy = Cy/(6*A)
+		
+  		centr = rbind(centr,c(Cx,Cy, area.poly(poly[j,])))
+	}
+	return(c(weighted.mean(centr[,1], centr[,3]),
+	weighted.mean(centr[,2], centr[,3])))
 }
-
-
 
 
 ###################
