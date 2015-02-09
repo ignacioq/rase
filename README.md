@@ -12,7 +12,11 @@ In R, having installed the devtools package, type:
 
 `library(devtools)`
 
-`install_bitbucket("rase","ignacioq")`
+for `devtools <1.6`
+`install_bitbucket("rase","ignacioq")` 
+
+for `devtools >1.6`
+`install_bitbucket("ignacioq/rase")` 
 
 Run `library(rase)`
 
