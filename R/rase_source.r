@@ -861,15 +861,14 @@ rase.slice = function(tree, slice, res, polygons, params0 = NA, niter=1e3, logev
 # Transform shapefiles from 'maptools' package for use in rase
 
 shape.to.rase = function(shape_poly) {
-
-	polys = slot(shape_poly, 'polygons')
-	polyg = list()
-	for (i in 1:length(polys)) {
-    polyg[[i]] = slot(slot(polys[[i]],'Polygons')[[1]], 'coords')
-
-	}
-	
-	return(polyg)	
+	pols = list()
+	for (i in 1:length(shape_poly)) {		
+    	fp1 = shape_poly[i,]
+    	fp2 = fp1@polygons[[1]]
+		fp2 = new("gpc.poly",pts= lapply(fp2@Polygons,function(lst){list(x=lst@coords[,1],y=lst@coords[,2],hole=lst@hole)}))
+		pols = c(pols, fp2)
+	}	
+	return(pols)	
 }
 
 ################

@@ -42,7 +42,7 @@ bm_loglik_trio(a, v, d1, d2, s, t1, t2, sigma2x, sigma2y, areas, daughter_ids)
   \item{sigma2y}{
 	current value for sigma2y.
 	}
-	\item{area}{
+	\item{areas}{
 	polygonal areas, to save time and not recalculate.
 	}
 	\item{daughter_ids}{

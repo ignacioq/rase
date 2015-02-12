@@ -34,7 +34,7 @@ Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Sp
 }
 
 \author{
-Petr Keil
+Petr Keil, Ignacio Quintero
 }
 
 \seealso{

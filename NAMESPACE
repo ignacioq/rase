@@ -14,12 +14,13 @@ export(add.dens,
 		tree.slice
 )
 
-importFrom(ape, ace, vcv, branching.times)
+importFrom(ape, ace, vcv, branching.times, is.binary.tree)
 importFrom(mvtnorm, dmvnorm, pmvnorm, rmvnorm)
 importFrom(phytools, pbtree)
 importFrom(polyCub, polyCub.exact.Gauss)
 importFrom(rgl,points3d, lines3d, polygon3d, axes3d, title3d)
 importFrom(sm,sm.density)
+importFrom(gpclib, tristrip, area.poly, get.pts)
 
 
 
