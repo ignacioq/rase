@@ -11,7 +11,7 @@
 }
 
 \usage{
-bm_loglik_trio(a, v, d1, d2, s, t1, t2, sigma2x, sigma2y)
+bm_loglik_trio(a, v, d1, d2, s, t1, t2, sigma2x, sigma2y, areas, daughter_ids)
 }
 
 \arguments{
@@ -42,6 +42,13 @@ bm_loglik_trio(a, v, d1, d2, s, t1, t2, sigma2x, sigma2y)
   \item{sigma2y}{
 	current value for sigma2y.
 	}
+	\item{area}{
+	polygonal areas, to save time and not recalculate.
+	}
+	\item{daughter_ids}{
+	the ids of the daughters of the node.
+	}
+
 }
 
 \value{

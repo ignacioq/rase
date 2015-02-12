@@ -611,7 +611,7 @@ poly_center = function(poly) {
   		centr = rbind(centr,c(Cx,Cy, area.poly(poly[j,])))
 	}
 	return(c(weighted.mean(centr[,1], centr[,3]),
-	weighted.mean(centr[,2], centr[,3])))
+		weighted.mean(centr[,2], centr[,3])))
 }
 
 
@@ -687,7 +687,7 @@ bm_loglik_duo = function(a, v, d, u, t, sx, sy) {
 bm_propose_duo = function(a, d, u, t, sx, sy) {
 
 	if (!is.null(dim(d))) { 
-    	d = polygon_centroid(d)
+    	d = poly_center(d)
   	}
 
 	ax = a[1]; ay = a[2]
@@ -740,7 +740,7 @@ rase.slice = function(tree, slice, res, polygons, params0 = NA, niter=1e3, logev
 	
         for (b in 1:nbranch) { # for each branch		
             if (a_d[b,4] == 0) { # if daughter is a tip, use the polygon centroid to calculate the mean
-                pxy = polygon_centroid(polygons[[b]])
+                pxy = poly_center(polygons[[b]])
                 
                 params0[b] = ((mean(anc_x[,b])*(slice - a_d[b, 4])) + 
                               (pxy[1]*(a_d[b, 3] - slice)))/(a_d[b, 3] - a_d[b, 4])
@@ -946,7 +946,7 @@ data.for.3d = function(res, tree, polygons) {
        	tree$node.label <- paste("n", names(branching.times(tree)), sep="")
     }
       
-    xy.tips = t(mapply(polygon_centroid, polygons)) 
+    xy.tips = t(mapply(poly_center, polygons)) 
     xy.nodes = matrix(colMeans(res)[1:(2*tree$Nnode)], nrow = tree$Nnode, ncol = 2)
     xy.all = data.frame(rbind(xy.tips, as.data.frame(xy.nodes)))
 

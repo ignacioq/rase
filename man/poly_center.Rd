@@ -1,6 +1,6 @@
 \name{poly_center}
 
-\alias{polygon_centroid}
+\alias{poly_center}
 
 \title{
 	Calculate the Polygon Center
@@ -11,7 +11,7 @@
 }
 
 \usage{
-	polygon_centroid(poly)
+	poly_center(poly)
 }
 
 \arguments{
