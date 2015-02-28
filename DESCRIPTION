@@ -1,6 +1,6 @@
 Package: rase
 Title: Range Ancestral State Estimation
-Version: 0.1-1
+Version: 0.2-1
 Date: 2014-09-05
 Authors@R: c(person("Ignacio", "Quintero", role = c("aut", "cre"), email = "ignacio.quintero@yale.edu"), 
 			person("Forrest", "Crawford", role = "aut", email = "forrest.crawford@yale.edu"), 
