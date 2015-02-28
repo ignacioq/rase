@@ -9,6 +9,7 @@ export(add.dens,
 		random_rase3d,
 		ranges.like.bm,
 		rase,
+		rase_fast,
 		rase.slice,
 		shape.to.rase,
 		tree.slice
