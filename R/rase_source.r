@@ -206,7 +206,7 @@ bm_loglik_ancestors_poly_fast = function(tree, polygons, params, nGQ) {
     ax1 = ax[r[1]-ntaxa]
     ay1 = ay[r[1]-ntaxa]
     if(r[2]<= ntaxa) {
-      v = polyCub.SV(polygons[[r[2]]], f, mx = ax1, my = ay1, sx = r[3]*sqrt(sigma2x), sy = r[3]*sqrt(sigma2y), rho = 0, nGQ=nGQ)    
+      v = polyCub.SV(polygons[[r[2]]], f, mx = ax1, my = ay1, sx = sqrt(sigma2x*r[3]), sy = sqrt(sigma2y*r[3]), rho = 0, nGQ=nGQ)    
       logv = ifelse(is.nan(v), -1e30, log(v)) 
       loglik = logv - log(area.poly(polygons[[r[2]]]))
       if(is.nan(loglik)) loglik = -1e30
@@ -319,7 +319,7 @@ bm_loglik_trio_fast = function(a, v, d1, d2, s, t1, t2, sigma2x, sigma2y, areas,
   if (!is(d1, 'gpc.poly')) { # d1 is an internal node
     l1 = sum(dnorm(d1, v, sd = sqrt(t1*c(sigma2x, sigma2y)), log=TRUE))
   } else { # d1 is a tip
-    l1 = log(as.numeric(polyCub.SV(d1, f, mx = v[1], my = v[2], sx = t1*sqrt(sigma2x), sy = t1*sqrt(sigma2y), rho = 0, nGQ = nGQ))) - 
+    l1 = log(as.numeric(polyCub.SV(d1, f, mx = v[1], my = v[2], sx = sqrt(sigma2x*t1), sy = sqrt(sigma2y*t1), rho = 0, nGQ = nGQ))) - 
       log(areas[daughter_ids[1]])
     if (is.nan(l1)) l1 = -1e30
     #if (l1==0) l1 = -1e30
@@ -328,7 +328,7 @@ bm_loglik_trio_fast = function(a, v, d1, d2, s, t1, t2, sigma2x, sigma2y, areas,
   if (!is(d2, 'gpc.poly')) { # d2 is an internal node
     l2 = sum(dnorm(d2,v,sd=sqrt(t2*c(sigma2x,sigma2y)), log=TRUE))
   } else { # d2 is a tip
-    l2 = log(as.numeric(polyCub.SV(d2, f, mx = v[1], my = v[2], sx = t2*sqrt(sigma2x), sy = t2*sqrt(sigma2y), rho = 0, nGQ=nGQ))) - log(areas[daughter_ids[2]])
+    l2 = log(as.numeric(polyCub.SV(d2, f, mx = v[1], my = v[2], sx = sqrt(sigma2x*t2), sy = sqrt(sigma2y*t2), rho = 0, nGQ=nGQ))) - log(areas[daughter_ids[2]])
     if(is.nan(l2)) l2 = -1e30
     #if (l2==0) l2 = -1e30
   }
