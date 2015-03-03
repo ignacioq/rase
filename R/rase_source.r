@@ -919,7 +919,7 @@ bm_loglik_duo = function(a, v, d, u, t, sx, sy, nGQ) {
 
    	la = sum(dnorm(v, a, sd=sqrt(u*c(sx, sy)), log=TRUE))
 
-  	if (is.null(dim(d))) { 
+  	if (is(d, 'gpc.poly')) { 
     	ld = sum(dnorm(d, v, sd = sqrt((t-u)*c(sx, sy)), log=TRUE))
   	} else { # d1 is a tip
     	ld =  log(as.numeric(polyCub.SV(d, bigauss_pdf, mx = v[1], my = v[2], sx = sqrt(sx*(t-u)), sy = sqrt(sy*(t-u)), rho = 0, nGQ = nGQ))) - 
@@ -942,7 +942,7 @@ bm_loglik_duo = function(a, v, d, u, t, sx, sy, nGQ) {
 
 bm_propose_duo = function(a, d, u, t, sx, sy) {
 
-	if (!is.null(dim(d))) { 
+	if (is(d, 'gpc.poly')) { 
     	d = poly_center(d)
   	}
 
