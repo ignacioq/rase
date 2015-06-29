@@ -3,17 +3,17 @@
 # Basic Brownian motion tree likelihood for any number of independent dimensions
 
 bm_loglik_tree = function(tree, values, par, dimen) {
-	
-  	A = par[1:dimen]  	
-  	Sig = par[(dimen + 1):(dimen*2)] 	
-  	if (any(Sig < 0)) return(-Inf)
-  	
-  	n = length(tree$tip.label)
-  	V = vcv(tree)  	    	
-    
-    res = mapply(function(values, A, Sig) dmvnorm(values, mean = rep(A, n), 
-    	sigma = V*Sig, log = TRUE), values, A, Sig)  	
-  	return(sum(res))
+  
+  A = par[1:dimen]  	
+  Sig = par[(dimen + 1):(dimen*2)] 	
+  if (any(Sig < 0)) return(-Inf)
+  
+  n = length(tree$tip.label)
+  V = vcv(tree)  	    	
+  
+  res = mapply(function(values, A, Sig) dmvnrm_c(t(as.matrix(values)), mean = rep(A, n), sigma = V*Sig, 1), values, A, Sig)
+  
+  return(sum(res))
 }
 
 
