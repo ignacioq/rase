@@ -915,20 +915,23 @@ tree.slice = function(tree, slice) {
 # at time slice u, given ancestor a, descendant d, 
 # separated by time t
 
-bm_loglik_duo = function(a, v, d, u, t, sx, sy) {
+bm_loglik_duo = function(a, v, d, u, t, sx, sy, nGQ) {
 
    	la = sum(dnorm(v, a, sd=sqrt(u*c(sx, sy)), log=TRUE))
 
-  	if (is.null(dim(d))) { 
+  	if (is(d, 'gpc.poly')) { 
     	ld = sum(dnorm(d, v, sd = sqrt((t-u)*c(sx, sy)), log=TRUE))
   	} else { # d1 is a tip
-    	ld = log(as.numeric(polyCub.exact.Gauss(d, v, Sigma=(t-u)*diag(c(sx, sy))))) - 
-            log(polygon_area(d))
+    	ld =  log(as.numeric(polyCub.SV(d, bigauss_pdf, mx = v[1], my = v[2], sx = sqrt(sx*(t-u)), sy = sqrt(sy*(t-u)), rho = 0, nGQ = nGQ))) - 
+        log(area.poly(d))
     	if (is.nan(ld)) ld = -1e30
   	}
 
 	return(la + ld)
 }
+
+
+
 
 #########################
 # propose v values (x,y) at time slice u 
@@ -939,7 +942,7 @@ bm_loglik_duo = function(a, v, d, u, t, sx, sy) {
 
 bm_propose_duo = function(a, d, u, t, sx, sy) {
 
-	if (!is.null(dim(d))) { 
+	if (is(d, 'gpc.poly')) { 
     	d = poly_center(d)
   	}
 
@@ -969,7 +972,7 @@ bm_propose_duo = function(a, d, u, t, sx, sy) {
 # slice of time, with the results
 # from a rase run 
 
-rase.slice = function(tree, slice, res, polygons, params0 = NA, niter=1e3, logevery=10) {
+rase.slice = function(tree, slice, res, polygons, params0 = NA, niter=1e3, logevery=10, nGQ) {
 
     if (!is(tree, "phylo")) {
         stop('tree should be of class phylo')
@@ -1072,11 +1075,11 @@ rase.slice = function(tree, slice, res, polygons, params0 = NA, niter=1e3, logev
 				
 				# likelihood of proposal
 				loglik_prop = bm_loglik_duo(a_value, xy_prop$value, d_value, 
-                                       u, t, sx, sy)
+                                       u, t, sx, sy, nGQ)
           		
           		# likelihood of current node
 				loglik_cur = bm_loglik_duo(a_value, c(bx[iter,i], by[iter,i]), 
-                                      d_value, u, t, sx, sy)
+                                      d_value, u, t, sx, sy, nGQ)
 
 				#logratio
 				logratio = loglik_prop - loglik_cur + xy_prop$logbwdprob - xy_prop$logfwdprob
