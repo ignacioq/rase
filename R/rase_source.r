@@ -11,7 +11,7 @@ bm_loglik_tree = function(tree, values, par, dimen) {
   n = length(tree$tip.label)
   V = vcv(tree)  	    	
   
-  res = mapply(function(values, A, Sig) dmvnrm_c(t(as.matrix(values)), mean = rep(A, n), sigma = V*Sig, 1), values, A, Sig)
+  res = mapply(function(values, A, Sig) dmvnorm(t(as.matrix(values)), mean = rep(A, n), sigma = V*Sig, 1), values, A, Sig)
   
   return(sum(res))
 }

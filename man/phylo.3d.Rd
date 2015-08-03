@@ -7,7 +7,7 @@ Plots a Phylogenic Tree in 3D
 }
 
 \description{
-Plots a phylogenetic tree in 3D using \code{\link[rgl]}. It is mapped in 3D space, where the x/y axes are longitude/latitude, and the z axis is time. It is used as the first plot function to visualize the results of rase with \code{\link{add.dens}} and \code{\link{add.polygons}} (see example).
+Plots a phylogenetic tree in 3D using rgl. It is mapped in 3D space, where the x/y axes are longitude/latitude, and the z axis is time. It is used as the first plot function to visualize the results of rase with \code{\link{add.dens}} and \code{\link{add.polygons}} (see example).
 }
 
 \usage{

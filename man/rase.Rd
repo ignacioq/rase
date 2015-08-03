@@ -18,7 +18,7 @@ sigma2_scale = 0.05, screenlog = TRUE, params0 = NA)
 	 phylogenetic tree of class \code{"phylo"}.
 	}
   \item{polygons}{
-	list of polygons in \code{\link[gpclib]{gpc.poly-class}} format (to transform from \code{\link[sp]{shapefiles}} format use \code{\link{shape.to.rase}}).
+	list of polygons in \code{\link[gpclib]{gpc.poly-class}} format (to transform from \code{\link[sp]{SpatialPolygonsDataFrame}} format use \code{\link{shape.to.rase}}).
 	}
  \item{niter}{
 	number of MCMC iterations. By default \code{niter = 1000}.

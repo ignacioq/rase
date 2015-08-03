@@ -9,7 +9,7 @@
 	For internal use only.
 }
 \usage{
-	bm_loglik_duo(a, v, d, u, t, sx, sy)
+	bm_loglik_duo(a, v, d, u, t, sx, sy, nQG)
 }
 
 \arguments{
@@ -33,6 +33,9 @@
 	}
   \item{sy}{
 	current value for sigma2y.
+	}
+	\item{nGQ}{
+	degree of the one-dimensional Gauss-Legendre quadrature rule (default = 20) as given by \code{\link{polyCub.SV}} in package polyCub.	
 	}
 }
 
