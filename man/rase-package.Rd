@@ -5,7 +5,7 @@
 Range Ancestral State Estimation
 }
 \description{
-The rase package primarily implements the Range Ancestral State Estimation for phylogeography described in Quintero et al. using the \code{\link{rase}} function. It also includes Maximum Likelihood estimation of range ancestral states for n-dimensional data. Visualizing functions in 3D are implemented using the rgl package.
+The rase package primarily implements the Range Ancestral State Estimation for phylogeography described in Quintero et al. using the \code{\link{rase}} or \code{\link{rase_fast}} function. It also includes Maximum Likelihood estimation of range ancestral states for n-dimensional data. Visualizing functions in 3D are implemented using the rgl package.
 }
 \details{
 \tabular{ll}{
@@ -24,7 +24,7 @@ Petr Keil
 Maintainer: Ignacio Quintero <ignacio.quintero@yale.edu>
 }
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. (in press).Evolutionary Reconstruction of Species Ranges Through Space and Time. \emph{Systematic Biology}
 }
 
 \keyword{ package }
@@ -42,32 +42,19 @@ data(rase_data, package = 'rase')
 # the phylogenetic tree
 psophia_tree
 	
-# the Shapefiles for the distributions of the tips of the tree
-require(sp)
-psophia_shp
-
-# check the distribution polygons
-plot(psophia_shp)
-
-# check
-plot(psophia_tree)
-	
-# Transform the shapefile into the format used by rase
-polygons = shape.to.rase(psophia_shp)
+# the GPC polygons of Psophia distribution.
+psophia_poly
 
 # Species names of polygons (in order)
 pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
 
 # name the polygons
-polygons = name.poly(polygons, psophia_tree, poly.names = pnames)
-
-# Accept the gpclib licence:
-gpclibPermit()
+psophia_poly = name.poly(psophia_poly, psophia_tree, poly.names = pnames)
 
 # Run rase
-rase_results = rase(psophia_tree, polygons, niter = 100)
+rase_results = rase_fast(psophia_tree, psophia_poly, niter = 100)
 # Run with higher number of iterations
-# rase_results = rase(psophia_tree, polygons)
+# rase_results = rase_fast(psophia_tree, polygons)
 
 # Check the results
 str(rase_results)
@@ -75,8 +62,8 @@ str(rase_results)
 # post-MCMC handling
 rase_results_for_ggmcmc = post.mcmc(rase_results, burnin=0, thin = 1)
 	
-#plot the densities using ggmcmc
+#plot the densities for dispersal rates using ggmcmc
 require(ggmcmc)
-ggs_density(rase_results_for_ggmcmc)
+ggs_density(rase_results_for_ggmcmc, family = 'sigma')
 }
 }

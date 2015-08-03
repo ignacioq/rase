@@ -60,5 +60,6 @@ phylo.3d(df3, z.scale = 10, pts = TRUE)
 add.polygons(df3)
 
 # add the posterior density at each node of the 3d tree
-add.dens(df3, mcmc, z.scale = 10, col = c(2:8))}
+add.dens(df3, mcmc, z.scale = 10, col = c(2:8))
+}
 }

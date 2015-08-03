@@ -20,7 +20,7 @@
 }
 
 \value{
-	Returns a list of polygons. Each item on the list is comoposed of a matrix with the first column representing the \code{x} coordinates (Longitude) and the second the \code{y} coordinates (Latitude). The first row should be the same as the old row (cyclic polygon).
+	Returns a list of polygons in \code{\link[gpclib]{gpc.poly-class}} format.
 }
 
 \author{

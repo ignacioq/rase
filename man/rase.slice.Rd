@@ -6,11 +6,11 @@
 	Ancestral state estimation at any given time slice. 
 }
 \description{
-	Estimates the geographical location of ancestors (at branches or, much less likely, at nodes) at any given point in time integrating over a \code{\link{rase}} run.  It first uses \code{\link{tree.slice}} to identify the branches that the slice intersects with and then uses MCMC sampling to approximate the posterior distribution of the ancestor locations.
+	Estimates the geographical location of ancestors (at branches or, much less likely, at nodes) at any given point in time integrating over a  or \code{\link{rase_fast}} run.  It first uses \code{\link{tree.slice}} to identify the branches that the slice intersects with and then uses MCMC sampling to approximate the posterior distribution of the ancestor locations.
 }
 \usage{
 	rase.slice(tree, slice, res, polygons, 
-	params0 = NA, niter = 1000, logevery = 10)
+	params0 = NA, niter = 1000, logevery = 10, nGQ = 20)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -24,15 +24,19 @@
 	output from \code{\link{rase}}. Ideally, it should be the post-handled mcmc (i.e., already applied burnin and thinning, if applicable; see \code{\link{post.mcmc}}).
 	}
   \item{polygons}{
-	polygons in the output format of \code{\link{shape.to.rase}}. The same polygons used for the \code{\link{rase}} run should be used. Effectively, it is a list of polygons. Each item on the list is comoposed of a matrix with the first column representing the \code{x} coordinates (Longitude) and the second the \code{y} coordinates (Latitude). The first row should be the same as the old row.}
+	list of polygons in \code{\link[gpclib]{gpc.poly-class}} format. The same polygons used for the \code{\link{rase}} or \code{\link{rase_fast}} run should be used. 
+	}
   \item{params0}{
-	Optional. A vector of initial parameter values in the following order: x ancestors for each branch in the order given by \code{\link{tree.slice}}, followed by y ancestors in the same order.
+	optional. A vector of initial parameter values in the following order: x ancestors for each branch in the order given by \code{\link{tree.slice}}, followed by y ancestors in the same order.
 	}
   \item{niter}{
 	number of MCMC iterations. By default \code{niter = 1000}.
 	}
   \item{logevery}{
-	Iteration cycle to print current iteration. By default \code{logevery = 10}.
+	iteration cycle to print current iteration. By default \code{logevery = 10}.
+	}
+	\item{nGQ}{
+	degree of the one-dimensional Gauss-Legendre quadrature rule (default = 20) as given by \code{\link{polyCub.SV}} in package polyCub. Bigger numbers make the integration more precise, but takes longer.
 	}
 }
 
@@ -40,7 +44,7 @@
 returns a matrix where every column represents one parameter. The first columns (i.e., \code{bX_x}; where X = branch 1, ..., branch i) give the ancestral locations for trait x in the order given by \code{\link{tree.slice}}, followed by the ancestral locations of trait y (i.e., \code{bX_y}).
 }
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time. Systematic biology.
 }
 
 \author{
@@ -78,10 +82,10 @@ slice = 1
 pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
 
 # name the polygons
-polygons = name.poly(psophia_poly, psophia_tree, poly.names = pnames)
+psophia_poly = name.poly(psophia_poly, psophia_tree, poly.names = pnames)
 	
 # run rase slice
-slice_results = rase.slice(psophia_tree, slice = slice, res = mcmc, polygons)
+slice_results = rase.slice(psophia_tree, slice = slice, res = mcmc, psophia_poly)
 	
 #check results
 str(slice_results)

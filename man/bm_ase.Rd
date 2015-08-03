@@ -26,16 +26,16 @@ bm_ase(tree, values, niter = 1e3, logevery = 10,
 	number of MCMC iterations. By default \code{niter = 1000}.
 	}
   \item{logevery}{
-	Iteration cycle to print current iteration. By default \code{logevery = 10}.
+	iteration cycle to print current iteration. By default \code{logevery = 10}.
 	}
   \item{sigma2_scale}{
-	Optional. window proposal for sigma2x & sigma2y.
+	optional. Window proposal for sigma2x & sigma2y.
 	}
   \item{screenlog}{
 	if \code{TRUE} (default), prints current iteration every \code{logevery} to the screen.
 	}
   \item{params0}{
-	Optional. A vector of initial parameter values in the following order: x ancestors, y ancestors, sigma2x and sigma2y. If \code{params0 = NA} (default), an initial Maximum Likelihood optimization using \code{\link[ape]{ace}} provides the starting parameter values.
+	optional. A vector of initial parameter values in the following order: x ancestors, y ancestors, sigma2x and sigma2y. If \code{params0 = NA} (default), an initial Maximum Likelihood optimization using \code{\link[ape]{ace}} provides the starting parameter values.
 	}
 }
 

@@ -17,13 +17,13 @@ name.poly(polygons, tree, poly.names = NA)
 
 \arguments{
   \item{polygons}{
-	polygons in the output format from \code{\link{shape.to.rase}}.
+	a list of polygons in the output format from \code{\link{shape.to.rase}}.
 	}
   \item{tree}{
 	phylogenetic tree of class \code{"phylo"}.
 	}
   \item{poly.names}{
-	Optional. Vector of names for the polygons. They should be in the same order as the polygons. If \code{poly.names = NA}, the function assumes the polygons are already named and only checks if they match the tip labels of the phylogenetic tree.
+	optional. Vector of names for the polygons. They should be in the same order as the polygons. If \code{poly.names = NA}, the function assumes the polygons are already named and only checks if they match the tip labels of the phylogenetic tree.
 	}
 }
 

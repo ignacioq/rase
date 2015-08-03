@@ -7,7 +7,7 @@ Transform Output for 3D plotting
 }
 
 \description{
-Takes the output from a \code{\link{rase}} run, the corresponding phylogenetic tree and tip polygonal distributions to create and object used for the different 3D plotting functions.
+Takes the output from a \code{\link{rase}} or \code{\link{rase_fast}} run, the corresponding phylogenetic tree and tip polygonal distributions to create and object used for the different 3D plotting functions.
 }
 
 \usage{
@@ -16,13 +16,13 @@ data.for.3d(res, tree, polygons)
 
 \arguments{
   \item{res}{
-		the output file from a \code{\link{rase}} run.
+		the output file from a \code{\link{rase}} or \code{\link{rase_fast}} run.
 	}
   \item{tree}{
-		phylogenetic tree of class \code{"phylo"} used as input for \code{\link{rase}}.
+		phylogenetic tree of class \code{"phylo"} used as input for \code{\link{rase}} or \code{\link{rase_fast}}.
 	}
   \item{polygons}{
-		polygons object from \code{\link{shape.to.rase}} used as input for \code{\link{rase}}
+		list of polygons in \code{\link[gpclib]{gpc.poly-class}} format used as input for \code{\link{rase}} or \code{\link{rase_fast}}.
 	}
 }
 
@@ -38,7 +38,7 @@ Petr Keil, Ignacio Quintero
 }
 
 \seealso{
-\code{\link{phylo.3d}}, \code{\link{add.dens}}, \code{\link{add.polygons}}, \code{\link{rase}}
+\code{\link{phylo.3d}}, \code{\link{add.dens}}, \code{\link{add.polygons}}, \code{\link{rase}}, \code{\link{rase_fast}}
 }
 
 \examples{
@@ -59,6 +59,6 @@ phylo.3d(df3, z.scale = 10, pts = TRUE)
 # add the polygons representing the tip distributions
 add.polygons(df3)
 
-# add the posterior density at each node of the 3d tree
+# add the posterior density at each node of the 3D tree
 add.dens(df3, mcmc, z.scale = 10, col = c(2:8))}
 }

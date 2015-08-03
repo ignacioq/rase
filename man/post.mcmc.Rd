@@ -48,13 +48,14 @@ data(rase_data, package = 'rase')
 	
 \dontrun{
 # Explore the data
-str(mcmc_FULL)
+str(mcmc)
 
-# discard the first 2000 iterations as burnin and keep every 10th iteration.
-gg_dat = post.mcmc(mcmc_FULL, burnin=2000, thin = 10, as.ggmcmc = TRUE)
+# discard the first 200 iterations as burnin and keep every 10th iteration.
+gg_dat = post.mcmc(mcmc, burnin=200, thin = 10, as.ggmcmc = TRUE)
 
-#plot with ggmcmc
-library(ggmcmc)
-ggs_traceplot(gg_dat)}
+# traceplot using ggmcmc for dispersal rates (sigma).
+require(ggmcmc)
+ggs_traceplot(gg_dat, family = 'sigma')
+}
 }
 

@@ -816,27 +816,7 @@ rase_fast = function(tree, polygons, niter=1e3, logevery=10, sigma2_scale=0.05, 
 }
 
 
-#########################
-# polygon area (unsigned)
-# poly is a matrix with 2 columns
-# the first and last rows of the matrix are equal
 
-polygon_area = function(poly) {
-
-	x = poly[,1]
-  	y = poly[,2]
-
-	n = length(x)
-  	if (length(y) != n) stop("length of x and y must be equal")
-  	if (x[1]!=x[n] || y[1]!=y[n]) stop("poly must be a complete path")
-
-  	s = 0
-  	for (i in 1:(n-1)) {
-    	s = s + x[i]*y[i+1] - x[i+1]*y[i]
-  	}
-  
-  	return(abs(s/2))
-}
 
 #########################
 # polygon center
@@ -919,7 +899,7 @@ bm_loglik_duo = function(a, v, d, u, t, sx, sy, nGQ) {
 
    	la = sum(dnorm(v, a, sd=sqrt(u*c(sx, sy)), log=TRUE))
 
-  	if (is(d, 'gpc.poly')) { 
+  	if (!is(d, 'gpc.poly')) { 
     	ld = sum(dnorm(d, v, sd = sqrt((t-u)*c(sx, sy)), log=TRUE))
   	} else { # d1 is a tip
     	ld =  log(as.numeric(polyCub.SV(d, bigauss_pdf, mx = v[1], my = v[2], sx = sqrt(sx*(t-u)), sy = sqrt(sy*(t-u)), rho = 0, nGQ = nGQ))) - 
@@ -972,7 +952,7 @@ bm_propose_duo = function(a, d, u, t, sx, sy) {
 # slice of time, with the results
 # from a rase run 
 
-rase.slice = function(tree, slice, res, polygons, params0 = NA, niter=1e3, logevery=10, nGQ) {
+rase.slice = function(tree, slice, res, polygons, params0 = NA, niter=1e3, logevery=10, nGQ = 20) {
 
     if (!is(tree, "phylo")) {
         stop('tree should be of class phylo')
@@ -1117,6 +1097,10 @@ rase.slice = function(tree, slice, res, polygons, params0 = NA, niter=1e3, logev
 # Transform shapefiles from 'maptools' package for use in rase
 
 shape.to.rase = function(shape_poly) {
+	if (!is(shape_poly, 'SpatialPolygonsDataFrame')) {
+		stop('Error: object is not of class SpatialPolygonsDataFrame')
+	}
+	
 	pols = list()
 	for (i in 1:length(shape_poly)) {		
     	fp1 = shape_poly[i,]
@@ -1147,7 +1131,7 @@ name.poly = function(polygons, tree, poly.names = NA) {
 	if (any(is.na(match(tips, nam)))) stop('tip labels and polygon names do not match')
 			
 	if (all(match(tips, nam) == 1:length(polygons))) {
-		cat('tip labels and polygon names match and are in the same order') 
+		cat('tip labels and polygon names match and are in the same order \n') 
 	} else {	
 		polygons = polygons[match(tips, nam)]	
 	}
@@ -1241,8 +1225,9 @@ add.polygons = function(df3, axes = 2, ...) {
     
 	for (j in 1:length(df3$pol)) {
     	poli <- df3$pol[[j]]
-      	polygon3d(x=poli[,1], y=poli[,2], 
-                z=rep(0, times=nrow(poli)), 
+    	cords = get.pts(poli)
+      	polygon3d(x=cords[[1]]$x, y=cords[[1]]$y, 
+                z=rep(0, times=length(cords[[1]]$x)), 
                 ...)
     }
 	if (axes == 0) print('No axes displayed')
@@ -1308,14 +1293,13 @@ random_rase3d = function(mean_x = 0, mean_y = 0,
 	  	xpts = rnorm(npts, x_locs[i], sd=runif(1, x_ext))
 	  	ypts = rnorm(npts, y_locs[i], sd=runif(1, y_ext))
 	  	pts = matrix(c(xpts, ypts),nrow=npts)
-	  	hpts = chull(pts)
-	  	hpts = c(hpts, hpts[1])
-	  	polygons[[i]] = matrix(c(xpts[hpts], ypts[hpts]), nrow=length(hpts))
+	  	hpts =as(pts[chull(pts), ], "gpc.poly")
+	  	polygons[[i]] = hpts
 	}
 	
 	polygons = name.poly(polygons, tree, poly.names = tree$tip.label)
 	
-	res = rase(tree, polygons, niter = niter, logevery = logevery)
+	res = rase_fast(tree, polygons, niter = niter, logevery = logevery)
 
 	if (plot.3d == TRUE) {
  		df3 = data.for.3d(res, tree, polygons)
