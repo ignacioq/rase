@@ -7,7 +7,7 @@ Plot the Distributions for the Phylogenetic Tips in 3D
 }
 
 \description{
-Plots the polygon surfaces of the tips of the phylogeny. It is mapped in 3D space, where the x/y axes are longitude/latitude, and the z axis is time. Although it works by itself, the polygons are intended to overlay an existing \code{\link{phylo.3d}} plot (see example).
+Plots the polygon surfaces of the tips of the phylogeny.  It is mapped in 3D space, where the x/y axes are longitude/latitude, and the z axis is time.  Although it works by itself, the polygons are intended to overlay an existing \code{\link{phylo.3d}} plot (see example).
 }
 
 \usage{
@@ -27,11 +27,11 @@ add.polygons(df3, axes = 2, ...)
 }
 
 \details{
-The polygons do not have to be non-overlapping, however, when they do, they 'flicker'.
+The polygons do not have to be non-overlapping, however, when they do, they \dQuote{flicker}.
 }
 
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}.
 }
 
 \author{
@@ -46,11 +46,13 @@ Petr Keil
 # load the mcmc results from rase run, polygons and tree
 data(rase_data, package = 'rase')
 
-pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
-polygons = name.poly(psophia_poly, psophia_tree, poly.names = pnames)
+pnames <- c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
+        'obscura', 'crepitans', 'ochroptera', 'napensis')
+        
+polygons <- name.poly(psophia_poly, psophia_tree, poly.names = pnames)
 
 # transform the data for 3d plotting
-df3 = data.for.3d(mcmc, psophia_tree, polygons)
+df3 <- data.for.3d(mcmc, psophia_tree, polygons)
 
 \dontrun{
 # plot the tree in 3D

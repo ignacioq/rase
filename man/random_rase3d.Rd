@@ -7,7 +7,7 @@
 }
 
 \description{
-	Generates a random tree and random tip poygons using a convex hull. It runs rase and then plots the result (optional). It is mostly intended for illustration/ validation purposes.
+	Generates a random tree and random tip poygons using a convex hull.  It runs rase and then plots the result (optional).  It is mostly intended for illustration/ validation purposes.
 }
 
 \usage{
@@ -69,7 +69,7 @@ returns the output of \code{\link{rase}}.
 }
 
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}.
 }
 
 \author{

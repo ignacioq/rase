@@ -41,3 +41,5 @@ Forrest Crawford, Ignacio Quintero
 \seealso{
 \code{\link{rase_fast}}
 }
+
+\keyword{internal}

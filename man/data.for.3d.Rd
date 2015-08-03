@@ -3,7 +3,7 @@
 \alias{data.for.3d}
 
 \title{
-Transform Output for 3D plotting
+Transform Output for 3D Plotting
 }
 
 \description{
@@ -30,7 +30,7 @@ data.for.3d(res, tree, polygons)
 Returns an object required by the plotting functions \code{\link{phylo.3d}}, \code{\link{add.dens}} and \code{\link{add.polygons}}. It is efectively a list with the following elements: \code{$xyz} containing the 3D coordinates, \code{$edge} containing the \code{tree$edge} and \code{$pol} containing the polygons.
 }
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}.
 }
 
 \author{

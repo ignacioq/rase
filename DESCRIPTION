@@ -3,7 +3,7 @@ Title: Range Ancestral State Estimation
 Version: 0.2-2
 Date: 2015-03-08
 Authors@R: c(person("Ignacio", "Quintero", role = c("aut", "cre"), email = "ignacio.quintero@yale.edu"),
-			person("Forrest", "Crawford", role = "aut", email = "forrest.crawford@yale.edu"),
+			person("Forrest W.", "Crawford", role = "aut", email = "forrest.crawford@yale.edu"),
 			person("Petr", "Keil", role = "aut", email = "petrkeil@seznam.cz"))
 Depends: R (>= 2.14.0), ape (>= 3.1-0), phytools (>= 0.4-00), mvtnorm (>= 1.0-0), polyCub (>= 0.5-0), rgl (>= 0.93.1098), sm (>= 2.2-0), gpclib (>= 1.4-0)
 Suggests: sp, ggmcmc

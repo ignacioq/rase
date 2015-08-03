@@ -7,7 +7,7 @@
 }
 
 \description{
-	Estimates Most Recent Common Ancestor (MRCA) states and the Brownian rate according to a Brownian Motion model of trait evolution using Maximum Likelihood. It can be used for several dimensions simultaneously. For 1-dimensional traits, we recommend the more stable \code{\link[ape]{ace}} function.
+	Estimates Most Recent Common Ancestor (MRCA) states and the Brownian rate according to a Brownian Motion model of trait evolution using Maximum Likelihood.  It can be used for several dimensions simultaneously.  For 1-dimensional traits, we recommend the more stable \code{\link[ape]{ace}} function.
 }
 
 \usage{
@@ -44,7 +44,7 @@ Returns a list with the following components:
 }
 
 \references{
-	Schluter, Dolph, et al. "Likelihood of ancestor states in adaptive radiation." Evolution (1997): 1699-1711.
+	Schluter, D., et al. 1997 Likelihood of ancestor states in adaptive radiation. \emph{Evolution}: 1699-1711.
 }
 \author{
 Ignacio Quintero

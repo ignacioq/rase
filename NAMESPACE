@@ -14,7 +14,6 @@ export(add.dens,
 		shape.to.rase,
 		tree.slice
 )
-useDynLib(rase)
 importFrom(ape, ace, vcv, branching.times, is.binary.tree)
 importFrom(mvtnorm, dmvnorm, pmvnorm, rmvnorm)
 importFrom(phytools, pbtree)

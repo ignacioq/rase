@@ -7,7 +7,7 @@ Bayesian Ancestral State Estimation with Points
 }
 
 \description{
-Performs a bayesian two-dimensional ancestral state estimation with single values as input (contrast with \code{\link{rase}}) according to a Brownian Motion model of trait evolution (or dispersal for phylogeography). It uses Gibbs sampling to approximate the posterior distribution.
+Performs a bayesian two-dimensional ancestral state estimation with single values as input (contrast with \code{\link{rase}}) according to a Brownian Motion model of trait evolution (or dispersal for phylogeography).  It uses Gibbs sampling to approximate the posterior distribution.
 }
 
 \usage{
@@ -45,7 +45,7 @@ returns a matrix where every column represents one parameter. The first columns 
 }
 
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}.
 }
 
 \author{

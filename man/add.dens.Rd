@@ -37,7 +37,7 @@ add.dens(df3, res, nlevels = 20, z.scale = 1, col = c(1:nnode), ...)
 }
 
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F.W. Evolutionary Reconstruction of Species Ranges Through Space and Time
 }
 
 \author{

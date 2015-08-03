@@ -3,7 +3,7 @@
 \alias{post.mcmc}
 
 \title{
-Post-MCMC handling
+Post-MCMC Handling
 }
 
 \description{

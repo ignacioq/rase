@@ -7,7 +7,7 @@
 }
 
 \description{
-	Estimates Most Recent Common Ancestor (MRCA) states and the Brownian rate according to a Brownian Motion model of trait evolution using Maximum Likelihood. The input for each trait is a one-dimensional range for every tip of the phylogenetic tree (e.g., if your trait is weight, instead of a 1 value input for each tip, usually the average, you can input the whole range of weights for that tip). It can be used for several dimensions simultaneously. 
+	Estimates Most Recent Common Ancestor (MRCA) states and the Brownian rate according to a Brownian Motion model of trait evolution using Maximum Likelihood.  The input for each trait is a one-dimensional range for every tip of the phylogenetic tree (e.g., if your trait is weight, instead of a 1 value input for each tip, usually the average, you can input the whole range of weights for that tip).  It can be used for several dimensions simultaneously. 
 }
 
 \usage{
@@ -49,7 +49,7 @@ Returns a list with the following components:
 
 
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. 2014. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}.
 }
 \author{
 Ignacio Quintero

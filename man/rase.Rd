@@ -6,7 +6,7 @@
 Bayesian Range Ancestral State Estimation of Polygons
 }
 \description{
-Performs a bayesian two-dimensional ancestral state estimation with polygonal distributions as input (contrast with \code{\link{bm_ase}}) according to a Brownian Motion model of trait evolution (or dispersal for phylogeography). It uses Gibbs sampling to approximate the posterior distribution. See reference at the end for more detailed information.
+Performs a bayesian two-dimensional ancestral state estimation with polygonal distributions as input (contrast with \code{\link{bm_ase}}) according to a Brownian Motion model of trait evolution (or dispersal for phylogeography).  It uses Gibbs sampling to approximate the posterior distribution. See reference at the end for more detailed information.
 }
 \usage{
 rase(tree, polygons, niter = 1000, logevery = 10, 
@@ -42,7 +42,7 @@ returns a matrix where every column represents one parameter. The first columns 
 }
 
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}.
 }
 
 \author{

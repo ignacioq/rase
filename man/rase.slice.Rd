@@ -3,10 +3,10 @@
 \alias{rase.slice}
 
 \title{
-	Ancestral state estimation at any given time slice. 
+	Ancestral State Estimation At Any Given Time Slice 
 }
 \description{
-	Estimates the geographical location of ancestors (at branches or, much less likely, at nodes) at any given point in time integrating over a  or \code{\link{rase_fast}} run.  It first uses \code{\link{tree.slice}} to identify the branches that the slice intersects with and then uses MCMC sampling to approximate the posterior distribution of the ancestor locations.
+	Estimates the geographical location of ancestors (at branches or, much less likely, at nodes) at any given point in time integrating over a  \code{\link{rase}} or \code{\link{rase_fast}} run.  It first uses \code{\link{tree.slice}} to identify the branches that the slice intersects with and then uses MCMC sampling to approximate the posterior distribution of the ancestor locations.
 }
 \usage{
 	rase.slice(tree, slice, res, polygons, 
@@ -41,10 +41,10 @@
 }
 
 \value{
-returns a matrix where every column represents one parameter. The first columns (i.e., \code{bX_x}; where X = branch 1, ..., branch i) give the ancestral locations for trait x in the order given by \code{\link{tree.slice}}, followed by the ancestral locations of trait y (i.e., \code{bX_y}).
+returns a matrix where every column represents one parameter.  The first columns (i.e., \code{bX_x}; where X = branch 1, ..., branch i) give the ancestral locations for trait x in the order given by \code{\link{tree.slice}}, followed by the ancestral locations of trait y (i.e., \code{bX_y}).
 }
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time. Systematic biology.
+Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}.
 }
 
 \author{
@@ -79,7 +79,8 @@ str(psophia_poly)
 slice = 1
 
 # Species names of polygons (in order)
-pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
+pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
+  'obscura', 'crepitans', 'ochroptera', 'napensis')
 
 # name the polygons
 psophia_poly = name.poly(psophia_poly, psophia_tree, poly.names = pnames)

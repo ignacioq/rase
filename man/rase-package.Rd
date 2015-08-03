@@ -5,7 +5,7 @@
 Range Ancestral State Estimation
 }
 \description{
-The rase package primarily implements the Range Ancestral State Estimation for phylogeography described in Quintero et al. using the \code{\link{rase}} or \code{\link{rase_fast}} function. It also includes Maximum Likelihood estimation of range ancestral states for n-dimensional data. Visualizing functions in 3D are implemented using the rgl package.
+The rase package primarily implements the Range Ancestral State Estimation for phylogeography described in Quintero et al. using the \code{\link{rase}} or \code{\link{rase_fast}} function.  It also includes Maximum Likelihood estimation of range ancestral states for n-dimensional data.  Visualizing functions in 3D are implemented using the rgl package.
 }
 \details{
 \tabular{ll}{
@@ -24,7 +24,7 @@ Petr Keil
 Maintainer: Ignacio Quintero <ignacio.quintero@yale.edu>
 }
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. (in press).Evolutionary Reconstruction of Species Ranges Through Space and Time. \emph{Systematic Biology}
+Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}.
 }
 
 \keyword{ package }
@@ -46,10 +46,12 @@ psophia_tree
 psophia_poly
 
 # Species names of polygons (in order)
-pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
+pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
+  'obscura', 'crepitans', 'ochroptera', 'napensis')
 
 # name the polygons
-psophia_poly = name.poly(psophia_poly, psophia_tree, poly.names = pnames)
+psophia_poly = name.poly(psophia_poly, psophia_tree, 
+  poly.names = pnames)
 
 # Run rase
 rase_results = rase_fast(psophia_tree, psophia_poly, niter = 100)

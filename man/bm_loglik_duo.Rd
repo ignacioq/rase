@@ -9,7 +9,7 @@
 	For internal use only.
 }
 \usage{
-	bm_loglik_duo(a, v, d, u, t, sx, sy, nQG)
+	bm_loglik_duo(a, v, d, u, t, sx, sy, nGQ)
 }
 
 \arguments{
@@ -52,3 +52,5 @@ Ignacio Quintero, Forrest Crawford
 \seealso{
 \code{\link{rase.slice}}
 }
+
+\keyword{internal}

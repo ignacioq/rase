@@ -7,7 +7,7 @@ Plots a Phylogenic Tree in 3D
 }
 
 \description{
-Plots a phylogenetic tree in 3D using rgl. It is mapped in 3D space, where the x/y axes are longitude/latitude, and the z axis is time. It is used as the first plot function to visualize the results of rase with \code{\link{add.dens}} and \code{\link{add.polygons}} (see example).
+Plots a phylogenetic tree in 3D using rgl.  It is mapped in 3D space, where the x/y axes are longitude/latitude, and the z axis is time.  It is used as the first plot function to visualize the results of rase with \code{\link{add.dens}} and \code{\link{add.polygons}} (see example).
 }
 
 \usage{
@@ -19,7 +19,7 @@ phylo.3d(df3, z.scale = 1, pts = TRUE, ...)
 	an object from \code{\link{data.for.3d}}.
 	}
   \item{z.scale}{
-the scale of the time axis (vertical axis). Effectively, the time variable is multiplied by this number. It is very useful for visualization purposes. It should correspond with the z.scale argument in \code{\link{add.dens}}.
+the scale of the time axis (vertical axis).  Effectively, the time variable is multiplied by this number.  It is very useful for visualization purposes.  It should correspond with the z.scale argument in \code{\link{add.dens}}.
 	}
   \item{pts}{
 if \code{TRUE}, points in the verices are plotted.
@@ -30,7 +30,7 @@ if \code{TRUE}, points in the verices are plotted.
 }
 
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}.
 }
 
 \author{

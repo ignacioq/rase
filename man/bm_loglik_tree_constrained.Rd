@@ -46,3 +46,5 @@ Ignacio Quintero
 \seealso{
 \code{\link{ranges.like.bm}}
 }
+
+\keyword{internal}

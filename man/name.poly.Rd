@@ -3,11 +3,11 @@
 \alias{name.poly}
 
 \title{
-Name & Order Polygons according to the Phylogeny
+Name & Order Polygons According to the Phylogeny
 }
 
 \description{
-Names polygons and orders them according to the phylogenetic tree. If they match the tree perfectly, the following message should appear: "\code{tip labels and polygon names match and 
+Names polygons and orders them according to the phylogenetic tree.  If they match the tree perfectly, the following message should appear: "\code{tip labels and polygon names match and 
 	are in the same order}".
 }
 
@@ -50,7 +50,8 @@ str(psophia_poly)
 psophia_tree
 
 # Species names of polygons (in order)
-pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
+pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
+  'obscura', 'crepitans', 'ochroptera', 'napensis')
 
 # check tree's' tip labels
 psophia_tree$tip.label

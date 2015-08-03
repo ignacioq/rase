@@ -3,7 +3,7 @@
 \alias{tree.slice}
 
 \title{
-	Identify tree branches that intersect with a given time slice.
+	Identify Tree Branches That Intersect With a Given Time Slice.
 }
 \description{
 	Identifies the branches in a phylogenetic tree that the slice intersects with. It is used by \code{\link{rase.slice}}.

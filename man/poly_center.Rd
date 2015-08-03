@@ -31,3 +31,4 @@
 	\code{\link{rase}}
 }
 
+\keyword{internal}

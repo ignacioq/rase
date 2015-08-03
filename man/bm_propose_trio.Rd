@@ -56,3 +56,5 @@ Forrest Crawford
 \seealso{
 \code{\link{rase}}
 }
+
+\keyword{internal}

@@ -44,3 +44,5 @@ Ignacio Quintero
 \seealso{
 \code{\link{point.like.bm}}
 }
+
+\keyword{internal}
