@@ -5,7 +5,7 @@
 Range Ancestral State Estimation
 }
 \description{
-The rase package primarily implements the Range Ancestral State Estimation for phylogeography described in Quintero et al. using the \code{\link{rase}} or \code{\link{rase_fast}} function.  It also includes Maximum Likelihood estimation of range ancestral states for n-dimensional data.  Visualizing functions in 3D are implemented using the rgl package.
+The rase package primarily implements the Range Ancestral State Estimation for phylogeography described in Quintero et al. (2015) using the \code{\link{rase}} or \code{\link{rase_fast}} function.  It also includes Maximum Likelihood estimation of range ancestral states for n-dimensional data.  Visualizing functions in 3D are implemented using the rgl package.
 }
 \details{
 \tabular{ll}{
@@ -24,7 +24,7 @@ Petr Keil
 Maintainer: Ignacio Quintero <ignacio.quintero@yale.edu>
 }
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}.
+Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}.doi: 10.1093/sysbio/syv057
 }
 
 \keyword{ package }

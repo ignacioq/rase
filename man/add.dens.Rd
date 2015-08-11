@@ -37,7 +37,7 @@ add.dens(df3, res, nlevels = 20, z.scale = 1, col = c(1:nnode), ...)
 }
 
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F.W. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}. doi: 10.1093/sysbio/syv057
 }
 
 \author{
@@ -52,7 +52,8 @@ Ignacio Quintero
 # load the mcmc results from rase run, polygons and tree
 data(rase_data, package = 'rase')
 
-pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
+pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
+'obscura', 'crepitans', 'ochroptera', 'napensis')
 psophia_poly = name.poly(psophia_poly, psophia_tree, poly.names = pnames)
 
 # transform the data for 3d plotting

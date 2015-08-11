@@ -30,7 +30,7 @@ data.for.3d(res, tree, polygons)
 Returns an object required by the plotting functions \code{\link{phylo.3d}}, \code{\link{add.dens}} and \code{\link{add.polygons}}. It is efectively a list with the following elements: \code{$xyz} containing the 3D coordinates, \code{$edge} containing the \code{tree$edge} and \code{$pol} containing the polygons.
 }
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}.
+Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}. doi: 10.1093/sysbio/syv057
 }
 
 \author{
@@ -45,7 +45,8 @@ Petr Keil, Ignacio Quintero
 # load the mcmc results from rase run, polygons and tree
 data(rase_data, package = 'rase')
 
-pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
+pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
+'obscura', 'crepitans', 'ochroptera', 'napensis')
 polygons = name.poly(psophia_poly, psophia_tree, poly.names = pnames)
 
 # transform the data for 3d plotting

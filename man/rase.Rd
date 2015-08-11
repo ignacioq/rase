@@ -42,7 +42,7 @@ returns a matrix where every column represents one parameter. The first columns 
 }
 
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}.
+Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}. doi: 10.1093/sysbio/syv057
 }
 
 \author{
@@ -70,7 +70,8 @@ psophia_tree
 psophia_poly
 
 # Species names of polygons (in order)
-pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
+pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
+'obscura', 'crepitans', 'ochroptera', 'napensis')
 
 # name the polygons
 psophia_poly = name.poly(psophia_poly, psophia_tree, poly.names = pnames)

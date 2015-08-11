@@ -30,7 +30,7 @@ if \code{TRUE}, points in the verices are plotted.
 }
 
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}.
+Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}. doi: 10.1093/sysbio/syv057
 }
 
 \author{
@@ -45,7 +45,8 @@ Petr Keil
 # load the mcmc results from rase run, polygons and tree
 data(rase_data, package = 'rase')
 
-pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 'obscura', 'crepitans', 'ochroptera', 'napensis')
+pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
+'obscura', 'crepitans', 'ochroptera', 'napensis')
 polygons = name.poly(psophia_poly, psophia_tree, poly.names = pnames)
 
 # transform the data for 3d plotting
