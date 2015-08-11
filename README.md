@@ -31,4 +31,4 @@ Ignacio Quintero <ignacio.quintero@yale.edu>,
 Forrest Crawford <forrest.crawford@yale.edu>,
 
 ### Reference ###
-Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}. doi: 10.1093/sysbio/syv057
+Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. *Systematic Biology*. doi: 10.1093/sysbio/syv057
