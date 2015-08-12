@@ -26,7 +26,6 @@ importFrom(polyCub, polyCub.SV)
 importFrom(rgl,points3d, lines3d, polygon3d, axes3d, title3d)
 importFrom(sm,sm.density)
 importFrom(spatstat, area, owin)
-#importFrom(grDevices, chull, contourLines)
-#importFrom(methods, as, is, new)
-#importFrom(stats, dnorm, nlm, rnorm, runif, sd,
-#            weighted.mean)
+importFrom(grDevices, chull, contourLines)
+importFrom(stats, dnorm, nlm, rnorm, runif, sd,
+            weighted.mean)
