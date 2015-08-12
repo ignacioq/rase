@@ -1,3 +1,5 @@
+### Exports
+
 export(add.dens,
 		add.polygons,
 		bm_ase,
@@ -9,16 +11,22 @@ export(add.dens,
 		random_rase3d,
 		ranges.like.bm,
 		rase,
-		rase_fast,
+		rase,
 		rase.slice,
 		shape.to.rase,
 		tree.slice
 )
+
+### Imports
+
 importFrom(ape, ace, vcv, branching.times, is.binary.tree)
 importFrom(mvtnorm, dmvnorm, pmvnorm, rmvnorm)
 importFrom(phytools, pbtree)
 importFrom(polyCub, polyCub.SV)
-importFrom(polyCub, polyCub.exact.Gauss)
 importFrom(rgl,points3d, lines3d, polygon3d, axes3d, title3d)
 importFrom(sm,sm.density)
-importFrom(gpclib, tristrip, area.poly, get.pts)
+importFrom(spatstat, area, owin)
+#importFrom(grDevices, chull, contourLines)
+#importFrom(methods, as, is, new)
+#importFrom(stats, dnorm, nlm, rnorm, runif, sd,
+#            weighted.mean)

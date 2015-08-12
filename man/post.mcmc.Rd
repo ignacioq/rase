@@ -7,7 +7,7 @@ Post-MCMC Handling
 }
 
 \description{
-Takes the result from an mcmc run (e.g., output from \code{\link{rase}}) and applies a burnin and a thinning. Optionally it can be transformed into a \code{\link[ggmcmc]{ggs}} object that the ggmcmc package can use (for mcmc visualization).
+Takes the result from an mcmc run (e.g., output from \code{\link{rase}}) and applies a burnin and a thinning.  Optionally it can be transformed into a \code{\link[ggmcmc]{ggs}} object that the ggmcmc package can use (for mcmc visualization).
 }
 
 \usage{
@@ -50,12 +50,13 @@ data(rase_data, package = 'rase')
 # Explore the data
 str(mcmc)
 
-# discard the first 200 iterations as burnin and keep every 10th iteration.
-gg_dat = post.mcmc(mcmc, burnin=200, thin = 10, as.ggmcmc = TRUE)
+# discard the first 200 iterations as burnin 
+#and keep every 10th iteration.
+gg_dat <- post.mcmc(mcmc, burnin=200, thin = 10, as.ggmcmc = TRUE)
 
-# traceplot using ggmcmc for dispersal rates (sigma).
+# density using ggmcmc for dispersal rates (sigma).
 require(ggmcmc)
-ggs_traceplot(gg_dat, family = 'sigma')
+ggs_density(gg_dat, family = 'sigma')
 }
 }
 

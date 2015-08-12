@@ -151,45 +151,7 @@ bm_est_sigma2 = function(tree, values, params) {
 #########################
 # Loglik for ancestors using polygons
 
-bm_loglik_ancestors_poly = function(tree, polygons, params) {	 				
-
-    ntaxa = length(tree$tip.label)
-    nnode = tree$Nnode
-    
-    ax = params[1:nnode]
-    ay = params[(nnode+1):(2*nnode)]
-    sigma2x = params[2*nnode+1]
-    sigma2y = params[2*nnode+2]
-    
-    if(sigma2x<0 || sigma2y<0) return(-Inf)
-    
-    dat = cbind(tree$edge, tree$edge.length)
-    logliks = apply(dat, 1, function(r) {
-        ax1 = ax[r[1]-ntaxa]
-        ay1 = ay[r[1]-ntaxa]
-        if(r[2]<= ntaxa) {
-            v = polyCub.exact.Gauss(polygons[[r[2]]], c(ax1,ay1), Sigma=r[3]*diag(c(sigma2x,sigma2y)))
-            logv = ifelse(is.nan(v), -1e30, log(v)) 
-            loglik = logv - log(area.poly(polygons[[r[2]]]))
-            if(is.nan(loglik)) loglik = -1e30
-                                        #cat("a =",c(ax1,ay1), "\n")
-                                        #cat("r[3] =",r[3], "\n")
-                                        #cat("sigmas =", c(sigma2x,sigma2y), "\n")
-                                        #cat("polycub loglik =", loglik, "\n")
-        } else {
-            loglik = sum(dnorm(c(ax[r[1]-ntaxa], ay[r[1]-ntaxa]), c(ax1, ay1), 
-                sd=sqrt(r[3]*c(sigma2x,sigma2y)), log=TRUE))
-        }
-        return(loglik)
-    })
-    
-    return(sum(logliks))
-}
-
-#########################
-# Loglik for ancestors using polygons
-
-bm_loglik_ancestors_poly_fast = function(tree, polygons, params, nGQ) {   				
+bm_loglik_ancestors_poly = function(tree, polygons, params, nGQ) {   				
 
   ntaxa = length(tree$tip.label)
   nnode = tree$Nnode
@@ -208,7 +170,7 @@ bm_loglik_ancestors_poly_fast = function(tree, polygons, params, nGQ) {
     if(r[2]<= ntaxa) {
       v = polyCub.SV(polygons[[r[2]]], bigauss_pdf, mx = ax1, my = ay1, sx = sqrt(sigma2x*r[3]), sy = sqrt(sigma2y*r[3]), rho = 0, nGQ=nGQ)    
       logv = ifelse(is.nan(v), -1e30, log(v)) 
-      loglik = logv - log(area.poly(polygons[[r[2]]]))
+      loglik = logv - log(area(polygons[[r[2]]]))
       if(is.nan(loglik)) loglik = -1e30
       #cat("a =",c(ax1,ay1), "\n")
       #cat("r[3] =",r[3], "\n")
@@ -233,11 +195,11 @@ bm_loglik_ancestors_poly_fast = function(tree, polygons, params, nGQ) {
 
 bm_propose_trio = function(a, d1, d2, s,t1, t2, sigma2x, sigma2y) {
 
-	if (is(d1, 'gpc.poly')) { 
+	if (is(d1, 'owin')) { 
     	d1 = poly_center(d1)
   	}
 
-  	if (is(d2, 'gpc.poly')) { 
+  	if (is(d2, 'owin')) { 
     	d2 = poly_center(d2)
   	}
 
@@ -271,44 +233,12 @@ bm_propose_trio = function(a, d1, d2, s,t1, t2, sigma2x, sigma2y) {
   	return(list(value=c(x,y), logfwdprob=logfwdprob, logbwdprob=logbwdprob))
 }
 
-
-#########################
-# compute the log-likelihood of a trio
-# d1 and/or d2 can be shapes OR points
-
-bm_loglik_trio = function(a, v, d1, d2, s, t1, t2, sigma2x, sigma2y, areas, daughter_ids) {
-
-    if (is.na(a[1])) {
-    	la = 0
-    } else {
-    	la = sum(dnorm(v, a, sd=sqrt(s*c(sigma2x, sigma2y)), log=TRUE))
-    }
-    
-    if (!is(d1, 'gpc.poly')) { # d1 is an internal node
-    	l1 = sum(dnorm(d1, v, sd = sqrt(t1*c(sigma2x, sigma2y)), log=TRUE))
-    } else { # d1 is a tip
-    	l1 = log(as.numeric(polyCub.exact.Gauss(d1, v, Sigma=t1*diag(c(sigma2x, sigma2y))))) - 
-            log(areas[daughter_ids[1]])
-    	if (is.nan(l1)) l1 = -1e30
-    }
-    
-    if (!is(d2, 'gpc.poly')) { # d2 is an internal node
-    	l2 = sum(dnorm(d2,v,sd=sqrt(t2*c(sigma2x,sigma2y)), log=TRUE))
-    } else { # d2 is a tip
-    	l2 = log(as.numeric(polyCub.exact.Gauss(d2, v, Sigma=t2*diag(c(sigma2x,sigma2y))))) - 
-            log(areas[daughter_ids[2]])
-    	if(is.nan(l2)) l2 = -1e30
-    }
-    
-    return(la + l1 + l2)
-}
-
 #########################
 # compute the log-likelihood of a trio
 # using fast integration
 # d1 and/or d2 can be shapes OR points
 
-bm_loglik_trio_fast = function(a, v, d1, d2, s, t1, t2, sigma2x, sigma2y, areas, daughter_ids, nGQ) {
+bm_loglik_trio = function(a, v, d1, d2, s, t1, t2, sigma2x, sigma2y, areas, daughter_ids, nGQ) {
   
   if (is.na(a[1])) {
     la = 0
@@ -316,7 +246,7 @@ bm_loglik_trio_fast = function(a, v, d1, d2, s, t1, t2, sigma2x, sigma2y, areas,
     la = sum(dnorm(v, a, sd=sqrt(s*c(sigma2x, sigma2y)), log=TRUE))
   }
   
-  if (!is(d1, 'gpc.poly')) { # d1 is an internal node
+  if (!is(d1, 'owin')) { # d1 is an internal node
     l1 = sum(dnorm(d1, v, sd = sqrt(t1*c(sigma2x, sigma2y)), log=TRUE))
   } else { # d1 is a tip
     l1 = log(as.numeric(polyCub.SV(d1, bigauss_pdf, mx = v[1], my = v[2], sx = sqrt(sigma2x*t1), sy = sqrt(sigma2y*t1), rho = 0, nGQ = nGQ))) - 
@@ -325,7 +255,7 @@ bm_loglik_trio_fast = function(a, v, d1, d2, s, t1, t2, sigma2x, sigma2y, areas,
     #if (l1==0) l1 = -1e30
   }
   
-  if (!is(d2, 'gpc.poly')) { # d2 is an internal node
+  if (!is(d2, 'owin')) { # d2 is an internal node
     l2 = sum(dnorm(d2,v,sd=sqrt(t2*c(sigma2x,sigma2y)), log=TRUE))
   } else { # d2 is a tip
     l2 = log(as.numeric(polyCub.SV(d2, bigauss_pdf, mx = v[1], my = v[2], sx = sqrt(sigma2x*t2), sy = sqrt(sigma2y*t2), rho = 0, nGQ=nGQ))) - log(areas[daughter_ids[2]])
@@ -372,9 +302,7 @@ bm_ase = function(tree, values, niter=1e3, logevery=10, sigma2_scale=0.05, scree
     }
     
     for (iter in 2:niter) {
-        
-    	if (logevery && iter%%logevery==0) cat("iter =", iter, "\n")
-        
+                
         # random permutation of internal nodes
     	nodelist = ntaxa + sample(1:nnode, nnode, replace=FALSE)
         
@@ -467,178 +395,11 @@ bm_ase = function(tree, values, niter=1e3, logevery=10, sigma2_scale=0.05, scree
     return(cbind(ax, ay, sigma2x, sigma2y))  
 }
 
-
-############################
-# Almost-Gibbs sampling of ancestors with polygons at tips
-# using polyCub for the terminal branch likelihoods
-# remember to normalize these by the area.
-
-#rase = range ancestral state estimation
-
-rase = function(tree, polygons, niter=1e3, logevery=10, sigma2_scale=0.05, screenlog=TRUE, params0 = NA) {
-
-    if (!is(tree, "phylo")) {
-        stop('tree should be of class phylo')
-    }
-    
-    if (any(is.na(match(tree$tip.label, names(polygons))))) {
-        stop('tip labels and polygon names do not match')
-    }
-    
-    ####Calculate all areas before hand!
-    
-    ntaxa = length(tree$tip.label)
-    nnode = tree$Nnode
-    
-                                        # initialize 
-    areas = mapply(area.poly, polygons)    
-    xy.tips = t(mapply(poly_center, polygons))
-       
-    ax = array(NA, dim=c(niter,nnode))
-    sigma2x = rep(NA, niter)
-    ay = array(NA, dim=c(niter,nnode))
-    sigma2y = rep(NA, niter)
-     
-    if (any(is.na(params0))) {
-        ace_resx = ace(xy.tips[,1], tree, method = 'ML')
-        ace_resy = ace(xy.tips[,2], tree, method = 'ML')
-        ax[1, (1:nnode)] = ace_resx$ace[1:nnode]
-        sigma2x[1] = ace_resx$sigma[1]
-        ay[1, (1:nnode)] = ace_resy$ace[1:nnode]
-        sigma2y[1] = ace_resy$sigma[1]
-    } else {
-        if (length(params0) != 2*nnode+2) stop("starting values not of correct length")
-        ax[1,] = params0[1:nnode]
-        sigma2x[1] = params0[2*nnode+1]
-        ay[1,] = params0[(nnode+1):(2*nnode)]
-        sigma2y[1] = params0[2*nnode+2]
-    }
-    
-    for (iter in 2:niter) {
-       	# random permutation of internal nodes
-    	nodelist = ntaxa+sample(1:nnode, nnode, replace=FALSE)
-
-        # populate current node values
-    	ax[iter,] = ax[iter-1,]
-    	ay[iter,] = ay[iter-1,]
-    	sigma2x[iter] = sigma2x[iter-1]
-    	sigma2y[iter] = sigma2y[iter-1]
-        
-        for (node in nodelist) {
-
-            approx = 0
-            # daughters
-            daughter_ids = tree$edge[tree$edge[,1]==node,2]
-            t = c(tree$edge.length[tree$edge[,2]==daughter_ids[1]],
-                tree$edge.length[tree$edge[,2]==daughter_ids[2]])
-            
-            if (daughter_ids[1]<= ntaxa) { # tips
-                d1_value = polygons[[daughter_ids[1]]]
-    	      	approx = 1
-            } else {
-                d1_value = c(ax[iter,daughter_ids[1]-ntaxa], ay[iter,daughter_ids[1]-ntaxa])
-            }
-            
-            if (daughter_ids[2]<=ntaxa) { # tips
-    	      	d2_value = polygons[[daughter_ids[2]]]
-                approx = 1
-            } else {
-                d2_value = c(ax[iter,daughter_ids[2]-ntaxa], ay[iter,daughter_ids[2]-ntaxa])
-            }
-            
-            # ancestor
-            a_id = tree$edge[tree$edge[,2]==node,1]
-            if (length(a_id)==0) {
-                a_value = c(NA,NA)
-    	    	s = NA
-            } else {
-                a_value = c(ax[iter,a_id-ntaxa], ay[iter,a_id-ntaxa])
-                s = tree$edge.length[a_id-ntaxa]
-            }	
-            
-            # proposal 
-            xy_prop = bm_propose_trio(a_value, d1_value, d2_value, s, t[1], t[2], sigma2x[iter], sigma2y[iter])
-            
-    	    if (approx) {
-                loglik_prop = bm_loglik_trio(a_value, xy_prop$value, d1_value, d2_value, 
-                    s, t[1], t[2], sigma2x[iter], sigma2y[iter], areas, daughter_ids)
-                
-                loglik_cur = bm_loglik_trio(a_value, c(ax[iter,node-ntaxa], ay[iter,node-ntaxa]), 
-                    d1_value, d2_value, s, t[1], t[2], sigma2x[iter], sigma2y[iter], areas, daughter_ids)
-                
-                logratio = loglik_prop - loglik_cur + xy_prop$logbwdprob - xy_prop$logfwdprob
-                
-                if (log(runif(1)) < logratio) {
-                    ax[iter,node-ntaxa] = xy_prop$value[1]
-                    ay[iter,node-ntaxa] = xy_prop$value[2]
-    	      	}
-    	    } else {
-                ax[iter,node-ntaxa] = xy_prop$value[1]
-          		ay[iter,node-ntaxa] = xy_prop$value[2]
-            }
-    	}
-        
-      # sample sigma2x and sigma2y
-
-      # new function estimates sigma2x and sigma2y, and their standard errors.
-      # these are used in a normal approximation proposal below
-      obj = bm_est_sigma2(tree, list(x=xy.tips[,1], y=xy.tips[,2]), c(ax[iter,], ay[iter,]))
-      s2x_cur = obj$sigma2xhat
-      s2x_sd = sigma2_scale*obj$sigma2xhat_sd
-      s2y_cur = obj$sigma2yhat
-      s2y_sd = sigma2_scale*obj$sigma2yhat_sd
-
-
-        repeat {
-            sigma2x_prop = rnorm(1, mean=s2x_cur, sd=s2x_sd)
-            if(sigma2x_prop>0) break
-        }
-    	  logprobratiox = dnorm(s2x_cur, sigma2x_prop, sd=s2x_sd, log=TRUE) - dnorm(sigma2x_prop, s2x_cur, sd=s2x_sd, log=TRUE)
-        
-        repeat {
-            sigma2y_prop = rnorm(1, mean=s2y_cur, sd=s2y_sd)
-            if(sigma2y_prop>0) break
-        }
-    	  logprobratioy = dnorm(s2y_cur, sigma2y_prop, sd=s2y_sd, log=TRUE) - dnorm(sigma2y_prop, s2y_cur, sd=s2y_sd, log=TRUE)
-        
-        
-        # 1/sigma2 prior
-        loglik_cur = bm_loglik_ancestors_poly(tree,polygons,c(ax[iter,],ay[iter,],sigma2x[iter],sigma2y[iter])) - (log(sigma2x[iter])+log(sigma2y[iter]))
-        loglik_prop = bm_loglik_ancestors_poly(tree,polygons,c(ax[iter,],ay[iter,],sigma2x_prop,sigma2y_prop)) - (log(sigma2x_prop)+log(sigma2y_prop))
-        #cat("loglik_cur =", loglik_cur, "\n")
-        #cat("loglik_prop =", loglik_prop, "\n")
-	
-        logratio = loglik_prop - loglik_cur + logprobratiox + logprobratioy
-        
-        if (log(runif(1)) < logratio) {
-            sigma2x[iter] = sigma2x_prop
-            sigma2y[iter] = sigma2y_prop
-        }
-  	
-  	    if (screenlog && iter%%logevery==0) {
-                
-                if (iter == logevery) {
-                    cat('Iteration sigma2x sigma2y\n')
-                    cat(iter, sigma2x[iter], sigma2y[iter],'\n')
-                } else {
-                    cat(iter, sigma2x[iter], sigma2y[iter],'\n')
-                }
-
-            } 
-    }
-    
-
-    colnames(ax) = paste('n', names(branching.times(tree)), '_x', sep = '')
-    colnames(ay) = paste('n', names(branching.times(tree)), '_y', sep = '')
-    
-    return(cbind(ax, ay, sigma2x, sigma2y))  	
-}
    
 
 ############################
 # Almost-Gibbs sampling of ancestors with polygons at tips
 # using polyCub for the terminal branch likelihoods
-# remember to normalize these by the area.
 
 # Bivariate gaussian pdf
 bigauss_pdf = function(s, mx, my, sx, sy, rho) {
@@ -656,7 +417,7 @@ bigauss_pdf = function(s, mx, my, sx, sy, rho) {
 
 #rase = range ancestral state estimation
 
-rase_fast = function(tree, polygons, niter=1e3, logevery=10, sigma2_scale=0.05, screenlog=TRUE, params0 = NA, nGQ = 20) {
+rase = function(tree, polygons, niter=1e3, logevery=10, sigma2_scale=0.05, screenlog=TRUE, params0 = NA, nGQ = 20) {
   
   if (!is(tree, "phylo")) {
     stop('tree should be of class phylo')
@@ -672,7 +433,7 @@ rase_fast = function(tree, polygons, niter=1e3, logevery=10, sigma2_scale=0.05, 
   nnode = tree$Nnode
   
   # initialize 
-  areas = mapply(area.poly, polygons)    
+  areas = mapply(area, polygons)    
   xy.tips = t(mapply(poly_center, polygons))
   
   ax = array(NA, dim=c(niter,nnode))
@@ -741,10 +502,10 @@ rase_fast = function(tree, polygons, niter=1e3, logevery=10, sigma2_scale=0.05, 
       xy_prop = bm_propose_trio(a_value, d1_value, d2_value, s, t[1], t[2], sigma2x[iter], sigma2y[iter])
       
       if (approx) {
-        loglik_prop = bm_loglik_trio_fast(a_value, xy_prop$value, d1_value, d2_value, 
+        loglik_prop = bm_loglik_trio(a_value, xy_prop$value, d1_value, d2_value, 
                                      s, t[1], t[2], sigma2x[iter], sigma2y[iter], areas, daughter_ids, nGQ)
         
-        loglik_cur = bm_loglik_trio_fast(a_value, c(ax[iter,node-ntaxa], ay[iter,node-ntaxa]), 
+        loglik_cur = bm_loglik_trio(a_value, c(ax[iter,node-ntaxa], ay[iter,node-ntaxa]), 
                                     d1_value, d2_value, s, t[1], t[2], sigma2x[iter], sigma2y[iter], areas, daughter_ids, nGQ)
         
         logratio = loglik_prop - loglik_cur + xy_prop$logbwdprob - xy_prop$logfwdprob
@@ -784,8 +545,8 @@ rase_fast = function(tree, polygons, niter=1e3, logevery=10, sigma2_scale=0.05, 
     
     
     # 1/sigma2 prior
-    loglik_cur = bm_loglik_ancestors_poly_fast(tree,polygons,c(ax[iter,],ay[iter,],sigma2x[iter],sigma2y[iter]), nGQ) - (log(sigma2x[iter])+log(sigma2y[iter]))
-    loglik_prop = bm_loglik_ancestors_poly_fast(tree,polygons,c(ax[iter,],ay[iter,],sigma2x_prop,sigma2y_prop), nGQ) - (log(sigma2x_prop)+log(sigma2y_prop))
+    loglik_cur = bm_loglik_ancestors_poly(tree,polygons,c(ax[iter,],ay[iter,],sigma2x[iter],sigma2y[iter]), nGQ) - (log(sigma2x[iter])+log(sigma2y[iter]))
+    loglik_prop = bm_loglik_ancestors_poly(tree,polygons,c(ax[iter,],ay[iter,],sigma2x_prop,sigma2y_prop), nGQ) - (log(sigma2x_prop)+log(sigma2y_prop))
     #cat("loglik_cur =", loglik_cur, "\n")
     #cat("loglik_prop =", loglik_prop, "\n")
     
@@ -822,11 +583,11 @@ rase_fast = function(tree, polygons, niter=1e3, logevery=10, sigma2_scale=0.05, 
 # polygon center
 
 poly_center = function(poly) {
-	xy=get.pts(poly)
+	xy = poly$bdry
 	centr = c()
 	for (j in 1:length(xy)) {
-		x = xy[[j]]$x
-		y = xy[[j]]$y
+		x = c(xy[[j]]$x, xy[[j]]$x[1])
+		y = c(xy[[j]]$y, xy[[j]]$y[1])
 		
 	  	n = length(x)
 	  	if (length(y) != n) stop("length of x and y must be equal")
@@ -841,11 +602,12 @@ poly_center = function(poly) {
 	  	Cx = Cx/(6*A)
 	  	Cy = Cy/(6*A)
 		
-  		centr = rbind(centr,c(Cx,Cy, area.poly(poly[j,])))
+  		centr = rbind(centr,c(Cx,Cy, area(poly)))
 	}
 	return(c(weighted.mean(centr[,1], centr[,3]),
 		weighted.mean(centr[,2], centr[,3])))
 }
+
 
 
 ###################
@@ -899,11 +661,11 @@ bm_loglik_duo = function(a, v, d, u, t, sx, sy, nGQ) {
 
    	la = sum(dnorm(v, a, sd=sqrt(u*c(sx, sy)), log=TRUE))
 
-  	if (!is(d, 'gpc.poly')) { 
+  	if (!is(d, 'owin')) { 
     	ld = sum(dnorm(d, v, sd = sqrt((t-u)*c(sx, sy)), log=TRUE))
   	} else { # d1 is a tip
     	ld =  log(as.numeric(polyCub.SV(d, bigauss_pdf, mx = v[1], my = v[2], sx = sqrt(sx*(t-u)), sy = sqrt(sy*(t-u)), rho = 0, nGQ = nGQ))) - 
-        log(area.poly(d))
+        log(area(d))
     	if (is.nan(ld)) ld = -1e30
   	}
 
@@ -922,7 +684,7 @@ bm_loglik_duo = function(a, v, d, u, t, sx, sy, nGQ) {
 
 bm_propose_duo = function(a, d, u, t, sx, sy) {
 
-	if (is(d, 'gpc.poly')) { 
+	if (is(d, 'owin')) { 
     	d = poly_center(d)
   	}
 
@@ -1094,7 +856,7 @@ rase.slice = function(tree, slice, res, polygons, params0 = NA, niter=1e3, logev
 
 
 ################
-# Transform shapefiles from 'maptools' package for use in rase
+# Transform shapefiles from 'sp' package for use in rase
 
 shape.to.rase = function(shape_poly) {
 	if (!is(shape_poly, 'SpatialPolygonsDataFrame')) {
@@ -1105,11 +867,14 @@ shape.to.rase = function(shape_poly) {
 	for (i in 1:length(shape_poly)) {		
     	fp1 = shape_poly[i,]
     	fp2 = fp1@polygons[[1]]
-		fp2 = new("gpc.poly",pts= lapply(fp2@Polygons,function(lst){list(x=lst@coords[,1],y=lst@coords[,2],hole=lst@hole)}))
+		fp2 = lapply(fp2@Polygons, function(lst){owin(poly = list(x=rev(lst@coords[,1]),y=rev(lst@coords[,2]),hole=lst@hole), check = TRUE)})
 		pols = c(pols, fp2)
 	}	
 	return(pols)	
 }
+
+
+
 
 ################
 # Name polygons, order them as the tree tips
@@ -1224,10 +989,11 @@ phylo.3d = function(df3, z.scale = 1, pts = TRUE, ...) {
 add.polygons = function(df3, axes = 2, ...) {
     
 	for (j in 1:length(df3$pol)) {
-    	poli <- df3$pol[[j]]
-    	cords = get.pts(poli)
-      	polygon3d(x=cords[[1]]$x, y=cords[[1]]$y, 
-                z=rep(0, times=length(cords[[1]]$x)), 
+    	poli = df3$pol[[j]]
+
+      	polygon3d(x=c(poli$bdry[[1]]$x, poli$bdry[[1]]$x[1]), 
+      			y=c(poli$bdry[[1]]$y, poli$bdry[[1]]$y[1]), 
+                z=rep(0, times=length(poli$bdry[[1]]$x) + 1), 
                 ...)
     }
 	if (axes == 0) print('No axes displayed')
@@ -1293,13 +1059,13 @@ random_rase3d = function(mean_x = 0, mean_y = 0,
 	  	xpts = rnorm(npts, x_locs[i], sd=runif(1, x_ext))
 	  	ypts = rnorm(npts, y_locs[i], sd=runif(1, y_ext))
 	  	pts = matrix(c(xpts, ypts),nrow=npts)
-	  	hpts =as(pts[chull(pts), ], "gpc.poly")
-	  	polygons[[i]] = hpts
+	  	pts = pts[chull(pts), ]
+	  	polygons[[i]] = owin(poly = pts[dim(pts)[1]:1,])
 	}
 	
 	polygons = name.poly(polygons, tree, poly.names = tree$tip.label)
 	
-	res = rase_fast(tree, polygons, niter = niter, logevery = logevery)
+	res = rase(tree, polygons, niter = niter, logevery = logevery)
 
 	if (plot.3d == TRUE) {
  		df3 = data.for.3d(res, tree, polygons)

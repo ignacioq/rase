@@ -19,7 +19,7 @@
 		phylogenetic tree of class \code{"phylo"}.
 	}
   \item{values}{
- 		a list, with each element being one-dimensional values fora  trait.
+ 		a list, with each element being one-dimensional values for one trait.
  	}
   \item{start_values}{
 		Optional. A vector of starting values for the Maximum Likelihood optimization. The funtion only estimates the MRCA and the rates for each trait, and that should be the order of the input starting values. 
@@ -33,10 +33,10 @@
 	
 Returns a list with the following components:
 	\item{mrcas}{
-		Most recent common ancestor estimates for each trait
+		Most recent common ancestor estimates for each trait (in the same order of the input \code{values}).
 	}
 	\item{rates}{
-		Brownian motion rate parameters for each trait.
+		Brownian motion rate parameters for each trait(in the same order of the input \code{values}).
 	}
 	\item{nlm.details}{
 		A list with the results from nlm optimization. For details see \code{\link[stats]{nlm}}.
@@ -57,21 +57,21 @@ Ignacio Quintero
 \examples{
 # Number of taxa to simulate tree
 # Number of taxa
-ntaxa = 10
+ntaxa <- 10
 
 # Known parameters
-mean_x = 0
-mean_y = 0
-sigma_x = 1 
-sigma_y = 1
+mean_x <- 0
+mean_y <- 0
+sigma_x <- 1 
+sigma_y <- 1
 
 # Create a random tree
-tree = pbtree(n = ntaxa)
+tree <- pbtree(n = ntaxa)
 
 # Create random data according to tree structure
-x_locs = as.numeric(rmvnorm(1, rep(mean_x,ntaxa), sigma=sigma_x*vcv(tree)))
-y_locs = as.numeric(rmvnorm(1, rep(mean_y,ntaxa), sigma=sigma_y*vcv(tree)))
-values = list(x_locs,y_locs)
+x_locs <- as.numeric(rmvnorm(1, rep(mean_x,ntaxa), sigma=sigma_x*vcv(tree)))
+y_locs <- as.numeric(rmvnorm(1, rep(mean_y,ntaxa), sigma=sigma_y*vcv(tree)))
+values <- list(x_locs,y_locs)
 
 \dontrun{
 # run point.like.bm

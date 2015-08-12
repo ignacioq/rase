@@ -6,7 +6,7 @@
 	Identify Tree Branches That Intersect With a Given Time Slice.
 }
 \description{
-	Identifies the branches in a phylogenetic tree that the slice intersects with. It is used by \code{\link{rase.slice}}.
+	Identifies the branches in a phylogenetic tree that the slice intersects with.  It is used by \code{\link{rase.slice}}.
 }
 \usage{
 	tree.slice(tree, slice)
@@ -28,7 +28,7 @@
 	returns a matrix where each row is an intersecting branch with the following columns: two integers associating the branch (i.e., ancestor, descendant), the age of the ancestral node, and the age of the descendant node.
 	}
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}. doi: 10.1093/sysbio/syv057
 }
 \author{
 Ignacio Quintero
@@ -46,12 +46,11 @@ data(rase_data, package = 'rase')
 psophia_tree
 		
 # define the slice of time;
-# for now, let's say 1 Million
-# years ago (Ma)
-slice = 1
+# say, 1 Million years ago (Ma)
+slice <- 1
 	
 # slice the tree
-slice_results = tree.slice(psophia_tree, slice = slice)
+slice_results <- tree.slice(psophia_tree, slice = slice)
 	
 #check results
 slice_results

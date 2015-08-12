@@ -3,16 +3,16 @@
 \alias{shape.to.rase}
 
 \title{
-	Transform a Shapefile into a format used by rase
+	Transform a Shapefile into \code{\link[spatstat]{owin.object}} Format
 }
 
 \description{
-	Transforms a Shapefile in format \code{\link[sp]{SpatialPolygonsDataFrame}} to the format used by rase.
+	Transforms a Shapefile in format \code{\link[sp]{SpatialPolygonsDataFrame}} to the format \code{\link[spatstat]{owin.object}} used by \code{\link{rase}}.
 }
 \usage{
 	shape.to.rase(shape_poly)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{shape_poly}{
  	an object of class \code{\link[sp]{SpatialPolygonsDataFrame}}. 
@@ -20,7 +20,7 @@
 }
 
 \value{
-	Returns a list of polygons in \code{\link[gpclib]{gpc.poly-class}} format.
+	Returns a list of polygons in \code{\link[spatstat]{owin.object}} format.
 }
 
 \author{
@@ -41,7 +41,7 @@ psophia_shp
 polygons = shape.to.rase(psophia_shp)
 	
 # check the structure of the polygons
-str(polygons)
+polygons
 }
 
 }

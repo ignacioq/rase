@@ -6,11 +6,11 @@
 Bayesian Range Ancestral State Estimation of Polygons
 }
 \description{
-Performs a bayesian two-dimensional ancestral state estimation with polygonal distributions as input (contrast with \code{\link{bm_ase}}) according to a Brownian Motion model of trait evolution (or dispersal for phylogeography).  It uses Gibbs sampling to approximate the posterior distribution. See reference at the end for more detailed information.
+Performs a bayesian two-dimensional ancestral state estimation with polygonal distributions as input (contrast with \code{\link{bm_ase}}) according to a Brownian Motion model of trait evolution (or dispersal for phylogeography).  It uses Gibbs sampling to approximate the posterior distribution.  See reference at the end for more detailed information.
 }
 \usage{
 rase(tree, polygons, niter = 1000, logevery = 10, 
-sigma2_scale = 0.05, screenlog = TRUE, params0 = NA)
+sigma2_scale = 0.05, screenlog = TRUE, params0 = NA, nGQ = 20)
 }
 
 \arguments{
@@ -18,7 +18,7 @@ sigma2_scale = 0.05, screenlog = TRUE, params0 = NA)
 	 phylogenetic tree of class \code{"phylo"}.
 	}
   \item{polygons}{
-	list of polygons in \code{\link[gpclib]{gpc.poly-class}} format (to transform from \code{\link[sp]{SpatialPolygonsDataFrame}} format use \code{\link{shape.to.rase}}).
+	list of polygons in \code{\link[spatstat]{owin.object}} format.
 	}
  \item{niter}{
 	number of MCMC iterations. By default \code{niter = 1000}.
@@ -35,6 +35,9 @@ sigma2_scale = 0.05, screenlog = TRUE, params0 = NA)
   \item{params0}{
 	optional. A vector of initial parameter values in the following order: x ancestors, y ancestors, sigma2x and sigma2y. If \code{params0 = NA} (default), an initial Maximum Likelihood optimization with polygon centroids using \code{\link[ape]{ace}} provides the starting parameter values.
 	}
+	\item{nGQ}{
+	degree of the one-dimensional Gauss-Legendre quadrature rule (default = 20) as given by \code{\link{polyCub.SV}} in package polyCub. Bigger numbers make the integration more precise, but takes longer.
+	}
 }
 
 \value{
@@ -50,7 +53,7 @@ Forrest Crawford, Ignacio Quintero
 }
 
 \seealso{
-For a (much) faster version see \code{\link{rase_fast}}.Contrast with the point ancestral state estimation \code{\link{bm_ase}}. For the maximum likelihood version of ranges see \code{\link{ranges.like.bm}}. For post-mcmc handling see \code{\link{post.mcmc}}.
+Contrast with the point ancestral state estimation \code{\link{bm_ase}}. For the maximum likelihood version of ranges see \code{\link{ranges.like.bm}}. For post-mcmc handling see \code{\link{post.mcmc}}.
 }
 
 \examples{
@@ -65,33 +68,32 @@ data(rase_data, package = 'rase')
 # check the data we are going to use
 # the phylogenetic tree
 psophia_tree
-
+	
 # the GPC polygons of Psophia distribution.
 psophia_poly
 
 # Species names of polygons (in order)
-pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
-'obscura', 'crepitans', 'ochroptera', 'napensis')
+pnames <- c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
+  'obscura', 'crepitans', 'ochroptera', 'napensis')
 
 # name the polygons
-psophia_poly = name.poly(psophia_poly, psophia_tree, poly.names = pnames)
+psophia_poly <- name.poly(psophia_poly, psophia_tree, 
+  poly.names = pnames)
 
-# Accept the gpclib licence:
-gpclibPermit()
-
-# Run rase
-rase_results = rase(psophia_tree, psophia_poly, niter = 100)
+# Run rase for 10 iterations
+rase_results <- rase(psophia_tree, psophia_poly, niter = 100)
 # Run with higher number of iterations
-# rase_results = rase(psophia_tree, psophia_poly)
+# rase_results <- rase(psophia_tree, polygons)
 
 # Check the results
 str(rase_results)
 
 # post-MCMC handling
-rase_results_for_ggmcmc = post.mcmc(rase_results, burnin=0, thin = 1)
+rase_results_for_ggmcmc <- post.mcmc(rase_results, burnin=0, thin = 1)
 	
 #plot the densities for dispersal rates using ggmcmc
 require(ggmcmc)
-ggs_density(rase_results_for_ggmcmc, family = 'sigma')
+ggs_traceplot(rase_results_for_ggmcmc, family = 'sigma')
 }
 }
+

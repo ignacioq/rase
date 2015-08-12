@@ -40,13 +40,13 @@ bigauss_pdf(s, mx, my, sx, sy, rho)
 }
 
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. Evolutionary Reconstruction of Species Ranges Through Space and Time
+Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}. doi: 10.1093/sysbio/syv057
 }
 \author{
-Ignacio Quintero, Forrest Crawford
+Ignacio Quintero
 }
 \seealso{
-\code{\link{rase_fast}}
+\code{\link{rase}}
 }
 
 \keyword{internal}

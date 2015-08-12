@@ -82,12 +82,8 @@ Ignacio Quintero
 
 \examples{
 \dontrun{
-
-# accept gpclib license	
-gpclibPermit()
-	
-# run random_rase3d
-results_random = random_rase3d()
+# run random_rase3d for 500 iterations
+results_random <- random_rase3d(niter = 500)
 	
 # explore the results
 str(results_random)

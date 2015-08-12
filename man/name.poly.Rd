@@ -17,8 +17,8 @@ name.poly(polygons, tree, poly.names = NA)
 
 \arguments{
   \item{polygons}{
-	a list of polygons in the output format from \code{\link{shape.to.rase}}.
-	}
+  list of polygons in \code{\link[spatstat]{owin.object}} format.
+  }
   \item{tree}{
 	phylogenetic tree of class \code{"phylo"}.
 	}
@@ -28,7 +28,7 @@ name.poly(polygons, tree, poly.names = NA)
 }
 
 \value{
-Returns the polygons in the output format from \code{\link{shape.to.rase}}.
+Returns the polygon list with the names of the tip values in order.
 }
 
 \author{
@@ -44,18 +44,19 @@ data(rase_data, package = 'rase')
 
 \dontrun{
 # polygons already in format used by rase.
-str(psophia_poly)
+psophia_poly
 
 # check the phylogenetic tree
 psophia_tree
 
 # Species names of polygons (in order)
-pnames = c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
+pnames <- c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
   'obscura', 'crepitans', 'ochroptera', 'napensis')
 
 # check tree's' tip labels
 psophia_tree$tip.label
 
 # name the polygons
-polygons = name.poly(psophia_poly, psophia_tree, poly.names = pnames)}
+polygons <- name.poly(psophia_poly, psophia_tree, poly.names = pnames)
+}
 }

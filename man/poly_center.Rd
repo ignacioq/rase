@@ -16,7 +16,7 @@
 
 \arguments{
   \item{poly}{
-	a GPC polygon.
+	a polygon in \code{\link[spatstat]{owin.object}} format.
 	}
 }
 
