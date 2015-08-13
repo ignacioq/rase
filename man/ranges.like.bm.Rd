@@ -73,12 +73,12 @@ sigma2y <- 2
 sigma2z <- 3
 
 # Create a random tree
-tree <- pbtree(n = ntaxa)
+tree <- phytools::pbtree(n = ntaxa)
 
 # Create random data according to tree structure
-x_locs <- as.numeric(rmvnorm(1, rep(mean_x,ntaxa), sigma=sigma2x*vcv(tree)))
-y_locs <- as.numeric(rmvnorm(1, rep(mean_y,ntaxa), sigma=sigma2y*vcv(tree)))
-z_locs <- as.numeric(rmvnorm(1, rep(mean_z,ntaxa), sigma=sigma2z*vcv(tree)))
+x_locs <- as.numeric(mvtnorm::rmvnorm(1, rep(mean_x,ntaxa), sigma=sigma2x*vcv(tree)))
+y_locs <- as.numeric(mvtnorm::rmvnorm(1, rep(mean_y,ntaxa), sigma=sigma2y*vcv(tree)))
+z_locs <- as.numeric(mvtnorm::rmvnorm(1, rep(mean_z,ntaxa), sigma=sigma2z*vcv(tree)))
 
 # random shifts to the mean to create ranges
 xshift <- rexp(ntaxa)

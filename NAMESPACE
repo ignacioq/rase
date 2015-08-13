@@ -29,3 +29,5 @@ importFrom(spatstat, area, owin)
 importFrom(grDevices, chull, contourLines)
 importFrom(stats, dnorm, nlm, rnorm, runif, sd,
             weighted.mean)
+#For CRAN
+importFrom("methods", "is")

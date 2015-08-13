@@ -70,11 +70,11 @@ sigma_x <- 1
 sigma_y <- 1
 
 # Create a random tree
-tree <- pbtree(n = ntaxa)
+tree <- phytools::pbtree(n = ntaxa)
 
 # Create random data according to tree structure
-x_locs <- as.numeric(rmvnorm(1, rep(mean_x,ntaxa), sigma=sigma_x*vcv(tree)))
-y_locs <- as.numeric(rmvnorm(1, rep(mean_y,ntaxa), sigma=sigma_y*vcv(tree)))
+x_locs <- as.numeric(mvtnorm::rmvnorm(1, rep(mean_x,ntaxa), sigma=sigma_x*vcv(tree)))
+y_locs <- as.numeric(mvtnorm::rmvnorm(1, rep(mean_y,ntaxa), sigma=sigma_y*vcv(tree)))
 values = list(x = x_locs, y = y_locs)
 \dontrun{
 # run bm_ase for 10 iterations

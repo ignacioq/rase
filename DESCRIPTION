@@ -1,11 +1,12 @@
 Package: rase
 Title: Range Ancestral State Estimation for Phylogeography and Comparative Analyses
 Version: 0.2-2
-Date: 2015-03-08
+Date: 2015-08-13
 Authors@R: c(person("Ignacio", "Quintero", role = c("aut", "cre"), email = "ignacio.quintero@yale.edu"),
 			person("Forrest W.", "Crawford", role = "aut", email = "forrest.crawford@yale.edu"),
 			person("Petr", "Keil", role = "aut", email = "petrkeil@seznam.cz"))
-Depends: R (>= 2.14.0), ape (>= 3.1-0), phytools (>= 0.4-00), mvtnorm (>= 1.0-0), polyCub (>= 0.5-0), rgl (>= 0.93.1098), sm (>= 2.2-0), spatstat
+Depends: R (>= 2.14.0), methods, grDevices, stats, ape (>= 3.1-0),
+Imports: mvtnorm (>= 1.0-0), polyCub (>= 0.5-0), spatstat (>= 1.36-0), rgl, sm, phytools
 Suggests: sp, ggmcmc, rpanel, tcltk
 Description: The rase package primarily implements the Range Ancestral State Estimation for phylogeography described in Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. Systematic Biology. doi: 10.1093/sysbio/syv057. It also includes Bayesian inference of ancestral states under a Brownian Motion model of character evolution and Maximum Likelihood estimation of rase for n-dimensional data. Visualizing functions in 3D are implemented using the rgl package.
 License: GPL (>=2)
