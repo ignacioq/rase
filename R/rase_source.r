@@ -426,6 +426,10 @@ rase = function(tree, polygons, niter=1e3, logevery=10, sigma2_scale=0.05, scree
   if (any(is.na(match(tree$tip.label, names(polygons))))) {
     stop('tip labels and polygon names do not match')
   }
+
+  if (any(sapply(polygons, is.empty))) {
+    stop('one or more polygons are empty')
+  }
   
   ####Calculate all areas before hand!
   
