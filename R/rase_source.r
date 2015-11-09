@@ -423,7 +423,7 @@ rase = function(tree, polygons, niter=1e3, logevery=10, sigma2_scale=0.05, scree
     stop('tree should be of class phylo')
   }
 
-  if (any(sapply(polygons, is.owin))) {
+  if (!any(sapply(polygons, is.owin))) {
     stop('one or more polygons are not in \'owin\' format')
   }
   
