@@ -25,7 +25,7 @@ importFrom(phytools, pbtree)
 importFrom(polyCub, polyCub.SV)
 importFrom(rgl,points3d, lines3d, polygon3d, axes3d, title3d)
 importFrom(sm,sm.density)
-importFrom(spatstat, area, owin)
+importFrom(spatstat, area, owin, is.empty)
 importFrom(grDevices, chull, contourLines)
 importFrom(stats, dnorm, nlm, rnorm, runif, sd,
             weighted.mean)

@@ -1,6 +1,6 @@
 # README #
 
-Repository for the rase package for R. It is unreleased and under development. 
+Repository for the rase package for R. It is unreleased and under development.
 
 Current version is rase 0.2-2
 
@@ -12,11 +12,7 @@ In R, having installed the devtools package, type:
 
 `library(devtools)`
 
-for `devtools <1.6`
-`install_bitbucket("rase","ignacioq")` 
-
-for `devtools >1.6`
-`install_bitbucket("ignacioq/rase")` 
+`install_bitbucket("ignacioq/rase")`
 
 Run `library(rase)`
 
