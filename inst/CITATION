@@ -1,0 +1,13 @@
+bibentry(bibtype = "Article",
+         title ="Historical Biogeography Using Species Geographical Ranges",
+         author = c(person("Ignacio", "Quintero"),
+                    person("Petr", "Keil"),
+                    person("Walter", "Jetz"),
+                    person("Forrest W.", "Crawford")),
+         journal="Systematic Biology",
+         volume="64",
+         number="6",
+         pages="1059--1073",
+         year="2015",
+         doi = "10.1093/sysbio/syv057",
+         publisher="Oxford University Press")
