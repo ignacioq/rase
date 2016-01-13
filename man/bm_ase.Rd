@@ -70,7 +70,7 @@ sigma_x <- 1
 sigma_y <- 1
 
 # Create a random tree
-tree <- phytools::pbtree(n = ntaxa)
+tree <- ape::rtree(n = ntaxa)
 
 # Create random data according to tree structure
 x_locs <- as.numeric(mvtnorm::rmvnorm(1, rep(mean_x,ntaxa), sigma=sigma_x*vcv(tree)))

@@ -8,9 +8,7 @@ export(add.dens,
 		phylo.3d,
 		point.like.bm,
 		post.mcmc,
-		random_rase3d,
 		ranges.like.bm,
-		rase,
 		rase,
 		rase.slice,
 		shape.to.rase,
@@ -19,9 +17,8 @@ export(add.dens,
 
 ### Imports
 
-importFrom(ape, ace, vcv, branching.times, is.binary.tree)
+importFrom(ape, rtree, ace, vcv, branching.times, is.binary.tree)
 importFrom(mvtnorm, dmvnorm, pmvnorm, rmvnorm)
-importFrom(phytools, pbtree)
 importFrom(polyCub, polyCub.SV)
 importFrom(rgl,points3d, lines3d, polygon3d, axes3d, title3d)
 importFrom(sm,sm.density)
