@@ -1,25 +1,26 @@
 # README #
 
-Repository for the rase package for R. It is unreleased and under development.
+This is the repository for the `rase` package for R.
 
-Current version is rase 0.2-2
+Current version is rase 0.2-22
+
+It is also now one CRAN (stable version):
+https://cran.r-project.org/web/packages/rase/index.html
+
 
 ### To set up###
 
-#### Easier way####
+#### From CRAN ####
 
+`install.packages('rase')`
+
+#### From bitbucket ####
 In R, having installed the devtools package, type:
 
 `library(devtools)`
 
 `install_bitbucket("ignacioq/rase")`
 
-Run `library(rase)`
-
-#### Other ####
-Clone the repository and run in the terminal `R CMD INSTALL <path_to_rase_repository>`
-
-Open R and run `library(rase)`
 
 ### Who to talk to? ###
 
