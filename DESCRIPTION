@@ -1,6 +1,6 @@
 Package: rase
 Title: Range Ancestral State Estimation for Phylogeography and Comparative Analyses
-Version: 0.2-22
+Version: 0.2-23
 Date: 2016-01-13
 Authors@R: c(person("Ignacio", "Quintero", role = c("aut", "cre"), email = "ignacio.quintero@yale.edu"),
 			person("Forrest W.", "Crawford", role = "aut", email = "forrest.crawford@yale.edu"),

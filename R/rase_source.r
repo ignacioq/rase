@@ -169,7 +169,7 @@ bm_loglik_ancestors_poly = function(tree, polygons, params, nGQ) {
     ay1 = ay[r[1]-ntaxa]
     if(r[2]<= ntaxa) {
       v = polyCub.SV(polygons[[r[2]]], bigauss_pdf, mx = ax1, my = ay1, sx = sqrt(sigma2x*r[3]), sy = sqrt(sigma2y*r[3]), rho = 0, nGQ=nGQ)    
-      logv = ifelse(is.nan(v), -1e30, log(v)) 
+      logv = ifelse(is.nan(v) | !is.finite(v), -1e30, log(v)) 
       loglik = logv - log(area(polygons[[r[2]]]))
       if(is.nan(loglik)) loglik = -1e30
       #cat("a =",c(ax1,ay1), "\n")
@@ -204,33 +204,33 @@ bm_propose_trio = function(a, d1, d2, s,t1, t2, sigma2x, sigma2y) {
   	}
 
 	ax = a[1]; ay = a[2]
-  	d1x = d1[1]; d1y = d1[2]
-  	d2x = d2[1]; d2y = d2[2]
+	d1x = d1[1]; d1y = d1[2]
+	d2x = d2[1]; d2y = d2[2]
 
-  	xm1 = (d1x*t2 + d2x*t1)/(t1+t2)
-  	xv1 = t1*t2*sigma2x/(t1+t2)
+	xm1 = (d1x*t2 + d2x*t1)/(t1+t2)
+	xv1 = t1*t2*sigma2x/(t1+t2)
 
-  	ym1 = (d1y*t2 + d2y*t1)/(t1+t2)
-  	yv1 = t1*t2*sigma2y/(t1+t2)
+	ym1 = (d1y*t2 + d2y*t1)/(t1+t2)
+	yv1 = t1*t2*sigma2y/(t1+t2)
 
-  	if(is.na(ax) || is.na(ay)) { 
-   		x = rnorm(1, mean=xm1, sd=sqrt(xv1))
-    	y = rnorm(1, mean=ym1, sd=sqrt(yv1))
-     	logfwdprob = dnorm(x,xm1, sd=sqrt(xv1), log=TRUE)
-      	logbwdprob = dnorm(y,ym1, sd=sqrt(yv1), log=TRUE)
-  	} else {
-   		xm2 = (xm1*s*sigma2x + ax*xv1)/(xv1 + s*sigma2x)
-   		xv2 = xv1*s*sigma2x/(xv1 + s*sigma2x)
-    	x = rnorm(1,mean=xm2,sd=sqrt(xv2))
-    	ym2 = (ym1*s*sigma2y + ay*yv1)/(yv1 + s*sigma2y)
-    	yv2 = yv1*s*sigma2y/(yv1 + s*sigma2y)
-    	y = rnorm(1,mean=ym2,sd=sqrt(yv2))
-     	logfwdprob = dnorm(x,xm1, sd=sqrt(xv1), log=TRUE)
-      	logbwdprob = dnorm(y,ym1, sd=sqrt(yv1), log=TRUE)
-  	}
+	if(is.na(ax) || is.na(ay)) { 
+ 		x = rnorm(1, mean=xm1, sd=sqrt(xv1))
+  	y = rnorm(1, mean=ym1, sd=sqrt(yv1))
+   	logfwdprob = dnorm(x,xm1, sd=sqrt(xv1), log=TRUE)
+    	logbwdprob = dnorm(y,ym1, sd=sqrt(yv1), log=TRUE)
+	} else {
+ 		xm2 = (xm1*s*sigma2x + ax*xv1)/(xv1 + s*sigma2x)
+ 		xv2 = xv1*s*sigma2x/(xv1 + s*sigma2x)
+  	x = rnorm(1,mean=xm2,sd=sqrt(xv2))
+  	ym2 = (ym1*s*sigma2y + ay*yv1)/(yv1 + s*sigma2y)
+  	yv2 = yv1*s*sigma2y/(yv1 + s*sigma2y)
+  	y = rnorm(1,mean=ym2,sd=sqrt(yv2))
+   	logfwdprob = dnorm(x,xm1, sd=sqrt(xv1), log=TRUE)
+    	logbwdprob = dnorm(y,ym1, sd=sqrt(yv1), log=TRUE)
+	}
 
-    # return value, logfwdprob, logbwdprob
-  	return(list(value=c(x,y), logfwdprob=logfwdprob, logbwdprob=logbwdprob))
+  # return value, logfwdprob, logbwdprob
+	return(list(value=c(x,y), logfwdprob=logfwdprob, logbwdprob=logbwdprob))
 }
 
 #########################
@@ -251,7 +251,7 @@ bm_loglik_trio = function(a, v, d1, d2, s, t1, t2, sigma2x, sigma2y, areas, daug
   } else { # d1 is a tip
     l1 = log(as.numeric(polyCub.SV(d1, bigauss_pdf, mx = v[1], my = v[2], sx = sqrt(sigma2x*t1), sy = sqrt(sigma2y*t1), rho = 0, nGQ = nGQ))) - 
       log(areas[daughter_ids[1]])
-    if (is.nan(l1)) l1 = -1e30
+    if (is.nan(l1) | !is.finite(l1)) l1 = -1e30
     #if (l1==0) l1 = -1e30
   }
   
@@ -259,11 +259,12 @@ bm_loglik_trio = function(a, v, d1, d2, s, t1, t2, sigma2x, sigma2y, areas, daug
     l2 = sum(dnorm(d2,v,sd=sqrt(t2*c(sigma2x,sigma2y)), log=TRUE))
   } else { # d2 is a tip
     l2 = log(as.numeric(polyCub.SV(d2, bigauss_pdf, mx = v[1], my = v[2], sx = sqrt(sigma2x*t2), sy = sqrt(sigma2y*t2), rho = 0, nGQ=nGQ))) - log(areas[daughter_ids[2]])
-    if(is.nan(l2)) l2 = -1e30
+    if(is.nan(l2)| !is.finite(l2)) l2 = -1e30
     #if (l2==0) l2 = -1e30
   }
   
   return(la + l1 + l2)
+
 }
 
 
@@ -448,8 +449,8 @@ rase = function(tree, polygons, niter=1e3, logevery=10, sigma2_scale=0.05, scree
   sigma2y = rep(NA, niter)
   
   if (any(is.na(params0))) {
-    ace_resx = ace(xy.tips[,1], tree, method = 'ML')
-    ace_resy = ace(xy.tips[,2], tree, method = 'ML')
+    ace_resx = ace(xy.tips[,1], tree, method = 'REML')
+    ace_resy = ace(xy.tips[,2], tree, method = 'REML')
     ax[1, (1:nnode)] = ace_resx$ace[1:nnode]
     sigma2x[1] = ace_resx$sigma[1]
     ay[1, (1:nnode)] = ace_resy$ace[1:nnode]
@@ -672,7 +673,7 @@ bm_loglik_duo = function(a, v, d, u, t, sx, sy, nGQ) {
   	} else { # d1 is a tip
     	ld =  log(as.numeric(polyCub.SV(d, bigauss_pdf, mx = v[1], my = v[2], sx = sqrt(sx*(t-u)), sy = sqrt(sy*(t-u)), rho = 0, nGQ = nGQ))) - 
         log(area(d))
-    	if (is.nan(ld)) ld = -1e30
+    	if (is.nan(ld) | !is.finite(ld)) ld = -1e30
   	}
 
 	return(la + ld)
