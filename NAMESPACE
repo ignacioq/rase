@@ -1,18 +1,17 @@
 ### Exports
 
 export(add.dens,
-		add.polygons,
-		bm_ase,
-		data.for.3d,
-		name.poly,
-		phylo.3d,
-		point.like.bm,
-		post.mcmc,
-		ranges.like.bm,
-		rase,
-		rase.slice,
-		shape.to.rase,
-		tree.slice
+			add.polygons,
+			bm_ase,
+			data.for.3d,
+			name.poly,
+			phylo.3d,
+			point.like.bm,
+			ranges.like.bm,
+			rase,
+			rase.slice,
+			shape.to.rase,
+			tree.slice
 )
 
 ### Imports

@@ -11,8 +11,8 @@ The rase package primarily implements the Range Ancestral State Estimation for p
 \tabular{ll}{
 Package: \tab rase\cr
 Type: \tab Package\cr
-Version: \tab 0.2-2\cr
-Date: \tab 2015-08-12\cr
+Version: \tab 0.3_01\cr
+Date: \tab 2015-03-21\cr
 License: \tab GLP (>=2)\cr
 }
 }
@@ -29,43 +29,41 @@ Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography U
 
 \keyword{ package }
 
-\examples{
-# Here the application in the paper of Quintero et al.,
-# on the Psophia trumpeters 
-# is shown using rase package.
-	
-#load data
-data(rase_data, package = 'rase')  
-	
-\dontrun{
-# check the data we are going to use
-# the phylogenetic tree
-psophia_tree
-	
-# the GPC polygons of Psophia distribution.
-psophia_poly
+  \examples{
+  # Here the application in the paper of Quintero et al.,
+  # on the Psophia trumpeters 
+  # is shown using rase package.
+  	
+  #load data
+  data(rase_data, package = 'rase')  
+  	
+  \dontrun{
+    # check the data we are going to use
+    # the phylogenetic tree
+    psophia_tree
+    	
+    # the GPC polygons of Psophia distribution.
+    psophia_poly
 
-# Species names of polygons (in order)
-pnames <- c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
-  'obscura', 'crepitans', 'ochroptera', 'napensis')
+    # Species names of polygons (in order)
+    pnames <- c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
+      'obscura', 'crepitans', 'ochroptera', 'napensis')
 
-# name the polygons
-psophia_poly <- name.poly(psophia_poly, psophia_tree, 
-  poly.names = pnames)
+    # name the polygons
+    psophia_poly <- name.poly(psophia_poly, psophia_tree, 
+      poly.names = pnames)
 
-# Run rase for 10 iterations
-rase_results <- rase(psophia_tree, psophia_poly, niter = 100)
-# Run with higher number of iterations
-# rase_results <- rase(psophia_tree, polygons)
+    # Run rase for 10 iterations
+    rase_results <- rase(psophia_tree, psophia_poly, niter = 100)
+    # Run with higher number of iterations
+    # rase_results <- rase(psophia_tree, polygons)
+     # Use the amazing 'coda' package to explore the MCMC
+    require(coda)
 
-# Check the results
-str(rase_results)
-
-# post-MCMC handling
-rase_results_for_ggmcmc <- post.mcmc(rase_results, burnin=0, thin = 1)
-	
-#plot the densities for dispersal rates using ggmcmc
-require(ggmcmc)
-ggs_traceplot(rase_results_for_ggmcmc, family = 'sigma')
-}
+    # post-MCMC handling
+    rasemcmc <- coda::mcmc(rase_results)
+      
+    #plot the traces for all the parameters 
+    plot(rasemcmc)
+  }
 }
