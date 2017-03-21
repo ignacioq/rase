@@ -42,6 +42,7 @@
 
 \value{
   returns a matrix where every column represents one parameter. The first columns (i.e., \code{nX_x}; where X = node 1, ..., node i) give the ancestral locations for trait x in the order of nodes in the tree (see the \code{phylo} class for details), followed by the ancestral locations of trait y (i.e., \code{nX_y}), and the rate parameter in x (\code{sigma2x}) and y (\code{sigma2y}).
+  We recommend the using the \code{coda} package for plotting and summarizing the resulting mcmc, as in the example below. 
 }
 
 \references{
@@ -53,7 +54,7 @@
 }
 
 \seealso{
-  Contrast with the point ancestral state estimation \code{\link{bm_ase}}. For the maximum likelihood version of ranges see \code{\link{ranges.like.bm}}. For post-mcmc handling see \code{\link{post.mcmc}}.
+  Contrast with the point ancestral state estimation \code{\link{bm_ase}}. For the maximum likelihood version of ranges see \code{\link{ranges.like.bm}}.
 }
 
 \examples{

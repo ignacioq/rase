@@ -149,11 +149,11 @@ make_bm_est_sigma2 = function(ntaxa, nnode, wtips, paren, child, trlen) {
     ay2[wtips]  = .subset2(values,'y')[wchtips]
     ay2[!wtips] = .subset(ay, wnottip)
 
-    sigma2xhat = .Internal(mean( (ax1 - ax2)^2 / trlen))
+    sigma2xhat = mean( (ax1 - ax2)^2 / trlen)
     sigma2xhat_sd = sqrt( -1/sum(1/(2*sigma2xhat^2) - 
                     (ax1-ax2)^2/(sigma2xhat^3 * trlen)) ) 
     
-    sigma2yhat = .Internal(mean( (ay1 - ay2)^2 / trlen ))
+    sigma2yhat = mean( (ay1 - ay2)^2 / trlen )
     sigma2yhat_sd = sqrt( -1/sum(1/(2*sigma2yhat^2) - 
                     (ay1-ay2)^2/(sigma2yhat^3 * trlen)) ) 
     
@@ -338,6 +338,11 @@ bm_ase = function(tree, values, niter=1e3, logevery=10, sigma2_scale=0.05, scree
         sigma2y[1] = params0[2*nnode+2]
     }
     
+    tredge = .subset2(tree,'edge')
+    trlen  = .subset2(tree,'edge.length')
+    wtips  = tredge[,2] <= ntaxa 
+    bm_est_sigma2 = make_bm_est_sigma2(ntaxa, nnode, wtips, tredge[,1L], tredge[,2L], trlen)
+
     for (iter in 2:niter) {
                 
         # random permutation of internal nodes
@@ -384,7 +389,8 @@ bm_ase = function(tree, values, niter=1e3, logevery=10, sigma2_scale=0.05, scree
             
     	}
                 
-        obj = bm_est_sigma2(tree, list(x=values$x, y=values$y), c(ax[iter,], ay[iter,]))
+        obj = bm_est_sigma2(list(x=values$x, y=values$y), c(ax[iter,], ay[iter,]))
+
       	s2x_cur = obj$sigma2xhat
       	s2x_sd = sigma2_scale*obj$sigma2xhat_sd
       	s2y_cur = obj$sigma2yhat

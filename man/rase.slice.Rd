@@ -21,7 +21,7 @@
 	the time at which to slice. It should be in the same units of the phylogenetic tree.
 }
   \item{res}{
-	output from \code{\link{rase}}. Ideally, it should be the post-handled mcmc (i.e., already applied burnin and thinning, if applicable; see \code{\link{post.mcmc}}).
+	output from \code{\link{rase}}. Ideally, it should be the post-handled mcmc (i.e., already applied burnin and thinning, if applicable).
 	}
   \item{polygons}{
 	list of polygons in \code{\link[spatstat]{owin.object}} format used as input for \code{\link{rase}}.
@@ -56,41 +56,41 @@ Forrest Crawford
 \code{\link{tree.slice}}, \code{\link{rase}}
 }
 \examples{
-#load data
-data(rase_data, package = 'rase')	
-	
-\dontrun{
-# check the data we are going to use
-	
-# examine the mcmc result from rase 
-# after it has been applied a burnin 
-# phase and a thinning
-str(mcmc)
-	
-# the phylogenetic tree used in the rase run
-psophia_tree
+  #load data
+  data(rase_data, package = 'rase')	
+  	
+  \dontrun{
+    # check the data we are going to use
+    	
+    # examine the mcmc result from rase 
+    # after it has been applied a burnin 
+    # phase and a thinning
+    str(mcmc)
+    	
+    # the phylogenetic tree used in the rase run
+    psophia_tree
 
-# the polygons used in the rase run
-str(psophia_poly)
-		
-# define the slice of time;
-# for now, let's say 1 Million
-# years ago (Ma)
-slice <- 1
+    # the polygons used in the rase run
+    str(psophia_poly)
+    		
+    # define the slice of time;
+    # for now, let's say 1 Million
+    # years ago (Ma)
+    slice <- 1
 
-# Species names of polygons (in order)
-pnames <- c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
-  'obscura', 'crepitans', 'ochroptera', 'napensis')
+    # Species names of polygons (in order)
+    pnames <- c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
+      'obscura', 'crepitans', 'ochroptera', 'napensis')
 
-# name the polygons
-psophia_poly <- name.poly(psophia_poly, psophia_tree, poly.names = pnames)
-	
-# run rase slice for 100 iterations
-slice_results <- rase.slice(psophia_tree, slice = slice, res = mcmc, 
-      psophia_poly, niter = 100)
-	
-#check results
-str(slice_results)
-}
+    # name the polygons
+    psophia_poly <- name.poly(psophia_poly, psophia_tree, poly.names = pnames)
+    	
+    # run rase slice for 100 iterations
+    slice_results <- rase.slice(psophia_tree, slice = slice, res = mcmc, 
+          psophia_poly, niter = 100)
+    	
+    #check results
+    str(slice_results)
+  }
 }
 

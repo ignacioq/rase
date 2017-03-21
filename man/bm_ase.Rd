@@ -53,7 +53,7 @@ Forrest Crawford, Ignacio Quintero
 }
 
 \seealso{
-For the maximum likelihood version see \code{\link{point.like.bm}}; for the incorporation of polygon uncertainty see \code{\link{rase}}. For post-mcmc handling see \code{\link{post.mcmc}}.
+For the maximum likelihood version see \code{\link{point.like.bm}}; for the incorporation of polygon uncertainty see \code{\link{rase}}. 
 }
 
 \examples{
