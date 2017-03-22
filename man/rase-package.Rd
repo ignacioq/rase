@@ -11,8 +11,8 @@ The rase package primarily implements the Range Ancestral State Estimation for p
 \tabular{ll}{
 Package: \tab rase\cr
 Type: \tab Package\cr
-Version: \tab 0.3-1\cr
-Date: \tab 2015-03-21\cr
+Version: \tab 0.3-2\cr
+Date: \tab 2017-03-21\cr
 License: \tab GLP (>=2)\cr
 }
 }

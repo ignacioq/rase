@@ -38,25 +38,25 @@ Ignacio Quintero
 \seealso{
 \code{\link{shape.to.rase}}
 }
-\examples{
-# attach polygon data
-data(rase_data, package = 'rase')
+  \examples{
+  # attach polygon data
+  data(rase_data, package = 'rase')
 
-\dontrun{
-# polygons already in format used by rase.
-psophia_poly
+  \dontrun{
+    # polygons already in format used by rase.
+    psophia_poly
 
-# check the phylogenetic tree
-psophia_tree
+    # check the phylogenetic tree
+    psophia_tree
 
-# Species names of polygons (in order)
-pnames <- c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
-  'obscura', 'crepitans', 'ochroptera', 'napensis')
+    # Species names of polygons (in order)
+    pnames <- c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
+      'obscura', 'crepitans', 'ochroptera', 'napensis')
 
-# check tree's' tip labels
-psophia_tree$tip.label
+    # check tree's' tip labels
+    psophia_tree$tip.label
 
-# name the polygons
-polygons <- name.poly(psophia_poly, psophia_tree, poly.names = pnames)
-}
+    # name the polygons
+    polygons <- name.poly(psophia_poly, psophia_tree, poly.names = pnames)
+  }
 }

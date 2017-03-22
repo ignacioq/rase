@@ -17,7 +17,7 @@ add.dens(df3, res, nlevels = 20, z.scale = 1, col = c(1:nnode), ...)
 \arguments{
 	
   \item{df3}{
-	an object from \code{\link{data.for.3d}}.
+	 an object from \code{\link{data.for.3d}}.
 	}
   \item{res}{
 	the output from a rase run.
@@ -32,44 +32,42 @@ add.dens(df3, res, nlevels = 20, z.scale = 1, col = c(1:nnode), ...)
 	vector of colors for the polygons.
 	}
   \item{\dots}{
-	further arguments to be passed to \code{\link[rgl]{polygon3d}}.
+	 further arguments to be passed to \code{\link[rgl]{polygon3d}}.
 	}
 }
 
 \references{
-Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}. doi: 10.1093/sysbio/syv057
+  Quintero, I., Keil, P., Jetz, W., Crawford, F. W. 2015 Historical Biogeography Using Species Geographical Ranges. \emph{Systematic Biology}. doi: 10.1093/sysbio/syv057
 }
 
 \author{
-Ignacio Quintero
+  Ignacio Quintero
 }
 
 \seealso{
-\code{\link{data.for.3d}}, \code{\link{phylo.3d}}, \code{\link{add.polygons}}
+  \code{\link{data.for.3d}}, \code{\link{phylo.3d}}, \code{\link{add.polygons}}
 }
 
 \examples{
-# load the mcmc results from rase run, polygons and tree
-data(rase_data, package = 'rase')
+  # load the mcmc results from rase run, polygons and tree
+  data(rase_data, package = 'rase')
 
-pnames <- c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
-'obscura', 'crepitans', 'ochroptera', 'napensis')
-psophia_poly <- name.poly(psophia_poly, psophia_tree, poly.names = pnames)
+  pnames <- c('dextralis', 'viridis', 'leucoptera', 'interjecta', 
+  'obscura', 'crepitans', 'ochroptera', 'napensis')
+  psophia_poly <- name.poly(psophia_poly, psophia_tree, poly.names = pnames)
 
-# transform the data for 3d plotting
-df3 <- data.for.3d(mcmc, psophia_tree, psophia_poly)
+  # transform the data for 3d plotting
+  df3 <- data.for.3d(mcmc, psophia_tree, psophia_poly)
 
-\dontrun{
-# plot the tree in 3D
-phylo.3d(df3, z.scale = 10, pts = TRUE)
+  \dontrun{
+    # plot the tree in 3D
+    phylo.3d(df3, z.scale = 10, pts = TRUE)
 
-# add the polygons representing the tip distributions
-add.polygons(df3)
+    # add the polygons representing the tip distributions
+    add.polygons(df3)
 
-# add the posterior density at each node of the 3d tree
-
-if(requireNamespace("rpanel") && requireNamespace("tcltk"))
-  add.dens(df3, mcmc, z.scale = 10, col = c(2:8))
-}
+    # add the posterior density at each node of the 3d tree
+    add.dens(df3, mcmc, z.scale = 10, col = c(2:8))
+  }
 }
 

@@ -1112,16 +1112,24 @@ add.polygons = function(df3, axes = 2, ...) {
 # Function that adds the ancestral posterior densities from the Gibbs sampling 
 # to the opened 'rgl' device
 
-add.dens = function(df3, res, nlevels = 20, z.scale = 1, col = c(1:nnode), ...) {
-    node.ages = df3$xyz[df3$xyz[, 'z'] != 0, 3] 
+add.dens = function(df3, res,
+                    nlevels = 20, 
+                    z.scale = 1, 
+                    col = c(1:nnode), ...) {
+    
+    sxyz      = .subset2(df3,'xyz')
+    node.ages = sxyz[sxyz[, 'z'] != 0, 3L] 
     nnode = length(node.ages)
    
-    for (i in 1:nnode)
-    {
-    	densy = sm.density(res[,c(i, i + nnode)], display = 'none')		
-	    cont = contourLines(densy$eval.points[,1], densy$eval.points[,2], densy$estimate, nlevels = nlevels)
-		polygon3d(x = cont[[1]]$x, y = cont[[1]]$y, 
-		z = 0.02+(z.scale*rep(node.ages[i], times = length(cont[[1]]$x))), col = col[i], ...)
+    for (i in 1:nnode){
+    	densy = sm::sm.density(res[,c(i, i + nnode)], display = 'none')		
+	    cont  = contourLines(densy$eval.points[,1], 
+                           densy$eval.points[,2], 
+                           densy$estimate, 
+                           nlevels = nlevels)
+		  polygon3d(x = cont[[1]]$x, y = cont[[1]]$y, 
+		            z = 0.02+(z.scale*rep.int(node.ages[i],length(cont[[1]]$x))), 
+                col = col[i], ...)
     }
 }
 
