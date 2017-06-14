@@ -14,7 +14,7 @@ https://CRAN.R-project.org/package=rase
 
 `install.packages('rase')`
 
-#### From bitbucket ####
+#### From GitHub ####
 In R, having installed the devtools package, type:
 
 `library(devtools)`
