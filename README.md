@@ -19,7 +19,7 @@ In R, having installed the devtools package, type:
 
 `library(devtools)`
 
-`install_bitbucket("ignacioq/rase")`
+`install_github("ignacioq/rase")`
 
 
 ### Who to talk to? ###
