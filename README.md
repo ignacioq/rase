@@ -8,7 +8,7 @@ It is also now on CRAN (stable version):
 https://cran.r-project.org/web/packages/rase/index.html
 
 
-### To set up###
+### To set up ###
 
 #### From CRAN ####
 
