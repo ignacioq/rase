@@ -5,7 +5,7 @@ This is the repository for the `rase` package for R.
 Current version is rase 0.3-2
 
 It is also now on CRAN (stable version):
-https://cran.r-project.org/web/packages/rase/index.html
+https://CRAN.R-project.org/package=rase
 
 
 ### To set up ###
