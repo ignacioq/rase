@@ -8,13 +8,13 @@ It is also now on CRAN (stable version):
 https://CRAN.R-project.org/package=rase
 
 
-### To set up###
+### To set up ###
 
 #### From CRAN ####
 
 `install.packages('rase')`
 
-#### From bitbucket ####
+#### From GitHub ####
 In R, having installed the devtools package, type:
 
 `library(devtools)`
