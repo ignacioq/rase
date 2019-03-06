@@ -749,7 +749,7 @@ tree.slice = function(tree, slice) {
 	if (!is(tree, 'phylo')) {
         stop('tree should be of class phylo')
     }
-    if (!is.binary.tree(tree)) {
+    if (!is.binary(tree)) {
     	stop("tree should be fully dichotomous")
     }
 	nnode = tree$Nnode
