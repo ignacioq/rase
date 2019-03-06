@@ -984,18 +984,32 @@ rase.slice = function(tree, slice, res, polygons, params0 = NA, niter=1e3, logev
 # Transform shapefiles from 'sp' package for use in rase
 
 shape.to.rase = function(shape_poly) {
-	if (!is(shape_poly, 'SpatialPolygonsDataFrame')) {
-		stop('Error: object is not of class SpatialPolygonsDataFrame')
-	}
-	
-	pols = list()
-	for (i in 1:length(shape_poly)) {		
-    	fp1 = shape_poly[i,]
-    	fp2 = fp1@polygons[[1]]
-		fp2 = lapply(fp2@Polygons, function(lst){owin(poly = list(x=rev(lst@coords[,1]),y=rev(lst@coords[,2]),hole=lst@hole), check = TRUE)})
-		pols = c(pols, fp2)
-	}	
-	return(pols)	
+
+  if (!is(shape_poly, 'SpatialPolygonsDataFrame')) {
+    stop('Error: object is not of class SpatialPolygonsDataFrame')
+  }
+
+  pols = list()
+  for (i in 1:length(shape_poly)) {   
+    
+    fp1 = shape_poly[i,]
+    
+    fp2 = slot(slot(fp1, 'polygons')[[1]], 'Polygons')
+
+    o_p = lapply(fp2, function(p) {
+                         if (p@hole) {
+                            return(list(x = p@coords[,1], 
+                                        y = p@coords[,2]))
+                         } else {
+                            return(list(x = rev(p@coords[,1]), 
+                                        y = rev(p@coords[,2])))
+                         }})
+    owin_p = owin(poly = o_p, check = TRUE)
+
+    pols[[i]] = owin_p
+  }
+
+  return(pols)  
 }
 
 
