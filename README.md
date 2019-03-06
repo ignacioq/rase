@@ -24,7 +24,7 @@ In R, having installed the devtools package, type:
 
 ### Who to talk to? ###
 
-Ignacio Quintero <ignacio.quintero@yale.edu>,
+Ignacio Quintero <ignacioquinterom@gmail.com>,
 Forrest Crawford <forrest.crawford@yale.edu>,
 
 ### Reference ###
