@@ -16,7 +16,7 @@ export(add.dens,
 
 ### Imports
 
-importFrom(ape, rtree, ace, vcv, branching.times, is.binary.tree)
+importFrom(ape, rtree, ace, vcv, branching.times, is.binary.phylo)
 importFrom(mvtnorm, dmvnorm, pmvnorm, rmvnorm)
 importFrom(polyCub, polyCub.SV)
 importFrom(rgl,points3d, lines3d, polygon3d, axes3d, title3d)
