@@ -225,14 +225,6 @@ make_bm_loglik_ancestors_poly = function(polygons, ntaxa, nnode,
 
 bm_propose_trio = function(a, d1, d2, s,t1, t2, sigma2x, sigma2y) {
 
-	if (is(d1, 'owin')) { 
-    	d1 = poly_center(d1)
-  	}
-
-  	if (is(d2, 'owin')) { 
-    	d2 = poly_center(d2)
-  	}
-
 	ax  = a[1L];  ay  = a[2L]
 	d1x = d1[1L]; d1y = d1[2L]
 	d2x = d2[1L]; d2y = d2[2L]
@@ -496,7 +488,7 @@ rase = function(tree,
   # initialize 
   areas   = mapply(area, polygons)    
   xy.tips = t(mapply(poly_center, polygons))
-  
+
   ax      = array(NA, dim=c(niter,nnode))
   ay      = array(NA, dim=c(niter,nnode))
 
@@ -560,22 +552,26 @@ rase = function(tree,
      
       # 1st daughter value
       if (daughter_id1 <= ntaxa) { # if tip
-        d1_value = .subset2(polygons, daughter_id1)
+        d1_value    = .subset2(polygons, daughter_id1)
+        d1_centroid = xy.tips[daughter_id1,]
         approx   = 1L
       } else { # if internal node
         d1mt = daughter_id1 - ntaxa
         d1_value = c(.subset2(ax, it, d1mt), 
                      .subset2(ay, it, d1mt))
+        d1_centroid = d1_value
       }
 
       # 2nd daughter value     
       if (daughter_id2 <= ntaxa) { # if tip
-        d2_value = .subset2(polygons, daughter_id2)
+        d2_value    = .subset2(polygons, daughter_id2)
+        d2_centroid = xy.tips[daughter_id2,]
         approx   = 1L
       } else { # if internal node
         d2mt = daughter_id2 - ntaxa
         d2_value = c(.subset2(ax,it, d2mt), 
                      .subset2(ay,it, d2mt))
+        d2_centroid = d2_value
       }
 
       # ancestor value
@@ -592,7 +588,7 @@ rase = function(tree,
       }
 
       # proposal 
-      xy_prop = bm_propose_trio(a_value, d1_value, d2_value, 
+      xy_prop = bm_propose_trio(a_value, d1_centroid, d2_centroid, 
                                 s, t1, t2, 
                                 sigma2x[it], sigma2y[it])
 
@@ -699,40 +695,9 @@ rase = function(tree,
 # polygon center
 
 poly_center = function(poly) {
-	
-  xy = .subset2(poly,'bdry')
-	
-  centr = c()
-	for (j in seq_along(xy)) {
-		
-    subx = .subset2(.subset2(xy,j),'x')
-    suby = .subset2(.subset2(xy,j),'y')
-
-    x = c(subx, subx[1L])
-		y = c(suby, suby[1L])
-		
-	  	n = length(x)
-	  	if (length(y) != n) stop("length of x and y must be equal")
-
-	  	Cx = 0; Cy = 0; A = 0
-	  	for (i in seq_len(n-1L)) {
-	    	Cx = Cx + (x[i] + x[i+1L])*(x[i]*y[i+1L] - x[i+1L]*y[i]) 
-	    	Cy = Cy + (y[i] + y[i+1L])*(x[i]*y[i+1L] - x[i+1L]*y[i]) 
-	    	A = A + x[i]*y[i+1L] - x[i+1L]*y[i]
-	  	}
-
-	  	A  = A/2
-      A6 = 6*A
-	  	Cx = Cx/A6
-	  	Cy = Cy/A6
-		
-  		centr = rbind(centr,c(Cx,Cy, area(poly)))
-	}
-	return(c(weighted.mean(centr[,1L], centr[,3L]),
-		       weighted.mean(centr[,2L], centr[,3L]))
-        )
+  cen = centroid.owin(poly)
+	return(c(.subset2(cen, 'x'), .subset2(cen, 'y')))
 }
-
 
 
 ###################
@@ -1146,6 +1111,4 @@ add.dens = function(df3, res,
                 col = col[i], ...)
     }
 }
-
-
 

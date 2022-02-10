@@ -21,7 +21,7 @@ importFrom(mvtnorm, dmvnorm, pmvnorm, rmvnorm)
 importFrom(polyCub, polyCub.SV)
 importFrom(rgl,points3d, lines3d, polygon3d, axes3d, title3d)
 importFrom(sm,sm.density)
-importFrom(spatstat, area, owin, is.empty, is.owin)
+importFrom(spatstat.geom, area, owin, is.empty, is.owin, centroid.owin)
 importFrom(grDevices, chull, contourLines)
 importFrom(stats, dnorm, nlm, rnorm, runif, sd,
             weighted.mean)
