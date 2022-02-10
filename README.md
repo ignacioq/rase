@@ -4,18 +4,17 @@ This is the repository for the `rase` package for R.
 
 Current version is rase 0.3-3
 
-It is also now on CRAN (stable version):
-https://CRAN.R-project.org/package=rase
+It has been archived from the CRAN repository (https://CRAN.R-project.org/package=rase), will upload again soon. In the meanwhile you can use the rase model from this repo.
 
 
 ### To set up ###
 
 #### From CRAN ####
 
-`install.packages('rase')`
+Soon to be available (again).
 
 #### From GitHub ####
-In R, having installed the devtools package, type:
+In R, having installed the `devtools` package, type:
 
 `library(devtools)`
 
@@ -24,8 +23,7 @@ In R, having installed the devtools package, type:
 
 ### Who to talk to? ###
 
-Ignacio Quintero <ignacioquinterom@gmail.com>,
-Forrest Crawford <forrest.crawford@yale.edu>,
+Ignacio Quintero <ignacioquinterom@gmail.com>
 
 ### Reference ###
 Quintero I, Keil P, Jetz W and Crawford F (2015). “Historical Biogeography Using Species
