@@ -3,16 +3,19 @@
 # Basic Brownian motion tree likelihood for any number of independent dimensions
 
 bm_loglik_tree = function(tree, values, par, dimen) {
-  
-  A = par[1:dimen]  	
-  Sig = par[(dimen + 1):(dimen*2)] 	
+
+  A = par[1:dimen]
+  Sig = par[(dimen + 1):(dimen*2)]
   if (any(Sig < 0)) return(-Inf)
-  
+
   n = length(tree$tip.label)
-  V = vcv(tree)  	    	
-  
-  res = mapply(function(values, A, Sig) dmvnorm(t(as.matrix(values)), mean = rep(A, n), sigma = V*Sig, 1), values, A, Sig)
-  
+  V = vcv(tree)
+
+  res = mapply(
+          function(values, A, Sig) 
+            dmvnorm(t(as.matrix(values)), mean = rep(A, n), sigma = V*Sig, 1), 
+            values, A, Sig)
+
   return(sum(res))
 }
 
@@ -22,40 +25,49 @@ bm_loglik_tree = function(tree, values, par, dimen) {
 # 'values' has to be a list, with each element being one-dimensional values
 
 point.like.bm = function(tree, values, start_values = NA, dimen = NA) {
-	
-	if (is.na(dimen)) dimen = length(values)
-	if (is.na(start_values)) start_values = unlist(c(lapply(values, mean), lapply(values, sd)))	
-	
-	opt.res = nlm(function(p) -1*bm_loglik_tree(tree, values, p, dimen), p = start_values)	
-	
-	return(list(mrcas = opt.res$estimate[1:dimen],
-		 rates = opt.res$estimate[(dimen + 1):(dimen*2)],
-		 nlm.details = opt.res))
+
+  if (is.na(dimen)) dimen = length(values)
+  if (is.na(start_values)) 
+    start_values = unlist(c(sapply(values, mean), sapply(values, sd)))
+
+  opt.res = nlm(function(p) -1*bm_loglik_tree(tree, values, p, dimen), 
+    p = start_values)
+
+  return(list(mrcas       = opt.res$estimate[1:dimen],
+              rates       = opt.res$estimate[(dimen + 1):(dimen*2)],
+              nlm.details = opt.res))
 }
 
 
 ###############
 # Rectangle constrained Brownian motion tree likelihood for any number of independent dimensions
 
-bm_loglik_tree_constrained = function(tree, lower_bounds, upper_bounds, par, dimen) { 
-		
-  	A = par[1:dimen]  	
-  	Sig = par[(dimen + 1):(dimen*2)]  
-  	if (any(Sig < 0)) {
-      return(-1e30)   		  	
-    }
-  	
-  	n = length(tree$tip.label)
-  	V = vcv(tree)	
-	
-	  res = mapply(function(lower_bounds, upper_bounds, A, Sig) pmvnorm(lower_bounds, upper_bounds, mean = rep(A, n), sigma = V*Sig), lower_bounds, upper_bounds, A, Sig)  	  	
-  	
-  	area_cor = mapply(function(upper_bounds,lower_bounds) sum(log(upper_bounds - lower_bounds)), upper_bounds,lower_bounds)	
+bm_loglik_tree_constrained = 
+  function(tree, lower_bounds, upper_bounds, par, dimen) { 
 
-    v = sum(log(as.numeric(res))) - sum(area_cor)
-    if(is.nan(v) || abs(v)==Inf) v = -1e30
-  	
-  	return(v)
+  A = par[1:dimen]
+  Sig = par[(dimen + 1):(dimen*2)]
+  if (any(Sig < 0)) {
+    return(-1e30)
+  }
+
+  n = length(tree$tip.label)
+  V = vcv(tree)
+
+  res = 
+    mapply(
+      function(lower_bounds, upper_bounds, A, Sig) 
+        pmvnorm(lower_bounds, upper_bounds, mean = rep(A, n), sigma = V*Sig), 
+        lower_bounds, upper_bounds, A, Sig)
+
+  area_cor = 
+    mapply(function(upper_bounds,lower_bounds) 
+      sum(log(upper_bounds - lower_bounds)), upper_bounds, lower_bounds)
+
+  v = sum(log(as.numeric(res))) - sum(area_cor)
+  if(is.nan(v) || abs(v)==Inf) v = -1e30
+
+  return(v)
 }
 
 #--------------
@@ -63,21 +75,25 @@ bm_loglik_tree_constrained = function(tree, lower_bounds, upper_bounds, par, dim
 # 'lower/upper_bounds' have to be 2 separate lists, with each list element being one-dimensional values
 
 ranges.like.bm = function(tree, lower_bounds, upper_bounds, start_values = NA, dimen = NA) {
-	
-	if (is.na(dimen)) dimen = length(lower_bounds)
-	if (is.na(start_values)) { start_values = c((unlist(lapply(lower_bounds, mean)) + 
-		unlist(lapply(upper_bounds, mean)))/2,
-		(unlist(lapply(lower_bounds, sd)) + 
-		unlist(lapply(upper_bounds, sd)))/2) }
-	
-	opt.res = nlm(function(p) -1*bm_loglik_tree_constrained(tree,lower_bounds, 
-				upper_bounds, p, dimen), p = start_values)	
-	
-	return(list(mrcas = opt.res$estimate[1:dimen],
-		          rates = opt.res$estimate[(dimen + 1):(dimen*2)],
-		          nlm.details = opt.res))
+
+  if (is.na(dimen)) dimen = length(lower_bounds)
+  if (is.na(start_values)) {
+    start_values = 
+      c((sapply(lower_bounds, mean) + 
+         sapply(upper_bounds, mean))/2,
+        (sapply(lower_bounds, sd)   + 
+         sapply(upper_bounds, sd))/2) 
+  }
+
+  opt.res = nlm(function(p) 
+    -1*bm_loglik_tree_constrained(tree,lower_bounds, upper_bounds, p, dimen), 
+    p = start_values)	
+
+  return(list(mrcas = opt.res$estimate[1:dimen],
+              rates = opt.res$estimate[(dimen + 1):(dimen*2)],
+              nlm.details = opt.res))
 }
-  
+
 
 ###############
 # Functions for internal use
@@ -774,12 +790,8 @@ bm_loglik_duo = function(a, v, d, u, t, sx, sy, nGQ) {
 
 bm_propose_duo = function(a, d, u, t, sx, sy) {
 
-	if (is(d, 'owin')) { 
-    	d = poly_center(d)
-  	}
-
 	ax = a[1]; ay = a[2]
-  	dx = d[1]; dy = d[2]
+  dx = d[1]; dy = d[2]
 
 	xm1 = (dx*u + ax*(t-u))/t 
 	xv1 = (t-u)*u*sx/t
@@ -787,14 +799,14 @@ bm_propose_duo = function(a, d, u, t, sx, sy) {
 	ym1 = (dy*u + ay*(t-u))/t 
 	yv1 = (t-u)*u*sy/t
 	
-    x = rnorm(1, mean=xm1, sd=sqrt(xv1))
+  x = rnorm(1, mean=xm1, sd=sqrt(xv1))
 	y = rnorm(1, mean=ym1, sd=sqrt(yv1))
 
-    logfwdprob = dnorm(x, mean=xm1, sd=sqrt(xv1), log=TRUE)
-    logbwdprob = dnorm(y, mean=ym1, sd=sqrt(yv1), log=TRUE)
+  logfwdprob = dnorm(x, mean=xm1, sd=sqrt(xv1), log=TRUE)
+  logbwdprob = dnorm(y, mean=ym1, sd=sqrt(yv1), log=TRUE)
 
-    # return value, logfwdprob, logbwdprob
-  	return(list(value=c(x,y), logfwdprob=logfwdprob, logbwdprob=logbwdprob))
+  # return value, logfwdprob, logbwdprob
+	return(list(value=c(x,y), logfwdprob=logfwdprob, logbwdprob=logbwdprob))
 }
 
 
@@ -806,129 +818,132 @@ bm_propose_duo = function(a, d, u, t, sx, sy) {
 
 rase.slice = function(tree, slice, res, polygons, params0 = NA, niter=1e3, logevery=10, nGQ = 20) {
 
-    if (!is(tree, "phylo")) {
-        stop('tree should be of class phylo')
-    }
-    
-    if (any(is.na(match(tree$tip.label, names(polygons))))) {
-        stop('tip labels and polygon names do not match')
-    }
-    
-                                        # Slice the tree with separate function
-    a_d = tree.slice(tree, slice)
-    
-    ntaxa = length(tree$tip.label) # number of taxa
-    nbranch = nrow(a_d) # number of branchs
-    
-    anc_x = res[, a_d[,1]-ntaxa] 				# all the ancestors posterior distributions from rase results in _x 
-    anc_y = res[, tree$Nnode + a_d[,1]-ntaxa] 	# and _y
-    
-                                        # if no starting parameter values are provided,	
-    if (is.na(params0)) { 	# use time weighted mean as starting values
-	
-        for (b in 1:nbranch) { # for each branch		
-            if (a_d[b,4] == 0) { # if daughter is a tip, use the polygon centroid to calculate the mean
-                pxy = poly_center(polygons[[b]])
-                
-                params0[b] = ((mean(anc_x[,b])*(slice - a_d[b, 4])) + 
-                              (pxy[1]*(a_d[b, 3] - slice)))/(a_d[b, 3] - a_d[b, 4])
-                
-                params0[b+nbranch] = ((mean(anc_y[,b])*(slice - a_d[b, 4])) + 
-                                      (pxy[2]*(a_d[b, 3] - slice)))/(a_d[b, 3] - a_d[b, 4])
-                
-            } else { # if daughter is not a tip
-                params0[b] = ((mean(anc_x[,b])*(slice - a_d[b, 4])) + 
-                              (mean(res[, a_d[b,2]-ntaxa])*(a_d[b, 3] - slice)))/(a_d[b, 3] - a_d[b, 4])
-                
-                              
-                params0[b+nbranch] = ((mean(anc_y[,b])*(slice - a_d[b, 4])) + 
-                                      (mean(res[, tree$Nnode + a_d[b,2] - ntaxa])*(a_d[b, 3] - slice)))/(a_d[b, 3] - a_d[b, 4])
+  if (!is(tree, "phylo")) {
+    stop('tree should be of class phylo')
+  }
+  
+  if (any(is.na(match(tree$tip.label, names(polygons))))) {
+    stop('tip labels and polygon names do not match')
+  }
+  
+                                      # Slice the tree with separate function
+  a_d = tree.slice(tree, slice)
+  xy.tips = t(mapply(poly_center, polygons))
 
-            }		
-        }
-        
-		cat("Using time weighted mean as starting parameter values \n")
+  ntaxa = length(tree$tip.label) # number of taxa
+  nbranch = nrow(a_d) # number of branchs
+  
+  anc_x = res[, a_d[,1]-ntaxa] 				# all the ancestors posterior distributions from rase results in _x 
+  anc_y = res[, tree$Nnode + a_d[,1]-ntaxa] 	# and _y
+  
+                                      # if no starting parameter values are provided,	
+  if (is.na(params0)) { 	# use time weighted mean as starting values
+
+      for (b in 1:nbranch) { # for each branch		
+          if (a_d[b,4] == 0) { # if daughter is a tip, use the polygon centroid to calculate the mean
+              pxy = xy.tips[b,]
+              
+              params0[b] = ((mean(anc_x[,b])*(slice - a_d[b, 4])) + 
+                            (pxy[1]*(a_d[b, 3] - slice)))/(a_d[b, 3] - a_d[b, 4])
+              
+              params0[b+nbranch] = ((mean(anc_y[,b])*(slice - a_d[b, 4])) + 
+                                    (pxy[2]*(a_d[b, 3] - slice)))/(a_d[b, 3] - a_d[b, 4])
+              
+          } else { # if daughter is not a tip
+              params0[b] = ((mean(anc_x[,b])*(slice - a_d[b, 4])) + 
+                            (mean(res[, a_d[b,2]-ntaxa])*(a_d[b, 3] - slice)))/(a_d[b, 3] - a_d[b, 4])
+              
+                            
+              params0[b+nbranch] = ((mean(anc_y[,b])*(slice - a_d[b, 4])) + 
+                                    (mean(res[, tree$Nnode + a_d[b,2] - ntaxa])*(a_d[b, 3] - slice)))/(a_d[b, 3] - a_d[b, 4])
+
+          }		
+      }
+      
+	cat("Using time weighted mean as starting parameter values \n")
+
+  } else {		
+                                      # Check for length of input initial parameter values
+      if (length(params0) != (nrow(a_d)*2)) stop("starting values not of correct length")
+  }
+  
+
+bx = array(NA, dim=c(niter,nbranch))		# array of branch slice x's and y's  	
+	bx[1,] = params0[1:nbranch]					# populate starting nodes with starting values
+	by = array(NA, dim=c(niter,nbranch))
+	by[1,] = params0[(nbranch+1):(2*nbranch)]
 	
-    } else {		
-                                        # Check for length of input initial parameter values
-        if (length(params0) != (nrow(a_d)*2)) stop("starting values not of correct length")
-    }
-    
-	
-	bx = array(NA, dim=c(niter,nbranch))		# array of branch slice x's and y's  	
-  	bx[1,] = params0[1:nbranch]					# populate starting nodes with starting values
-  	by = array(NA, dim=c(niter,nbranch))
-  	by[1,] = params0[(nbranch+1):(2*nbranch)]
+	# use the posterior distribution given by rase of sigma x and y 
+sigma2x = res[,ncol(res)-1]
+sigma2y = res[,ncol(res)]
+
+for (iter in 2:niter) {
+
+	if (logevery && iter%%logevery==0) cat("iter =", iter, "\n")
   	
-  	# use the posterior distribution given by rase of sigma x and y 
-	sigma2x = res[,ncol(res)-1]
-	sigma2y = res[,ncol(res)]
+  	# sample one single joint sampler
+  	samp = sample(1:length(sigma2x),1)
+  	
+  	# sigma2x and sigma2y from this sample (sx & sy)
+  	    	
+  	sx = sigma2x[samp]
+  	sy = sigma2y[samp]
+  	
+  	# populate current node values
+  	bx[iter,] = bx[iter-1,]
+  	by[iter,] = by[iter-1,]
 
-	for (iter in 2:niter) {
-	
-		if (logevery && iter%%logevery==0) cat("iter =", iter, "\n")
-    	
-    	# sample one single joint sampler
-    	samp = sample(1:length(sigma2x),1)
-    	
-    	# sigma2x and sigma2y from this sample (sx & sy)
-    	    	
-    	sx = sigma2x[samp]
-    	sy = sigma2y[samp]
-    	
-    	# populate current node values
-    	bx[iter,] = bx[iter-1,]
-    	by[iter,] = by[iter-1,]
-
-		for (i in 1:nbranch) { # each i is a branch in the tree, a row in the output of tree.slice
-			
-			approx = 0
-			# sample the ancestor of the branch from rase posterior distribution (a_value)
-			a_value = c(anc_x[samp,i], anc_y[samp,i])
-			
-			# get time t - time from the ancestor to daughter
-			t = a_d[i, 3] - a_d[i, 4]
-			# get time u (slice since the ancestor)
-    		u = a_d[i, 3] - slice
-			
-			daughter_id = a_d[i, 2]
-    		       
-			if (daughter_id <= ntaxa) { # if daughter is a tip
-				d_value = polygons[[daughter_id]] # get the polygon as d_value
-      			approx = 1
-    		} else { # if not a tip, sample from the posterior distribution given by rase
-    			d_value = c(res[samp, a_d[i,2]-ntaxa], res[samp, tree$Nnode + a_d[i,2]-ntaxa])			
-			}
-
-		    # proposal duo (x & y value)
- 			xy_prop = bm_propose_duo(a_value, d_value, u, t, sx, sy)
-
-			if (approx) {
-				
-				# likelihood of proposal
-				loglik_prop = bm_loglik_duo(a_value, xy_prop$value, d_value, 
-                                       u, t, sx, sy, nGQ)
-          		
-          		# likelihood of current node
-				loglik_cur = bm_loglik_duo(a_value, c(bx[iter,i], by[iter,i]), 
-                                      d_value, u, t, sx, sy, nGQ)
-
-				#logratio
-				logratio = loglik_prop - loglik_cur + xy_prop$logbwdprob - xy_prop$logfwdprob
-
-				if (log(runif(1)) < logratio) {
-    				bx[iter, i] = xy_prop$value[1]
-    	    		by[iter, i] = xy_prop$value[2]
-    			}
-			} else {
-  				bx[iter, i] = xy_prop$value[1]
-        		by[iter, i] = xy_prop$value[2]
-    		}
+	for (i in 1:nbranch) { # each i is a branch in the tree, a row in the output of tree.slice
 		
-		}
+		approx = 0
+		# sample the ancestor of the branch from rase posterior distribution (a_value)
+		a_value = c(anc_x[samp,i], anc_y[samp,i])
+		
+		# get time t - time from the ancestor to daughter
+		t = a_d[i, 3] - a_d[i, 4]
+		# get time u (slice since the ancestor)
+  		u = a_d[i, 3] - slice
+		
+		daughter_id = a_d[i, 2]
+  		       
+		if (daughter_id <= ntaxa) { # if daughter is a tip
+			d_value = polygons[[daughter_id]] # get the polygon as d_value
+      d_centroid = xy.tips[daughter_id,]
+    	approx = 1
+  		} else { # if not a tip, sample from the posterior distribution given by rase
+  			d_value = c(res[samp, a_d[i,2]-ntaxa], res[samp, tree$Nnode + a_d[i,2]-ntaxa])			
+		  d_centroid = d_value
+    }
+
+	    # proposal duo (x & y value)
+			xy_prop = bm_propose_duo(a_value, d_centroid, u, t, sx, sy)
+
+		if (approx) {
+			
+			# likelihood of proposal
+			loglik_prop = bm_loglik_duo(a_value, xy_prop$value, d_value, 
+                                     u, t, sx, sy, nGQ)
+        		
+        		# likelihood of current node
+			loglik_cur = bm_loglik_duo(a_value, c(bx[iter,i], by[iter,i]), 
+                                    d_value, u, t, sx, sy, nGQ)
+
+			#logratio
+			logratio = loglik_prop - loglik_cur + xy_prop$logbwdprob - xy_prop$logfwdprob
+
+			if (log(runif(1)) < logratio) {
+  				bx[iter, i] = xy_prop$value[1]
+  	    		by[iter, i] = xy_prop$value[2]
+  			}
+		} else {
+				bx[iter, i] = xy_prop$value[1]
+      		by[iter, i] = xy_prop$value[2]
+  		}
+	
+	}
 
 
-  	}
+	}
 
 	colnames(bx) = paste('b', 1:nbranch, '_x', sep = '')
 	colnames(by) = paste('b', 1:nbranch, '_y', sep = '')
@@ -1017,21 +1032,23 @@ name.poly = function(polygons, tree, poly.names = NA) {
 #########################
 # Function to transform data structure for 3D plotting
 
-data.for.3d = function(res, tree, polygons) {  
-		
-	if (is.null(tree$node.label)) {  	
-       	tree$node.label <- paste("n", names(branching.times(tree)), sep="")
-    }
-      
-    xy.tips = t(mapply(poly_center, polygons)) 
-    xy.nodes = matrix(colMeans(res)[1:(2*tree$Nnode)], nrow = tree$Nnode, ncol = 2)
-    xy.all = data.frame(rbind(xy.tips, as.data.frame(xy.nodes)))
+data.for.3d = function(res, tree, polygons) {
 
-    z = c(rep(0, times=length(tree$tip.label)), branching.times(tree))
+  if (is.null(tree$node.label)) {
+     	tree$node.label <- paste("n", names(branching.times(tree)), sep="")
+  }
 
-    names(xy.all) = c("x", "y")
-    label = c(tree$tip.label, tree$node.label)
-    return(list(xyz = data.frame(xy.all, z, label), edge = tree$edge, pol = polygons))
+  xy.tips  = t(mapply(poly_center, polygons)) 
+  xy.nodes = 
+    matrix(colMeans(res)[1:(2*tree$Nnode)], nrow = tree$Nnode, ncol = 2)
+  xy.all = data.frame(rbind(xy.tips, as.data.frame(xy.nodes)))
+
+  z = c(rep(0, times=length(tree$tip.label)), branching.times(tree))
+
+  names(xy.all) = c("x", "y")
+  label = c(tree$tip.label, tree$node.label)
+  return(
+    list(xyz = data.frame(xy.all, z, label), edge = tree$edge, pol = polygons))
 }
 
 
@@ -1042,18 +1059,18 @@ data.for.3d = function(res, tree, polygons) {
 # Note: each node is placed to its estimated geographic position
   
 phylo.3d = function(df3, z.scale = 1, pts = TRUE, ...) {
-    
-    edg = df3$edge
- 
-    if (pts == TRUE) points3d(df3$xyz$x, df3$xyz$y, z.scale*df3$xyz$z)
-        
-	for (i in 1:nrow(edg)) {
-		x = df3$xyz$x[edg[i,]]
-      	y = df3$xyz$y[edg[i,]]
-      	z = df3$xyz$z[edg[i,]]
-  
-      	lines3d(x, y, z*z.scale, ...)
-    }
+
+  edg = .subset2(df3,'edge')
+
+  if (pts == TRUE) points3d(df3$xyz$x, df3$xyz$y, z.scale*df3$xyz$z)
+
+  for (i in 1:nrow(edg)) {
+    x = df3$xyz$x[edg[i,]]
+    y = df3$xyz$y[edg[i,]]
+    z = df3$xyz$z[edg[i,]]
+
+    lines3d(x, y, z*z.scale, ...)
+  }
 }
 
 
@@ -1095,20 +1112,20 @@ add.dens = function(df3, res,
                     nlevels = 20, 
                     z.scale = 1, 
                     col = c(1:nnode), ...) {
-    
-    sxyz      = .subset2(df3,'xyz')
-    node.ages = sxyz[sxyz[, 'z'] != 0, 3L] 
-    nnode = length(node.ages)
-   
-    for (i in 1:nnode){
-    	densy = sm::sm.density(res[,c(i, i + nnode)], display = 'none')		
-	    cont  = contourLines(densy$eval.points[,1], 
-                           densy$eval.points[,2], 
-                           densy$estimate, 
-                           nlevels = nlevels)
-		  polygon3d(x = cont[[1]]$x, y = cont[[1]]$y, 
-		            z = 0.02+(z.scale*rep.int(node.ages[i],length(cont[[1]]$x))), 
-                col = col[i], ...)
-    }
+
+  sxyz      = .subset2(df3,'xyz')
+  node.ages = sxyz[sxyz[, 'z'] != 0, 3L] 
+  nnode = length(node.ages)
+ 
+  for (i in 1:nnode){
+  	densy = sm::sm.density(res[,c(i, i + nnode)], display = 'none')		
+    cont  = contourLines(densy$eval.points[,1], 
+                         densy$eval.points[,2], 
+                         densy$estimate, 
+                         nlevels = nlevels)
+	  polygon3d(x = cont[[1]]$x, y = cont[[1]]$y, 
+	            z = 0.02+(z.scale*rep.int(node.ages[i],length(cont[[1]]$x))), 
+              col = col[i], ...)
+  }
 }
 
